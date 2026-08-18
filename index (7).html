@@ -1,0 +1,4579 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#2563eb">
+
+<title>Konkou — Joue pour gagner</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#eef2ff;
+  color:#172033;
+  min-height:100vh;
+}
+
+button,input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.app{
+  max-width:850px;
+  min-height:100vh;
+  margin:auto;
+  padding-bottom:20px;
+}
+
+/* =========================
+   BARRE DU HAUT
+========================= */
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:20;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px;
+  color:#fff;
+  background:linear-gradient(135deg,#2563eb,#4f46e5);
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logo-icon{
+  width:43px;
+  height:43px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#ffffff26;
+  border-radius:13px;
+  font-size:24px;
+}
+
+.logo strong,
+.logo small{
+  display:block;
+}
+
+.logo strong{
+  font-size:20px;
+}
+
+.logo small{
+  font-size:11px;
+  opacity:.8;
+}
+
+.topbar-right{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.profile-button{
+  border:0;
+  color:#fff;
+  background:#ffffff26;
+  border-radius:13px;
+  padding:6px 9px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.profile-info strong,
+.profile-info small{
+  display:block;
+}
+
+.profile-info small{
+  font-size:10px;
+  opacity:.8;
+}
+
+.tickets{
+  padding:10px 12px;
+  border-radius:12px;
+  background:#ffffff26;
+  font-weight:bold;
+}
+
+/* =========================
+   ÉCRANS
+========================= */
+
+.screen{
+  display:none;
+  padding:22px 16px;
+}
+
+.screen.active{
+  display:block;
+}
+
+/* =========================
+   ACCUEIL
+========================= */
+
+.hero{
+  color:#fff;
+  text-align:center;
+  padding:35px 22px;
+  margin-bottom:20px;
+  border-radius:25px;
+  background:linear-gradient(135deg,#2563eb,#7c3aed);
+  box-shadow:0 12px 30px #2563eb33;
+}
+
+.hero-icon{
+  font-size:55px;
+}
+
+.hero h1{
+  margin:10px 0;
+  font-size:28px;
+}
+
+.hero p{
+  line-height:1.5;
+  opacity:.9;
+}
+
+.ticket-info{
+  margin-top:20px;
+  padding:14px;
+  border-radius:14px;
+  background:#ffffff26;
+}
+
+.ticket-countdown{
+  margin-top:7px;
+  font-size:12px;
+}
+
+.info-card{
+  width:100%;
+  border:0;
+  margin-bottom:13px;
+  padding:17px;
+  border-radius:17px;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-align:left;
+  background:linear-gradient(135deg,#2563eb,#7c3aed);
+}
+
+.info-icon{
+  font-size:25px;
+}
+
+.info-card span:nth-child(2){
+  flex:1;
+}
+
+.info-card strong,
+.info-card small{
+  display:block;
+}
+
+.info-card small{
+  margin-top:4px;
+  opacity:.8;
+}
+
+.info-arrow{
+  font-size:26px;
+}
+
+.section-title{
+  margin:25px 0 14px;
+}
+
+.section-title p,
+.muted{
+  color:#64748b;
+  margin-top:5px;
+}
+
+.category-grid{
+  display:grid;
+  gap:12px;
+}
+
+.category-grid button{
+  border:0;
+  padding:18px;
+  border-radius:16px;
+  background:#fff;
+  display:flex;
+  justify-content:space-between;
+  box-shadow:0 5px 15px #0f172a14;
+}
+
+.category-grid button span:first-child{
+  font-weight:bold;
+  color:#1e3a8a;
+}
+
+.cat-count{
+  color:#64748b;
+  font-size:12px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.developer-footer{
+  margin:35px 16px 10px;
+  padding:25px 15px;
+  text-align:center;
+  border-top:1px solid #dbe3ef;
+  color:#64748b;
+}
+
+.developer-logo{
+  font-size:22px;
+  font-weight:bold;
+  color:#2563eb;
+  margin-bottom:8px;
+}
+
+.developer-footer p{
+  font-size:13px;
+  margin-bottom:6px;
+}
+
+.developer-footer strong{
+  color:#1e3a8a;
+}
+
+.developer-footer small{
+  font-size:11px;
+  color:#94a3b8;
+}
+
+/* =========================
+   CARTES
+========================= */
+
+.card{
+  max-width:600px;
+  margin:15px auto;
+  padding:26px;
+  background:#fff;
+  border-radius:24px;
+  box-shadow:0 10px 30px #0f172a14;
+}
+
+.card h2{
+  text-align:center;
+  color:#1e3a8a;
+  margin-bottom:12px;
+}
+
+label{
+  display:block;
+  margin-top:15px;
+  margin-bottom:7px;
+  font-weight:bold;
+}
+
+input{
+  width:100%;
+  padding:13px;
+  border:2px solid #e2e8f0;
+  border-radius:12px;
+  outline:0;
+}
+
+input:focus{
+  border-color:#2563eb;
+}
+
+.primary,
+.secondary{
+  width:100%;
+  border:0;
+  padding:14px;
+  border-radius:13px;
+  margin-top:12px;
+  font-weight:bold;
+}
+
+.primary{
+  color:#fff;
+  background:linear-gradient(135deg,#2563eb,#4f46e5);
+}
+
+.primary:disabled{
+  opacity:.6;
+}
+
+.secondary{
+  color:#334155;
+  background:#e2e8f0;
+}
+
+/* =========================
+   QUIZ
+========================= */
+
+.quiz-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+  font-weight:bold;
+}
+
+#timer{
+  padding:8px 12px;
+  border-radius:10px;
+  color:#fff;
+  background:#2563eb;
+}
+
+#timer.low{
+  background:#ef4444;
+}
+
+.progress-track{
+  height:8px;
+  background:#dbeafe;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.progress-fill{
+  height:100%;
+  width:0;
+  background:#2563eb;
+}
+
+.quiz-category{
+  display:inline-block;
+  margin:22px 0 12px;
+  padding:7px 12px;
+  border-radius:20px;
+  color:#1d4ed8;
+  background:#dbeafe;
+  font-size:12px;
+  font-weight:bold;
+}
+
+#quiz-question{
+  font-size:24px;
+  line-height:1.35;
+  margin-bottom:18px;
+}
+
+.quiz-choices{
+  display:grid;
+  gap:10px;
+}
+
+.quiz-choices button{
+  padding:16px;
+  border:2px solid #e2e8f0;
+  background:#fff;
+  border-radius:13px;
+  text-align:left;
+}
+
+.quiz-choices button.correct{
+  background:#dcfce7;
+  border-color:#22c55e;
+}
+
+.quiz-choices button.wrong{
+  background:#fee2e2;
+  border-color:#ef4444;
+}
+
+.score-line{
+  margin:18px 0;
+  font-weight:bold;
+  color:#2563eb;
+}
+
+/* =========================
+   RÉSULTAT
+========================= */
+
+.result-icon,
+.how-to-icon{
+  text-align:center;
+  font-size:55px;
+}
+
+.result-score{
+  text-align:center;
+  margin:15px 0;
+}
+
+.result-score strong{
+  display:block;
+  font-size:38px;
+  color:#2563eb;
+}
+
+.result-stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.result-stats div{
+  padding:14px 5px;
+  background:#eff6ff;
+  border-radius:13px;
+  text-align:center;
+}
+
+.result-stats span,
+.result-stats strong{
+  display:block;
+}
+
+.result-stats span{
+  color:#64748b;
+  font-size:11px;
+}
+
+.result-stats strong{
+  color:#1e3a8a;
+  margin-top:5px;
+  font-size:20px;
+}
+
+.result-message{
+  text-align:center;
+  margin:20px 0;
+  color:#475569;
+}
+
+.result-winnings{
+  text-align:center;
+  margin:14px 0;
+  padding:12px;
+  border-radius:13px;
+  background:#ecfdf5;
+  color:#047857;
+  font-weight:bold;
+}
+
+/* =========================
+   CLASSEMENT
+========================= */
+
+.podium{
+  display:flex;
+  align-items:end;
+  justify-content:center;
+  gap:8px;
+  margin:30px 0 25px;
+}
+
+.podium-player{
+  width:30%;
+  text-align:center;
+}
+
+.podium-avatar{
+  width:58px;
+  height:58px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#dbeafe;
+  font-size:28px;
+}
+
+.podium-player.first .podium-avatar{
+  width:75px;
+  height:75px;
+  background:#fef3c7;
+  font-size:38px;
+}
+
+.podium-player.second .podium-avatar{
+  background:#e2e8f0;
+}
+
+.podium-player.third .podium-avatar{
+  background:#fed7aa;
+}
+
+.podium-name{
+  font-weight:bold;
+  margin-top:7px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.podium-score{
+  font-size:12px;
+  color:#64748b;
+  margin-top:3px;
+}
+
+.podium-rank{
+  margin-top:8px;
+  padding:12px 5px;
+  border-radius:12px 12px 0 0;
+  font-weight:bold;
+  color:#fff;
+  background:#2563eb;
+}
+
+.first .podium-rank{
+  padding:25px 5px;
+  background:#f59e0b;
+}
+
+.second .podium-rank{
+  padding:18px 5px;
+  background:#64748b;
+}
+
+.third .podium-rank{
+  padding:12px 5px;
+  background:#c2410c;
+}
+
+.my-ranking{
+  margin:20px 0;
+  padding:18px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#eff6ff,#eef2ff);
+  border:2px solid #bfdbfe;
+}
+
+.my-ranking-title{
+  font-size:13px;
+  color:#64748b;
+}
+
+.my-ranking-main{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:8px;
+}
+
+.my-ranking-main strong{
+  font-size:24px;
+  color:#2563eb;
+}
+
+.ranking-list{
+  margin:18px 0;
+}
+
+.ranking-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:14px;
+  margin-bottom:9px;
+  background:#f8fafc;
+  border-radius:13px;
+}
+
+.ranking-row.me{
+  background:#dbeafe;
+  border:1px solid #93c5fd;
+}
+
+.ranking-name{
+  flex:1;
+  font-weight:bold;
+}
+
+.ranking-score{
+  color:#2563eb;
+  font-weight:bold;
+}
+
+/* =========================
+   COMMENT ÇA MARCHE
+========================= */
+
+.how-to-step{
+  display:flex;
+  gap:13px;
+  padding:15px 0;
+  border-bottom:1px solid #e2e8f0;
+}
+
+.how-to-step>b{
+  width:33px;
+  height:33px;
+  min-width:33px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border-radius:50%;
+  color:#fff;
+  background:#2563eb;
+}
+
+.how-to-step p{
+  margin-top:4px;
+  color:#64748b;
+}
+
+/* =========================
+   PROFIL
+========================= */
+
+.profile-panel{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:100;
+  padding:20px;
+  background:#0f172a8c;
+  align-items:center;
+  justify-content:center;
+}
+
+.profile-panel.active{
+  display:flex;
+}
+
+.profile-box{
+  width:100%;
+  max-width:450px;
+  padding:28px;
+  background:#fff;
+  border-radius:24px;
+  position:relative;
+  max-height:90vh;
+  overflow:auto;
+}
+
+.close-profile{
+  position:absolute;
+  right:15px;
+  top:15px;
+  width:35px;
+  height:35px;
+  border:0;
+  border-radius:50%;
+  background:#e2e8f0;
+}
+
+.big-avatar{
+  width:80px;
+  height:80px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#dbeafe;
+  font-size:42px;
+}
+
+.profile-box h2{
+  text-align:center;
+  margin-top:12px;
+  color:#1e3a8a;
+}
+
+.profile-stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:20px;
+}
+
+.profile-stats div{
+  padding:12px 4px;
+  background:#f8fafc;
+  border-radius:12px;
+  text-align:center;
+}
+
+.profile-stats strong,
+.profile-stats small{
+  display:block;
+}
+
+.profile-stats strong{
+  color:#2563eb;
+  margin-top:4px;
+}
+
+.profile-stats small{
+  color:#64748b;
+  font-size:10px;
+  margin-top:3px;
+}
+
+.statistics{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin:20px 0;
+}
+
+.stat-box{
+  padding:17px;
+  background:#f8fafc;
+  border-radius:16px;
+  text-align:center;
+}
+
+.stat-icon{
+  font-size:25px;
+}
+
+.stat-box strong{
+  display:block;
+  font-size:23px;
+  color:#2563eb;
+  margin-top:5px;
+}
+
+.stat-box small{
+  color:#64748b;
+}
+
+.status{
+  text-align:center;
+  margin-top:12px;
+  color:#475569;
+}
+
+/* =========================
+   MODALE INSCRIPTION
+========================= */
+
+.payment-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:100;
+  padding:20px;
+  background:#0f172a8c;
+  align-items:center;
+  justify-content:center;
+}
+
+.payment-modal.active{
+  display:flex;
+}
+
+.payment-box{
+  width:100%;
+  max-width:420px;
+  padding:26px;
+  background:#fff;
+  border-radius:22px;
+  text-align:center;
+}
+
+.payment-methods{
+  display:grid;
+  gap:10px;
+  margin-top:14px;
+}
+
+.payment-methods button{
+  border:2px solid #e2e8f0;
+  background:#fff;
+  padding:14px;
+  border-radius:13px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-align:left;
+  font-weight:bold;
+  color:#1e3a8a;
+}
+
+.payment-methods button.selected{
+  border-color:#2563eb;
+  background:#eff6ff;
+}
+
+.payment-spinner{
+  width:46px;
+  height:46px;
+  margin:18px auto;
+  border-radius:50%;
+  border:5px solid #dbeafe;
+  border-top-color:#2563eb;
+  animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+.payment-step{
+  display:none;
+}
+
+.payment-step.active{
+  display:block;
+}
+
+.payment-success-icon{
+  font-size:50px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:600px){
+
+  .profile-info{
+    display:none;
+  }
+
+  .hero h1{
+    font-size:24px;
+  }
+
+  #quiz-question{
+    font-size:21px;
+  }
+
+  .developer-footer{
+    margin-top:30px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- =========================
+     BARRE DU HAUT
+========================= -->
+
+<header class="topbar">
+
+  <div class="logo">
+
+    <div class="logo-icon">🏆</div>
+
+    <div>
+      <strong>Konkou</strong>
+      <small>Joue pour gagner</small>
+    </div>
+
+  </div>
+
+  <div class="topbar-right">
+
+    <button id="btn-profile" class="profile-button">
+
+      <span>👤</span>
+
+      <span class="profile-info">
+        <strong id="profile-name">Joueur</strong>
+        <small>Mon profil</small>
+      </span>
+
+    </button>
+
+    <div class="tickets">
+      🎟️ <span id="ticket-count">3</span>
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- =========================
+     ACCUEIL
+========================= -->
+
+<section id="screen-home" class="screen active">
+
+  <div class="hero">
+
+    <div class="hero-icon">🏆</div>
+
+    <h1>Prêt à relever le défi ?</h1>
+
+    <p>
+      Teste tes connaissances, gagne des points
+      et améliore ton classement.
+    </p>
+
+    <div class="ticket-info">
+
+      🎟️ Tickets disponibles :
+      <strong id="ticket-count-home">3</strong>
+
+      <div id="ticket-countdown-home" class="ticket-countdown">
+        3 tickets disponibles
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <button
+    id="btn-register"
+    class="info-card"
+    style="background:linear-gradient(135deg,#f59e0b,#ea580c)"
+  >
+
+    <span class="info-icon" id="register-icon">🎟️</span>
+
+    <span>
+      <strong id="register-title">
+        S'inscrire au concours — 50 HTG
+      </strong>
+
+      <small id="register-subtitle">
+        Paiement unique pour participer
+      </small>
+    </span>
+
+    <span class="info-arrow">›</span>
+
+  </button>
+
+
+  <button id="btn-how-to" class="info-card">
+
+    <span class="info-icon">❓</span>
+
+    <span>
+      <strong>Comment ça fonctionne ?</strong>
+      <small>Découvre les règles de Konkou</small>
+    </span>
+
+    <span class="info-arrow">›</span>
+
+  </button>
+
+
+  <button id="btn-history" class="info-card">
+
+    <span class="info-icon">📜</span>
+
+    <span>
+      <strong>Historique</strong>
+      <small>Voir tes activités</small>
+    </span>
+
+    <span class="info-arrow">›</span>
+
+  </button>
+
+
+  <div class="section-title">
+
+    <h2>Choisis une catégorie</h2>
+
+    <p>Teste tes connaissances</p>
+
+  </div>
+
+  <div id="category-list" class="category-grid"></div>
+
+</section>
+
+
+<!-- =========================
+     QUIZ
+========================= -->
+
+<section id="screen-quiz" class="screen">
+
+  <div class="quiz-top">
+
+    <span id="quiz-progress">
+      Question
+    </span>
+
+    <span id="timer">
+      15
+    </span>
+
+  </div>
+
+
+  <div class="progress-track">
+
+    <div
+      id="progress-fill"
+      class="progress-fill"
+    ></div>
+
+  </div>
+
+
+  <span
+    id="quiz-category"
+    class="quiz-category"
+  ></span>
+
+
+  <h2 id="quiz-question">
+    —
+  </h2>
+
+
+  <div
+    id="quiz-choices"
+    class="quiz-choices"
+  ></div>
+
+
+  <div class="score-line">
+
+    Score :
+    <span id="quiz-score">0</span>
+
+  </div>
+
+
+  <button
+    id="btn-quit"
+    class="secondary"
+  >
+    Quitter
+  </button>
+
+</section>
+
+
+<!-- =========================
+     RÉSULTAT
+========================= -->
+
+<section id="screen-result" class="screen">
+
+  <div class="card">
+
+    <div class="result-icon">
+      🏆
+    </div>
+
+    <h2>Quiz terminé !</h2>
+
+
+    <p class="result-score">
+
+      Score :
+
+      <strong id="result-score">
+        0
+      </strong>
+
+    </p>
+
+
+    <div class="result-stats">
+
+      <div>
+        <span>Maximum</span>
+        <strong id="result-total">0</strong>
+      </div>
+
+      <div>
+        <span>Correctes</span>
+        <strong id="result-correct">0</strong>
+      </div>
+
+      <div>
+        <span>Incorrectes</span>
+        <strong id="result-wrong">0</strong>
+      </div>
+
+    </div>
+
+
+    <p
+      id="result-message"
+      class="result-message"
+    ></p>
+
+
+    <p
+      id="result-winnings"
+      class="result-winnings"
+    ></p>
+
+
+    <button
+      id="btn-replay"
+      class="primary"
+    >
+      Rejouer
+    </button>
+
+
+    <button
+      id="btn-result-ranking"
+      class="secondary"
+    >
+      🏆 Voir le classement
+    </button>
+
+
+    <button
+      id="btn-home"
+      class="secondary"
+    >
+      Accueil
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     CLASSEMENT
+========================= -->
+
+<section id="screen-ranking" class="screen">
+
+  <div class="card">
+
+    <h2>🏆 Classement</h2>
+
+    <p class="muted">
+      Les meilleurs joueurs de Konkou
+    </p>
+
+
+    <div
+      id="my-ranking"
+      class="my-ranking"
+    ></div>
+
+
+    <div
+      id="podium"
+      class="podium"
+    ></div>
+
+
+    <h3>
+      Classement général
+    </h3>
+
+
+    <div
+      id="ranking-list"
+      class="ranking-list"
+    ></div>
+
+
+    <button
+      id="btn-ranking-home"
+      class="secondary"
+    >
+      Retour
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     COMMENT ÇA MARCHE
+========================= -->
+
+<section id="screen-how-to" class="screen">
+
+  <div class="card">
+
+    <div class="how-to-icon">
+      💡
+    </div>
+
+    <h2>
+      Comment ça fonctionne ?
+    </h2>
+
+
+    <div class="how-to-step">
+
+      <b>1</b>
+
+      <div>
+        <strong>
+          Inscris-toi au concours
+        </strong>
+
+        <p>
+          Paie 50 HTG (simulation)
+          pour participer.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="how-to-step">
+
+      <b>2</b>
+
+      <div>
+        <strong>
+          Choisis une catégorie
+        </strong>
+
+        <p>
+          Sélectionne ton domaine.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="how-to-step">
+
+      <b>3</b>
+
+      <div>
+        <strong>
+          Utilise un ticket
+        </strong>
+
+        <p>
+          Un ticket est utilisé
+          au début d'une partie.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="how-to-step">
+
+      <b>4</b>
+
+      <div>
+        <strong>
+          Réponds aux questions
+        </strong>
+
+        <p>
+          Chaque question possède
+          15 secondes.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="how-to-step">
+
+      <b>5</b>
+
+      <div>
+        <strong>
+          Gagne des points
+        </strong>
+
+        <p>
+          Chaque bonne réponse
+          rapporte 10 points.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="how-to-step">
+
+      <b>6</b>
+
+      <div>
+        <strong>
+          Tickets
+        </strong>
+
+        <p>
+          Tu disposes de 3 tickets.
+          Ils sont renouvelés après 1 heure.
+        </p>
+      </div>
+
+    </div>
+
+
+    <button
+      id="btn-how-to-back"
+      class="secondary"
+    >
+      Retour
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     HISTORIQUE
+========================= -->
+
+<section id="screen-history" class="screen">
+
+  <div class="card">
+
+    <h2>📜 Historique</h2>
+
+    <div
+      id="history-list"
+      class="ranking-list"
+    ></div>
+
+    <button
+      id="btn-history-back"
+      class="secondary"
+    >
+      Retour
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer class="developer-footer">
+
+  <div class="developer-logo">
+    🏆 Konkou
+  </div>
+
+  <p>
+    Développé par
+    <strong>Fawenbert Regis</strong>
+  </p>
+
+  <small>
+    © 2026 Konkou — Tous droits réservés
+  </small>
+
+</footer>
+
+</div>
+
+
+<!-- =========================
+     PROFIL
+========================= -->
+
+<div
+  id="profile-panel"
+  class="profile-panel"
+>
+
+  <div class="profile-box">
+
+    <button
+      id="btn-close-profile"
+      class="close-profile"
+    >
+      ✕
+    </button>
+
+
+    <div class="big-avatar">
+      👤
+    </div>
+
+
+    <h2 id="profile-panel-name">
+      Joueur
+    </h2>
+
+
+    <p
+      id="profile-panel-location"
+      class="muted"
+      style="text-align:center"
+    ></p>
+
+
+    <label>
+      Nom
+    </label>
+
+    <input
+      id="profile-name-input"
+      type="text"
+      placeholder="Ton nom"
+    >
+
+
+    <label>
+      Numéro
+    </label>
+
+    <input
+      id="profile-phone-input"
+      type="tel"
+      placeholder="Ton numéro"
+    >
+
+
+    <label>
+      Lieu
+    </label>
+
+    <input
+      id="profile-location-input"
+      type="text"
+      placeholder="Ta ville / commune"
+    >
+
+
+    <button
+      id="btn-save-profile"
+      class="primary"
+    >
+      Enregistrer
+    </button>
+
+
+    <div class="statistics">
+
+      <div class="stat-box">
+        <div class="stat-icon">⭐</div>
+        <strong id="profile-score">0</strong>
+        <small>Points</small>
+      </div>
+
+
+      <div class="stat-box">
+        <div class="stat-icon">🎮</div>
+        <strong id="profile-games">0</strong>
+        <small>Parties</small>
+      </div>
+
+
+      <div class="stat-box">
+        <div class="stat-icon">🏆</div>
+        <strong id="profile-best">0</strong>
+        <small>Meilleur score</small>
+      </div>
+
+
+      <div class="stat-box">
+        <div class="stat-icon">📊</div>
+        <strong id="profile-average">0</strong>
+        <small>Moyenne</small>
+      </div>
+
+    </div>
+
+
+    <div class="profile-stats">
+
+      <div>
+        🎟️
+        <strong id="profile-tickets">3</strong>
+        <small>Tickets</small>
+      </div>
+
+
+      <div>
+        🏅
+        <strong id="profile-rank">—</strong>
+        <small>Rang</small>
+      </div>
+
+
+      <div>
+        💰
+        <strong id="profile-win">0</strong>
+        <small>Gains</small>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     MODALE INSCRIPTION
+========================= -->
+
+<div
+  id="register-modal"
+  class="payment-modal"
+>
+
+  <div class="payment-box">
+
+
+    <div
+      id="reg-step-method"
+      class="payment-step active"
+    >
+
+      <h2>
+        Inscription au concours
+      </h2>
+
+
+      <p class="muted">
+        Frais d'inscription :
+        <strong>50 HTG</strong>
+      </p>
+
+
+      <label>
+        Moyen de paiement
+      </label>
+
+
+      <div class="payment-methods">
+
+        <button
+          type="button"
+          class="reg-method"
+          data-method="MonCash"
+        >
+          📱 MonCash
+        </button>
+
+
+        <button
+          type="button"
+          class="reg-method"
+          data-method="NatCash"
+        >
+          📲 NatCash
+        </button>
+
+
+        <button
+          type="button"
+          class="reg-method"
+          data-method="Virement bancaire"
+        >
+          🏦 Virement bancaire
+        </button>
+
+      </div>
+
+
+      <button
+        id="btn-reg-confirm"
+        class="primary"
+      >
+        Payer 50 HTG et m'inscrire
+      </button>
+
+
+      <button
+        id="btn-reg-cancel"
+        class="secondary"
+      >
+        Annuler
+      </button>
+
+
+      <p
+        id="reg-method-status"
+        class="status"
+      ></p>
+
+    </div>
+
+
+    <div
+      id="reg-step-processing"
+      class="payment-step"
+    >
+
+      <div class="payment-spinner"></div>
+
+      <h2>
+        Traitement…
+      </h2>
+
+      <p
+        class="muted"
+        id="reg-processing-text"
+      ></p>
+
+    </div>
+
+
+    <div
+      id="reg-step-success"
+      class="payment-step"
+    >
+
+      <div class="payment-success-icon">
+        ✅
+      </div>
+
+      <h2>
+        Inscription confirmée
+      </h2>
+
+      <p
+        class="muted"
+        id="reg-success-text"
+      ></p>
+
+      <p
+        class="muted"
+        style="margin-top:10px;font-size:12px"
+      >
+        Ceci est une simulation —
+        aucun argent réel n'a été transféré.
+      </p>
+
+      <button
+        id="btn-reg-close"
+        class="primary"
+      >
+        Commencer à jouer
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   CONFIGURATION
+===================================================== */
+
+const MAX_TICKETS = 3;
+
+const RESET = 60 * 60 * 1000;
+
+const QUESTION_TIME = 15;
+
+const POINTS_PER_CORRECT = 10;
+
+const HTG_PER_POINT = 2;
+
+const REGISTRATION_FEE = 50;
+
+
+/*
+   Adresse du serveur.
+
+   Si ton serveur est hébergé ailleurs,
+   mets son adresse ici.
+*/
+const SERVER_URL = "";
+
+
+/* =====================================================
+   ÉTAT DU JEU
+===================================================== */
+
+const state = {
+
+  category:null,
+
+  questions:[],
+
+  index:0,
+
+  score:0,
+
+  correct:0,
+
+  wrong:0,
+
+  timer:null,
+
+  time:QUESTION_TIME,
+
+  tickets:MAX_TICKETS
+
+};
+
+
+let pendingCategory = null;
+
+let selectedRegMethod = null;
+
+
+/* =====================================================
+   QUESTIONS
+===================================================== */
+
+const categories = [
+
+{
+  name:"📚 Histoire d'Haïti",
+
+  questions:[
+
+    [
+      "En quelle année Haïti est-elle devenue indépendante ?",
+      ["1791","1804","1815","1822"],
+      1
+    ],
+
+    [
+      "Quelle date marque la proclamation de l'indépendance d'Haïti ?",
+      ["1er janvier 1804","18 novembre 1803","20 mai 1802","14 août 1791"],
+      0
+    ],
+
+    [
+      "Qui a proclamé l'indépendance d'Haïti ?",
+      ["Toussaint Louverture","Jean-Jacques Dessalines","Henri Christophe","Alexandre Pétion"],
+      1
+    ],
+
+    [
+      "Quelle bataille décisive a eu lieu le 18 novembre 1803 ?",
+      ["Vertières","Crête-à-Pierrot","Léogâne","Tiburon"],
+      0
+    ],
+
+    [
+      "Qui était Toussaint Louverture ?",
+      ["Un général de la Révolution haïtienne","Un président américain","Un explorateur","Un roi espagnol"],
+      0
+    ],
+
+    [
+      "En quelle année la cérémonie du Bois Caïman est-elle traditionnellement située ?",
+      ["1776","1789","1791","1804"],
+      2
+    ],
+
+    [
+      "Quel personnage est associé au Bois Caïman ?",
+      ["Dutty Boukman","Alexandre Pétion","François Duvalier","Jean-Claude Duvalier"],
+      0
+    ],
+
+    [
+      "Quel était le nom de la colonie française avant l'indépendance ?",
+      ["Saint-Domingue","Martinique","Guadeloupe","Louisiane"],
+      0
+    ],
+
+    [
+      "Quel général français fut envoyé à Saint-Domingue en 1802 ?",
+      ["Charles Leclerc","Napoléon III","Lafayette","Foch"],
+      0
+    ],
+
+    [
+      "Où Toussaint Louverture est-il mort ?",
+      ["Fort de Joux","Paris","Port-au-Prince","Londres"],
+      0
+    ],
+
+    [
+      "Quel titre Dessalines prit-il ?",
+      ["Empereur","Roi","Président","Gouverneur"],
+      0
+    ],
+
+    [
+      "Quel nom Dessalines adopta-t-il comme empereur ?",
+      ["Jacques Ier","Henri Ier","Alexandre Ier","Toussaint Ier"],
+      0
+    ],
+
+    [
+      "Qui succéda à Dessalines dans le Nord ?",
+      ["Henri Christophe","Alexandre Pétion","Boyer","Toussaint Louverture"],
+      0
+    ],
+
+    [
+      "Qui dirigea la République d'Haïti dans le Sud ?",
+      ["Alexandre Pétion","Henri Christophe","Dessalines","Christophe Colomb"],
+      0
+    ],
+
+    [
+      "Quel dirigeant établit un royaume dans le Nord ?",
+      ["Henri Christophe","Alexandre Pétion","Toussaint Louverture","Boyer"],
+      0
+    ],
+
+    [
+      "Quel titre Henri Christophe a-t-il porté ?",
+      ["Roi","Empereur","Président","Gouverneur"],
+      0
+    ],
+
+    [
+      "Qui réunit le Nord et le Sud en 1820 ?",
+      ["Jean-Pierre Boyer","Alexandre Pétion","Henri Christophe","Dessalines"],
+      0
+    ],
+
+    [
+      "En quelle année Boyer occupa-t-il la partie orientale d'Hispaniola ?",
+      ["1822","1804","1810","1830"],
+      0
+    ],
+
+    [
+      "Quel pays reconnut l'indépendance d'Haïti en 1825 ?",
+      ["France","Espagne","Angleterre","Portugal"],
+      0
+    ],
+
+    [
+      "Quel président américain reconnut Haïti en 1862 ?",
+      ["Abraham Lincoln","George Washington","Thomas Jefferson","Andrew Jackson"],
+      0
+    ]
+
+  ]
+},
+
+
+{
+  name:"🌎 Géographie",
+
+  questions:[
+
+    [
+      "Quelle est la capitale d'Haïti ?",
+      ["Cap-Haïtien","Jacmel","Port-au-Prince","Gonaïves"],
+      2
+    ],
+
+    [
+      "Avec quel pays Haïti partage-t-elle Hispaniola ?",
+      ["Cuba","Jamaïque","République dominicaine","Porto Rico"],
+      2
+    ],
+
+    [
+      "Quel est le plus grand département d'Haïti par superficie ?",
+      ["Ouest","Artibonite","Nord","Sud"],
+      1
+    ],
+
+    [
+      "Quelle mer borde Haïti ?",
+      ["Mer des Caraïbes","Mer Méditerranée","Mer du Nord","Mer Rouge"],
+      0
+    ],
+
+    [
+      "Quelle ville est surnommée la Cité de l'Indépendance ?",
+      ["Gonaïves","Jacmel","Les Cayes","Cap-Haïtien"],
+      0
+    ],
+
+    [
+      "Quelle ville est la deuxième grande ville d'Haïti ?",
+      ["Cap-Haïtien","Jacmel","Miragoâne","Hinche"],
+      0
+    ],
+
+    [
+      "Dans quel département se trouve Port-au-Prince ?",
+      ["Ouest","Nord","Sud","Artibonite"],
+      0
+    ],
+
+    [
+      "Quelle ville se trouve dans le département du Sud ?",
+      ["Les Cayes","Cap-Haïtien","Hinche","Gonaïves"],
+      0
+    ],
+
+    [
+      "Quelle ville est connue pour son artisanat et son carnaval ?",
+      ["Jacmel","Hinche","Fort-Liberté","Mirebalais"],
+      0
+    ],
+
+    [
+      "Quel est le plus haut sommet d'Haïti ?",
+      ["Pic la Selle","Morne Rouge","Morne Jean","Pic Macaya"],
+      0
+    ],
+
+    [
+      "Dans quelle partie d'Hispaniola se trouve Haïti ?",
+      ["Ouest","Est","Nord uniquement","Sud uniquement"],
+      0
+    ],
+
+    [
+      "Quel pays se trouve à l'est d'Haïti ?",
+      ["République dominicaine","Cuba","Jamaïque","Bahamas"],
+      0
+    ],
+
+    [
+      "Quel océan se trouve au nord de la mer des Caraïbes ?",
+      ["Atlantique","Pacifique","Indien","Arctique"],
+      0
+    ],
+
+    [
+      "Quelle ville se trouve près de la frontière dominicaine ?",
+      ["Ouanaminthe","Jacmel","Les Cayes","Jérémie"],
+      0
+    ],
+
+    [
+      "Quel département porte le nom d'une grande rivière ?",
+      ["Artibonite","Sud","Nord","Ouest"],
+      0
+    ]
+
+  ]
+},
+
+
+{
+  name:"⚽ Sport",
+
+  questions:[
+
+    [
+      "Combien de joueurs une équipe de football possède-t-elle sur le terrain ?",
+      ["7","9","11","13"],
+      2
+    ],
+
+    [
+      "Combien de périodes compte un match de football ?",
+      ["1","2","3","4"],
+      1
+    ],
+
+    [
+      "Combien de points vaut un panier normal au basket ?",
+      ["1","2","3","4"],
+      1
+    ],
+
+    [
+      "Quel sport utilise une raquette et un volant ?",
+      ["Tennis","Badminton","Football","Rugby"],
+      1
+    ],
+
+    [
+      "Combien de joueurs d'une équipe de basket sont sur le terrain ?",
+      ["4","5","6","7"],
+      1
+    ],
+
+    [
+      "Combien de minutes dure normalement un match de football ?",
+      ["60","75","90","120"],
+      2
+    ],
+
+    [
+      "Dans quel sport utilise-t-on un ballon ovale ?",
+      ["Rugby","Tennis","Baseball","Golf"],
+      0
+    ],
+
+    [
+      "Quel pays a remporté la Coupe du monde 2018 ?",
+      ["France","Brésil","Allemagne","Argentine"],
+      0
+    ],
+
+    [
+      "Quel sport est associé au Tour de France ?",
+      ["Cyclisme","Tennis","Natation","Athlétisme"],
+      0
+    ],
+
+    [
+      "Combien de joueurs composent une équipe de volley sur le terrain ?",
+      ["5","6","7","8"],
+      1
+    ],
+
+    [
+      "Quel sport utilise un panier ?",
+      ["Basket-ball","Football","Tennis","Boxe"],
+      0
+    ],
+
+    [
+      "Quel sport se pratique sur un ring ?",
+      ["Boxe","Golf","Natation","Cyclisme"],
+      0
+    ],
+
+    [
+      "Dans quel sport trouve-t-on le terme 'ace' ?",
+      ["Tennis","Football","Basket-ball","Rugby"],
+      0
+    ],
+
+    [
+      "Quel pays est célèbre pour le sumo ?",
+      ["Japon","Brésil","Canada","Espagne"],
+      0
+    ],
+
+    [
+      "Quel sport utilise des clubs et une petite balle ?",
+      ["Golf","Football","Natation","Volley-ball"],
+      0
+    ]
+
+  ]
+},
+
+
+{
+  name:"💻 Informatique",
+
+  questions:[
+
+    [
+      "Que signifie HTML ?",
+      [
+        "HyperText Markup Language",
+        "HighText Machine Language",
+        "HyperTool Modern Language",
+        "Home Tool Markup Language"
+      ],
+      0
+    ],
+
+    [
+      "Quel langage rend principalement une page web interactive ?",
+      ["JavaScript","HTML","SQL","XML"],
+      0
+    ],
+
+    [
+      "Que signifie CSS ?",
+      [
+        "Cascading Style Sheets",
+        "Computer Style System",
+        "Creative Software Syntax",
+        "Central Style Service"
+      ],
+      0
+    ],
+
+    [
+      "Quel langage interroge principalement une base de données relationnelle ?",
+      ["SQL","CSS","HTML","PNG"],
+      0
+    ],
+
+    [
+      "Quelle structure permet de répéter du code ?",
+      ["Boucle","Variable","Commentaire","Image"],
+      0
+    ],
+
+    [
+      "Quel symbole écrit un commentaire sur une ligne en JavaScript ?",
+      ["//","##","<!--","**"],
+      0
+    ],
+
+    [
+      "Que signifie CPU ?",
+      [
+        "Central Processing Unit",
+        "Computer Personal Unit",
+        "Central Program Utility",
+        "Control Processing User"
+      ],
+      0
+    ],
+
+    [
+      "Que signifie RAM ?",
+      [
+        "Random Access Memory",
+        "Read Access Machine",
+        "Rapid Application Memory",
+        "Random Application Module"
+      ],
+      0
+    ],
+
+    [
+      "Quel langage est exécuté par Node.js ?",
+      ["JavaScript","HTML","CSS","SQL"],
+      0
+    ],
+
+    [
+      "Quel système d'exploitation est développé par Microsoft ?",
+      ["Windows","Linux","Android","Ubuntu"],
+      0
+    ],
+
+    [
+      "Quel système mobile est développé par Google ?",
+      ["Android","Windows","macOS","DOS"],
+      0
+    ],
+
+    [
+      "Quelle commande Git envoie les modifications vers un dépôt distant ?",
+      ["git push","git pull","git clone","git init"],
+      0
+    ],
+
+    [
+      "Quelle commande Git récupère les modifications distantes ?",
+      ["git pull","git push","git init","git status"],
+      0
+    ],
+
+    [
+      "Quel outil permet d'exécuter JavaScript côté serveur ?",
+      ["Node.js","Photoshop","Excel","Chrome uniquement"],
+      0
+    ],
+
+    [
+      "Quel protocole sécurise principalement les sites web ?",
+      ["HTTPS","FTP","SMTP","POP3"],
+      0
+    ]
+
+  ]
+},
+
+
+{
+  name:"🧪 Sciences",
+
+  questions:[
+
+    [
+      "Quelle planète est la plus proche du Soleil ?",
+      ["Mercure","Vénus","Terre","Mars"],
+      0
+    ],
+
+    [
+      "Quelle planète est surnommée la planète rouge ?",
+      ["Mars","Jupiter","Vénus","Mercure"],
+      0
+    ],
+
+    [
+      "Quel organe pompe le sang ?",
+      ["Le cœur","Le foie","Le poumon","Le rein"],
+      0
+    ],
+
+    [
+      "Quel gaz est essentiel à la respiration humaine ?",
+      ["Oxygène","Hydrogène","Hélium","Méthane"],
+      0
+    ],
+
+    [
+      "Quelle est la formule chimique de l'eau ?",
+      ["H2O","CO2","O2","NaCl"],
+      0
+    ],
+
+    [
+      "Quelle force nous maintient sur Terre ?",
+      ["Gravité","Magnétisme","Friction","Pression"],
+      0
+    ],
+
+    [
+      "Quel est le satellite naturel de la Terre ?",
+      ["La Lune","Mars","Le Soleil","Vénus"],
+      0
+    ],
+
+    [
+      "Combien de chromosomes possède normalement une cellule humaine somatique ?",
+      ["23","46","44","48"],
+      1
+    ],
+
+    [
+      "Quel organe permet principalement de respirer ?",
+      ["Poumons","Cœur","Foie","Estomac"],
+      0
+    ],
+
+    [
+      "Quel est le symbole chimique de l'oxygène ?",
+      ["O","Ox","Og","C"],
+      0
+    ],
+
+    [
+      "Quelle partie de la plante absorbe principalement l'eau ?",
+      ["Racines","Fleurs","Fruits","Feuilles"],
+      0
+    ],
+
+    [
+      "Quelle étoile est au centre du système solaire ?",
+      ["Le Soleil","Sirius","Polaris","Vénus"],
+      0
+    ],
+
+    [
+      "Quel métal est liquide à température ambiante ?",
+      ["Mercure","Fer","Cuivre","Aluminium"],
+      0
+    ],
+
+    [
+      "Quelle unité mesure la température du SI ?",
+      ["Kelvin","Mètre","Newton","Joule"],
+      0
+    ],
+
+    [
+      "Quelle science étudie les êtres vivants ?",
+      ["Biologie","Géologie","Astronomie","Physique"],
+      0
+    ]
+
+  ]
+},
+
+
+{
+  name:"➗ Mathématiques",
+
+  questions:[
+
+    [
+      "Combien font 5 + 7 ?",
+      ["10","11","12","13"],
+      2
+    ],
+
+    [
+      "Combien font 9 × 6 ?",
+      ["45","54","63","56"],
+      1
+    ],
+
+    [
+      "Combien font 100 ÷ 4 ?",
+      ["20","25","30","40"],
+      1
+    ],
+
+    [
+      "Quel est le carré de 5 ?",
+      ["10","15","20","25"],
+      3
+    ],
+
+    [
+      "Combien font 15 - 8 ?",
+      ["5","6","7","8"],
+      2
+    ],
+
+    [
+      "Quel est le double de 12 ?",
+      ["20","22","24","26"],
+      2
+    ],
+
+    [
+      "Combien font 3² ?",
+      ["6","9","12","15"],
+      1
+    ],
+
+    [
+      "Combien font 10 % de 200 ?",
+      ["10","20","30","40"],
+      1
+    ],
+
+    [
+      "Quel nombre est premier ?",
+      ["9","15","17","21"],
+      2
+    ],
+
+    [
+      "Combien de côtés possède un triangle ?",
+      ["2","3","4","5"],
+      1
+    ],
+
+    [
+      "Combien de degrés possède un angle droit ?",
+      ["45°","60°","90°","180°"],
+      2
+    ],
+
+    [
+      "Combien font 2 + 3 × 4 ?",
+      ["20","14","24","10"],
+      1
+    ],
+
+    [
+      "Quelle est la moitié de 50 ?",
+      ["20","25","30","35"],
+      1
+    ],
+
+    [
+      "Combien font 7 × 8 ?",
+      ["48","54","56","64"],
+      2
+    ],
+
+    [
+      "Quel est le périmètre d'un carré de côté 5 cm ?",
+      ["10 cm","15 cm","20 cm","25 cm"],
+      2
+    ]
+
+  ]
+},
+
+
+{
+  name:"🌍 Culture générale",
+
+  questions:[
+
+    [
+      "Quelle est la capitale de la France ?",
+      ["Paris","Lyon","Marseille","Nice"],
+      0
+    ],
+
+    [
+      "Quelle est la capitale du Canada ?",
+      ["Toronto","Ottawa","Montréal","Vancouver"],
+      1
+    ],
+
+    [
+      "Quelle est la capitale du Japon ?",
+      ["Kyoto","Osaka","Tokyo","Hiroshima"],
+      2
+    ],
+
+    [
+      "Quel est le plus grand océan du monde ?",
+      ["Atlantique","Pacifique","Indien","Arctique"],
+      1
+    ],
+
+    [
+      "Combien de continents sont généralement reconnus ?",
+      ["5","6","7","8"],
+      2
+    ],
+
+    [
+      "Quel est le plus grand continent ?",
+      ["Afrique","Europe","Asie","Amérique"],
+      2
+    ],
+
+    [
+      "Quel est le plus grand désert chaud du monde ?",
+      ["Sahara","Gobi","Kalahari","Atacama"],
+      0
+    ],
+
+    [
+      "Quelle langue est principalement parlée au Brésil ?",
+      ["Espagnol","Portugais","Français","Anglais"],
+      1
+    ],
+
+    [
+      "Quel est le symbole chimique de l'or ?",
+      ["Ag","Au","Fe","Cu"],
+      1
+    ],
+
+    [
+      "Combien de jours compte une année normale ?",
+      ["360","364","365","366"],
+      2
+    ],
+
+    [
+      "Quel instrument possède généralement 88 touches ?",
+      ["Piano","Guitare","Violon","Flûte"],
+      0
+    ],
+
+    [
+      "Qui a peint la Joconde ?",
+      ["Leonard de Vinci","Pablo Picasso","Van Gogh","Michel-Ange"],
+      0
+    ],
+
+    [
+      "Quelle planète est la plus grande ?",
+      ["Terre","Saturne","Jupiter","Neptune"],
+      2
+    ],
+
+    [
+      "Quel est le plus grand animal vivant connu ?",
+      ["Éléphant","Baleine bleue","Girafe","Requin blanc"],
+      1
+    ],
+
+    [
+      "Quelle monnaie est utilisée aux États-Unis ?",
+      ["Euro","Dollar américain","Livre","Peso"],
+      1
+    ]
+
+  ]
+},
+
+
+{
+  name:"🇭🇹 Haïti",
+
+  questions:[
+
+    [
+      "Quelle est la capitale d'Haïti ?",
+      ["Port-au-Prince","Cap-Haïtien","Les Cayes","Gonaïves"],
+      0
+    ],
+
+    [
+      "Quelles sont les deux langues officielles d'Haïti ?",
+      ["Français et créole","Anglais et français","Espagnol et créole","Français et espagnol"],
+      0
+    ],
+
+    [
+      "Quelle monnaie est utilisée officiellement en Haïti ?",
+      ["Gourde","Dollar","Euro","Peso"],
+      0
+    ],
+
+    [
+      "Quelle est la fête nationale de l'indépendance ?",
+      ["1er janvier","18 novembre","14 août","20 mai"],
+      0
+    ],
+
+    [
+      "Quelles sont les couleurs principales du drapeau haïtien ?",
+      ["Bleu et rouge","Vert et jaune","Noir et blanc","Rouge et blanc"],
+      0
+    ],
+
+    [
+      "Quelle ville est appelée la Cité de l'Indépendance ?",
+      ["Gonaïves","Jacmel","Port-au-Prince","Hinche"],
+      0
+    ],
+
+    [
+      "Dans quelle ville se trouve la Citadelle Laferrière ?",
+      ["Milot","Jacmel","Les Cayes","Port-au-Prince"],
+      0
+    ],
+
+    [
+      "Quel plat haïtien est préparé avec du maïs moulu ?",
+      ["Mayi moulen","Pizza","Sushi","Tacos"],
+      0
+    ],
+
+    [
+      "Quel plat haïtien est préparé avec des bananes plantains ?",
+      ["Banan peze","Paella","Couscous","Ramen"],
+      0
+    ],
+
+    [
+      "Quel genre musical haïtien est très connu ?",
+      ["Compas","Flamenco","Fado","Country"],
+      0
+    ],
+
+    [
+      "Quel massif abrite la Citadelle Laferrière ?",
+      ["Massif du Nord","Massif de la Selle","Massif de la Hotte","Massif Central"],
+      0
+    ],
+
+    [
+      "Quelle ville est célèbre pour son carnaval et son artisanat ?",
+      ["Jacmel","Hinche","Mirebalais","Fort-Liberté"],
+      0
+    ],
+
+    [
+      "Quelle bataille est commémorée le 18 novembre ?",
+      ["Vertières","Indépendance","Noël","Fête du Travail"],
+      0
+    ],
+
+    [
+      "Quelle île est partagée par Haïti et la République dominicaine ?",
+      ["Hispaniola","Cuba","Jamaïque","Porto Rico"],
+      0
+    ],
+
+    [
+      "Quel est le nom traditionnel de l'île avant la colonisation européenne ?",
+      ["Ayiti","Martinique","Cuba","Jamaïque"],
+      0
+    ]
+
+  ]
+}
+
+];
+
+
+/* =====================================================
+   NORMALISATION
+===================================================== */
+
+const cats = categories.map(cat => ({
+  name:cat.name,
+
+  questions:cat.questions.map(item => ({
+    q:item[0],
+    c:item[1],
+    a:item[2]
+  }))
+}));
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+const screens = [
+  "home",
+  "quiz",
+  "result",
+  "ranking",
+  "how-to",
+  "history"
+];
+
+
+function screen(name){
+
+  screens.forEach(item => {
+
+    const element =
+      document.getElementById("screen-" + item);
+
+    if(element){
+      element.classList.remove("active");
+    }
+
+  });
+
+
+  const selected =
+    document.getElementById("screen-" + name);
+
+  if(selected){
+    selected.classList.add("active");
+  }
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =====================================================
+   TICKETS
+===================================================== */
+
+function loadTickets(){
+
+  let data =
+    JSON.parse(
+      localStorage.getItem("tickets") || "null"
+    );
+
+
+  if(!data){
+
+    data = {
+      count:MAX_TICKETS,
+      time:Date.now()
+    };
+
+    localStorage.setItem(
+      "tickets",
+      JSON.stringify(data)
+    );
+
+  }
+
+
+  if(typeof data.count !== "number"){
+    data.count = MAX_TICKETS;
+  }
+
+
+  if(!data.time){
+    data.time = Date.now();
+  }
+
+
+  /*
+     Si l'ancien système possédait 10 tickets,
+     on ramène automatiquement le compteur
+     à la nouvelle limite de 3.
+  */
+
+  if(data.count > MAX_TICKETS){
+
+    data.count = MAX_TICKETS;
+
+    localStorage.setItem(
+      "tickets",
+      JSON.stringify(data)
+    );
+
+  }
+
+
+  if(Date.now() - data.time >= RESET){
+
+    data = {
+      count:MAX_TICKETS,
+      time:Date.now()
+    };
+
+    localStorage.setItem(
+      "tickets",
+      JSON.stringify(data)
+    );
+
+  }
+
+
+  state.tickets =
+    Math.max(
+      0,
+      Math.min(MAX_TICKETS,data.count)
+    );
+
+
+  updateTickets();
+
+  ticketTimer();
+
+}
+
+
+function updateTickets(){
+
+  document.getElementById(
+    "ticket-count"
+  ).textContent = state.tickets;
+
+
+  document.getElementById(
+    "ticket-count-home"
+  ).textContent = state.tickets;
+
+
+  document.getElementById(
+    "profile-tickets"
+  ).textContent = state.tickets;
+
+}
+
+
+function ticketTimer(){
+
+  const data =
+    JSON.parse(
+      localStorage.getItem("tickets") || "null"
+    );
+
+
+  const element =
+    document.getElementById(
+      "ticket-countdown-home"
+    );
+
+
+  if(!element){
+    return;
+  }
+
+
+  if(!data){
+
+    element.textContent =
+      `🎟️ ${MAX_TICKETS} tickets disponibles`;
+
+    return;
+  }
+
+
+  if(state.tickets >= MAX_TICKETS){
+
+    element.textContent =
+      `🎟️ ${MAX_TICKETS} tickets disponibles`;
+
+    return;
+  }
+
+
+  const remaining =
+    Math.max(
+      0,
+      data.time + RESET - Date.now()
+    );
+
+
+  if(remaining <= 0){
+
+    loadTickets();
+
+    return;
+  }
+
+
+  const hours =
+    Math.floor(
+      remaining / 3600000
+    );
+
+
+  const minutes =
+    Math.floor(
+      (remaining % 3600000) / 60000
+    );
+
+
+  const seconds =
+    Math.floor(
+      (remaining % 60000) / 1000
+    );
+
+
+  element.textContent =
+    `⏱️ Recharge dans ${hours}h ${String(minutes).padStart(2,"0")}min ${String(seconds).padStart(2,"0")}s`;
+
+}
+
+
+function useTicket(){
+
+  if(state.tickets <= 0){
+
+    alert(
+      "Tu n'as plus de tickets. Tes 3 tickets seront renouvelés après 1 heure."
+    );
+
+    return false;
+  }
+
+
+  let data =
+    JSON.parse(
+      localStorage.getItem("tickets") || "null"
+    );
+
+
+  if(!data){
+
+    data = {
+      count:MAX_TICKETS,
+      time:Date.now()
+    };
+
+  }
+
+
+  state.tickets--;
+
+
+  localStorage.setItem(
+    "tickets",
+    JSON.stringify({
+      count:state.tickets,
+      time:data.time
+    })
+  );
+
+
+  updateTickets();
+
+  ticketTimer();
+
+  return true;
+
+}
+
+
+/* =====================================================
+   CATÉGORIES
+===================================================== */
+
+function renderCategories(){
+
+  const box =
+    document.getElementById(
+      "category-list"
+    );
+
+
+  box.innerHTML = "";
+
+
+  cats.forEach((cat,index) => {
+
+    const button =
+      document.createElement("button");
+
+
+    button.innerHTML = `
+      <span>${cat.name}</span>
+      <span class="cat-count">
+        ${cat.questions.length} questions
+      </span>
+    `;
+
+
+    button.onclick =
+      () => startQuiz(index);
+
+
+    box.appendChild(button);
+
+  });
+
+
+  const rankingButton =
+    document.createElement("button");
+
+
+  rankingButton.innerHTML = `
+    <span>🏆 Classement</span>
+    <span class="cat-count">
+      Voir les scores
+    </span>
+  `;
+
+
+  rankingButton.onclick =
+    showRanking;
+
+
+  box.appendChild(rankingButton);
+
+}
+
+
+/* =====================================================
+   QUIZ
+===================================================== */
+
+function startQuiz(index){
+
+  if(!isRegistered()){
+
+    pendingCategory = index;
+
+    openRegistrationModal();
+
+    return;
+  }
+
+
+  if(!useTicket()){
+    return;
+  }
+
+
+  state.category = index;
+
+  state.questions =
+    [...cats[index].questions]
+      .sort(() => Math.random() - 0.5);
+
+
+  state.index = 0;
+
+  state.score = 0;
+
+  state.correct = 0;
+
+  state.wrong = 0;
+
+
+  screen("quiz");
+
+  question();
+
+}
+
+
+function question(){
+
+  clearInterval(state.timer);
+
+
+  const current =
+    state.questions[state.index];
+
+
+  document.getElementById(
+    "quiz-category"
+  ).textContent =
+    cats[state.category].name;
+
+
+  document.getElementById(
+    "quiz-question"
+  ).textContent =
+    current.q;
+
+
+  document.getElementById(
+    "quiz-progress"
+  ).textContent =
+    `Question ${state.index + 1} sur ${state.questions.length}`;
+
+
+  document.getElementById(
+    "quiz-score"
+  ).textContent =
+    state.score;
+
+
+  document.getElementById(
+    "progress-fill"
+  ).style.width =
+    (state.index / state.questions.length * 100) + "%";
+
+
+  const answers =
+    current.c
+      .map((text,index) => ({
+        text,
+        correct:index === current.a
+      }))
+      .sort(() => Math.random() - 0.5);
+
+
+  const choices =
+    document.getElementById(
+      "quiz-choices"
+    );
+
+
+  choices.innerHTML = "";
+
+
+  answers.forEach(answer => {
+
+    const button =
+      document.createElement("button");
+
+
+    button.textContent =
+      answer.text;
+
+
+    button.onclick =
+      () => answerQuestion(
+        button,
+        answer.correct
+      );
+
+
+    choices.appendChild(button);
+
+  });
+
+
+  startTimer();
+
+}
+
+
+function startTimer(){
+
+  state.time = QUESTION_TIME;
+
+
+  const timer =
+    document.getElementById("timer");
+
+
+  timer.textContent =
+    state.time;
+
+
+  timer.classList.remove("low");
+
+
+  state.timer =
+    setInterval(() => {
+
+      state.time--;
+
+      timer.textContent =
+        state.time;
+
+
+      if(state.time <= 5){
+
+        timer.classList.add("low");
+
+      }
+
+
+      if(state.time <= 0){
+
+        clearInterval(state.timer);
+
+        answerQuestion(null,false);
+
+      }
+
+    },1000);
+
+}
+
+
+function answerQuestion(button,correct){
+
+  if(
+    document.querySelector(
+      "#quiz-choices button:disabled"
+    )
+  ){
+    return;
+  }
+
+
+  clearInterval(state.timer);
+
+
+  document
+    .querySelectorAll("#quiz-choices button")
+    .forEach(item => {
+      item.disabled = true;
+    });
+
+
+  if(button){
+
+    button.classList.add(
+      correct ? "correct" : "wrong"
+    );
+
+  }
+
+
+  if(correct){
+
+    state.correct++;
+
+    state.score +=
+      POINTS_PER_CORRECT;
+
+  }else{
+
+    state.wrong++;
+
+  }
+
+
+  document.getElementById(
+    "quiz-score"
+  ).textContent =
+    state.score;
+
+
+  setTimeout(() => {
+
+    state.index++;
+
+
+    if(
+      state.index <
+      state.questions.length
+    ){
+
+      question();
+
+    }else{
+
+      finish();
+
+    }
+
+  },700);
+
+}
+
+
+/* =====================================================
+   SCORES
+===================================================== */
+
+function getScores(){
+
+  return JSON.parse(
+    localStorage.getItem("scores") || "[]"
+  );
+
+}
+
+
+async function sendScoreToServer(){
+
+  if(!SERVER_URL){
+    return;
+  }
+
+
+  const name =
+    localStorage.getItem("name") ||
+    "Joueur";
+
+
+  try{
+
+    const response =
+      await fetch(
+        `${SERVER_URL}/api/players`,
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:JSON.stringify({
+            name,
+            score:state.score
+          })
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if(data.success){
+
+      console.log(
+        "Score envoyé au serveur :",
+        data.player
+      );
+
+    }
+
+  }catch(error){
+
+    console.warn(
+      "Serveur indisponible :",
+      error
+    );
+
+  }
+
+}
+
+
+function saveScore(){
+
+  const scores =
+    getScores();
+
+
+  const name =
+    localStorage.getItem("name") ||
+    "Joueur";
+
+
+  scores.push({
+
+    name,
+
+    score:state.score,
+
+    category:
+      cats[state.category].name,
+
+    correct:
+      state.correct,
+
+    wrong:
+      state.wrong,
+
+    date:
+      new Date().toLocaleString()
+
+  });
+
+
+  localStorage.setItem(
+    "scores",
+    JSON.stringify(scores)
+  );
+
+
+  sendScoreToServer();
+
+  updateProfile();
+
+}
+
+
+function finish(){
+
+  const total =
+    state.questions.length *
+    POINTS_PER_CORRECT;
+
+
+  document.getElementById(
+    "result-score"
+  ).textContent =
+    state.score;
+
+
+  document.getElementById(
+    "result-total"
+  ).textContent =
+    total;
+
+
+  document.getElementById(
+    "result-correct"
+  ).textContent =
+    state.correct;
+
+
+  document.getElementById(
+    "result-wrong"
+  ).textContent =
+    state.wrong;
+
+
+  const ratio =
+    total > 0
+      ? state.score / total
+      : 0;
+
+
+  const message =
+    ratio === 1
+      ? "🏆 Excellent ! Score parfait."
+      : ratio >= 0.7
+        ? "👏 Très bon résultat."
+        : ratio >= 0.5
+          ? "👍 Bon travail."
+          : "💪 Continue à t'entraîner.";
+
+
+  document.getElementById(
+    "result-message"
+  ).textContent =
+    message;
+
+
+  saveScore();
+
+
+  const earned =
+    state.score * HTG_PER_POINT;
+
+
+  document.getElementById(
+    "result-winnings"
+  ).textContent =
+    earned > 0
+      ? `💰 +${earned} HTG ajoutés à ton solde`
+      : "";
+
+
+  screen("result");
+
+}
+
+
+/* =====================================================
+   CLASSEMENT
+===================================================== */
+
+function calculatePlayers(){
+
+  const players = {};
+
+
+  getScores().forEach(game => {
+
+    if(!players[game.name]){
+
+      players[game.name] = {
+
+        name:game.name,
+
+        points:0,
+
+        games:0,
+
+        best:0
+
+      };
+
+    }
+
+
+    players[game.name].points +=
+      game.score;
+
+
+    players[game.name].games++;
+
+
+    players[game.name].best =
+      Math.max(
+        players[game.name].best,
+        game.score
+      );
+
+  });
+
+
+  return Object.values(players)
+    .sort(
+      (a,b) =>
+        b.points - a.points
+    );
+
+}
+
+
+function escapeHtml(text){
+
+  return String(text)
+
+    .replace(/&/g,"&amp;")
+
+    .replace(/</g,"&lt;")
+
+    .replace(/>/g,"&gt;")
+
+    .replace(/"/g,"&quot;")
+
+    .replace(/'/g,"&#039;");
+
+}
+
+
+async function showRanking(){
+
+  const name =
+    localStorage.getItem("name") ||
+    "Joueur";
+
+
+  if(SERVER_URL){
+
+    try{
+
+      const response =
+        await fetch(
+          `${SERVER_URL}/api/ranking`
+        );
+
+
+      const data =
+        await response.json();
+
+
+      if(
+        data.success &&
+        Array.isArray(data.ranking)
+      ){
+
+        renderServerRanking(
+          data.ranking,
+          name
+        );
+
+        screen("ranking");
+
+        return;
+
+      }
+
+    }catch(error){
+
+      console.warn(
+        "Impossible de récupérer le classement serveur."
+      );
+
+    }
+
+  }
+
+
+  renderLocalRanking(name);
+
+  screen("ranking");
+
+}
+
+
+function renderServerRanking(
+  players,
+  name
+){
+
+  const myIndex =
+    players.findIndex(
+      player =>
+        player.name.toLowerCase() ===
+        name.toLowerCase()
+    );
+
+
+  const me =
+    players[myIndex];
+
+
+  document.getElementById(
+    "my-ranking"
+  ).innerHTML = me
+
+    ? `
+      <div class="my-ranking-title">
+        TON CLASSEMENT
+      </div>
+
+      <div class="my-ranking-main">
+
+        <div>
+          <strong>
+            #${me.rank}
+          </strong>
+
+          <div>
+            ${escapeHtml(me.name)}
+          </div>
+        </div>
+
+        <div>
+          <strong>
+            ${me.score}
+          </strong>
+
+          <div>
+            points
+          </div>
+        </div>
+
+      </div>
+    `
+
+    : `
+      <div class="my-ranking-title">
+        TON CLASSEMENT
+      </div>
+
+      <p class="muted">
+        Joue une partie pour apparaître
+        dans le classement.
+      </p>
+    `;
+
+
+  const podium =
+    document.getElementById(
+      "podium"
+    );
+
+
+  podium.innerHTML = "";
+
+
+  [1,0,2].forEach(position => {
+
+    const player =
+      players[position];
+
+
+    if(!player){
+      return;
+    }
+
+
+    const div =
+      document.createElement("div");
+
+
+    div.className =
+      "podium-player " +
+      (
+        position === 0
+          ? "first"
+          : position === 1
+            ? "second"
+            : "third"
+      );
+
+
+    div.innerHTML = `
+
+      <div class="podium-avatar">
+        ${
+          position === 0
+            ? "🥇"
+            : position === 1
+              ? "🥈"
+              : "🥉"
+        }
+      </div>
+
+      <div class="podium-name">
+        ${escapeHtml(player.name)}
+      </div>
+
+      <div class="podium-score">
+        ${player.score} points
+      </div>
+
+      <div class="podium-rank">
+        #${position + 1}
+      </div>
+    `;
+
+
+    podium.appendChild(div);
+
+  });
+
+
+  const list =
+    document.getElementById(
+      "ranking-list"
+    );
+
+
+  list.innerHTML =
+    players.length
+
+      ? players
+          .slice(0,50)
+          .map((player,index) => `
+
+            <div class="ranking-row ${
+              player.name.toLowerCase() ===
+              name.toLowerCase()
+                ? "me"
+                : ""
+            }">
+
+              <span>
+                #${player.rank || index + 1}
+              </span>
+
+              <span class="ranking-name">
+                ${escapeHtml(player.name)}
+              </span>
+
+              <span>
+                ${player.games || 0} 🎮
+              </span>
+
+              <span class="ranking-score">
+                ${player.score} pts
+              </span>
+
+            </div>
+
+          `)
+          .join("")
+
+      : `
+        <p class="muted">
+          Aucun joueur classé.
+        </p>
+      `;
+
+}
+
+
+function renderLocalRanking(name){
+
+  const players =
+    calculatePlayers();
+
+
+  const myIndex =
+    players.findIndex(
+      player =>
+        player.name === name
+    );
+
+
+  const me =
+    players[myIndex];
+
+
+  document.getElementById(
+    "my-ranking"
+  ).innerHTML = me
+
+    ? `
+      <div class="my-ranking-title">
+        TON CLASSEMENT
+      </div>
+
+      <div class="my-ranking-main">
+
+        <div>
+          <strong>
+            #${myIndex + 1}
+          </strong>
+
+          <div>
+            ${escapeHtml(me.name)}
+          </div>
+        </div>
+
+        <div>
+          <strong>
+            ${me.points}
+          </strong>
+
+          <div>
+            points
+          </div>
+        </div>
+
+      </div>
+    `
+
+    : `
+      <div class="my-ranking-title">
+        TON CLASSEMENT
+      </div>
+
+      <p class="muted">
+        Joue une partie pour apparaître
+        dans le classement.
+      </p>
+    `;
+
+
+  const podium =
+    document.getElementById(
+      "podium"
+    );
+
+
+  podium.innerHTML = "";
+
+
+  [1,0,2].forEach(position => {
+
+    const player =
+      players[position];
+
+
+    if(!player){
+      return;
+    }
+
+
+    const div =
+      document.createElement("div");
+
+
+    div.className =
+      "podium-player " +
+      (
+        position === 0
+          ? "first"
+          : position === 1
+            ? "second"
+            : "third"
+      );
+
+
+    div.innerHTML = `
+
+      <div class="podium-avatar">
+        ${
+          position === 0
+            ? "🥇"
+            : position === 1
+              ? "🥈"
+              : "🥉"
+        }
+      </div>
+
+      <div class="podium-name">
+        ${escapeHtml(player.name)}
+      </div>
+
+      <div class="podium-score">
+        ${player.points} points
+      </div>
+
+      <div class="podium-rank">
+        #${position + 1}
+      </div>
+
+    `;
+
+
+    podium.appendChild(div);
+
+  });
+
+
+  document.getElementById(
+    "ranking-list"
+  ).innerHTML = players.length
+
+    ? players
+        .slice(0,20)
+        .map((player,index) => `
+
+          <div class="ranking-row ${
+            player.name === name
+              ? "me"
+              : ""
+          }">
+
+            <span>
+              #${index + 1}
+            </span>
+
+            <span class="ranking-name">
+              ${escapeHtml(player.name)}
+            </span>
+
+            <span>
+              ${player.games} 🎮
+            </span>
+
+            <span class="ranking-score">
+              ${player.points} pts
+            </span>
+
+          </div>
+
+        `)
+        .join("")
+
+    : `
+      <p class="muted">
+        Aucun joueur classé.
+      </p>
+    `;
+
+}
+
+
+/* =====================================================
+   PROFIL
+===================================================== */
+
+function updateProfile(){
+
+  const name =
+    localStorage.getItem("name") ||
+    "Joueur";
+
+
+  document.getElementById(
+    "profile-name"
+  ).textContent = name;
+
+
+  document.getElementById(
+    "profile-panel-name"
+  ).textContent = name;
+
+
+  const location =
+    localStorage.getItem("location");
+
+
+  document.getElementById(
+    "profile-panel-location"
+  ).textContent =
+    location
+      ? "📍 " + location
+      : "";
+
+
+  const mine =
+    getScores().filter(
+      game =>
+        game.name === name
+    );
+
+
+  const points =
+    mine.reduce(
+      (sum,game) =>
+        sum + game.score,
+      0
+    );
+
+
+  const games =
+    mine.length;
+
+
+  const best =
+    games
+      ? Math.max(
+          ...mine.map(
+            game => game.score
+          )
+        )
+      : 0;
+
+
+  const average =
+    games
+      ? Math.round(points / games)
+      : 0;
+
+
+  const position =
+    calculatePlayers()
+      .findIndex(
+        player =>
+          player.name === name
+      );
+
+
+  document.getElementById(
+    "profile-score"
+  ).textContent =
+    points;
+
+
+  document.getElementById(
+    "profile-games"
+  ).textContent =
+    games;
+
+
+  document.getElementById(
+    "profile-best"
+  ).textContent =
+    best;
+
+
+  document.getElementById(
+    "profile-average"
+  ).textContent =
+    average;
+
+
+  document.getElementById(
+    "profile-rank"
+  ).textContent =
+    position >= 0
+      ? "#" + (position + 1)
+      : "—";
+
+
+  document.getElementById(
+    "profile-win"
+  ).textContent =
+    0;
+
+
+  updateTickets();
+
+}
+
+
+/* =====================================================
+   INSCRIPTION
+===================================================== */
+
+function isRegistered(){
+
+  return (
+    localStorage.getItem(
+      "registered"
+    ) === "1"
+  );
+
+}
+
+
+function updateRegisterUI(){
+
+  const title =
+    document.getElementById(
+      "register-title"
+    );
+
+
+  const subtitle =
+    document.getElementById(
+      "register-subtitle"
+    );
+
+
+  const icon =
+    document.getElementById(
+      "register-icon"
+    );
+
+
+  if(isRegistered()){
+
+    title.textContent =
+      "✅ Inscrit(e) au concours";
+
+
+    subtitle.textContent =
+      "Tu peux jouer dans toutes les catégories";
+
+
+    icon.textContent =
+      "✅";
+
+  }else{
+
+    title.textContent =
+      "S'inscrire au concours — 50 HTG";
+
+
+    subtitle.textContent =
+      "Paiement unique pour participer";
+
+
+    icon.textContent =
+      "🎟️";
+
+  }
+
+}
+
+
+function showRegStep(step){
+
+  ["method","processing","success"]
+    .forEach(name => {
+
+      document
+        .getElementById(
+          "reg-step-" + name
+        )
+        .classList.toggle(
+          "active",
+          name === step
+        );
+
+    });
+
+}
+
+
+function openRegistrationModal(){
+
+  if(isRegistered()){
+
+    updateRegisterUI();
+
+    return;
+  }
+
+
+  selectedRegMethod = null;
+
+
+  document
+    .querySelectorAll(".reg-method")
+    .forEach(button =>
+      button.classList.remove(
+        "selected"
+      )
+    );
+
+
+  document.getElementById(
+    "reg-method-status"
+  ).textContent = "";
+
+
+  showRegStep("method");
+
+
+  document.getElementById(
+    "register-modal"
+  ).classList.add("active");
+
+}
+
+
+/* =====================================================
+   PROFIL — ÉVÉNEMENTS
+===================================================== */
+
+document.getElementById(
+  "btn-profile"
+).onclick = () => {
+
+  document.getElementById(
+    "profile-name-input"
+  ).value =
+    localStorage.getItem("name") || "";
+
+
+  document.getElementById(
+    "profile-phone-input"
+  ).value =
+    localStorage.getItem("phone") || "";
+
+
+  document.getElementById(
+    "profile-location-input"
+  ).value =
+    localStorage.getItem("location") || "";
+
+
+  document.getElementById(
+    "profile-panel"
+  ).classList.add("active");
+
+};
+
+
+document.getElementById(
+  "btn-close-profile"
+).onclick = () => {
+
+  document.getElementById(
+    "profile-panel"
+  ).classList.remove("active");
+
+};
+
+
+document.getElementById(
+  "btn-save-profile"
+).onclick = () => {
+
+  const name =
+    document.getElementById(
+      "profile-name-input"
+    ).value.trim();
+
+
+  const phone =
+    document.getElementById(
+      "profile-phone-input"
+    ).value.trim();
+
+
+  const location =
+    document.getElementById(
+      "profile-location-input"
+    ).value.trim();
+
+
+  if(name.length < 2){
+
+    alert("Entre ton nom.");
+
+    return;
+  }
+
+
+  if(phone.length < 8){
+
+    alert(
+      "Entre un numéro valide."
+    );
+
+    return;
+  }
+
+
+  if(location.length < 2){
+
+    alert(
+      "Entre ton lieu (ville / commune)."
+    );
+
+    return;
+  }
+
+
+  localStorage.setItem(
+    "name",
+    name
+  );
+
+
+  localStorage.setItem(
+    "phone",
+    phone
+  );
+
+
+  localStorage.setItem(
+    "location",
+    location
+  );
+
+
+  updateProfile();
+
+
+  document.getElementById(
+    "profile-panel"
+  ).classList.remove("active");
+
+
+  alert(
+    "✅ Profil enregistré."
+  );
+
+};
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+document.getElementById(
+  "btn-how-to"
+).onclick =
+  () => screen("how-to");
+
+
+document.getElementById(
+  "btn-how-to-back"
+).onclick =
+  () => screen("home");
+
+
+document.getElementById(
+  "btn-history"
+).onclick =
+  showHistory;
+
+
+document.getElementById(
+  "btn-history-back"
+).onclick =
+  () => screen("home");
+
+
+document.getElementById(
+  "btn-ranking-home"
+).onclick =
+  () => screen("home");
+
+
+document.getElementById(
+  "btn-result-ranking"
+).onclick =
+  showRanking;
+
+
+document.getElementById(
+  "btn-home"
+).onclick =
+  () => screen("home");
+
+
+document.getElementById(
+  "btn-quit"
+).onclick =
+  () => {
+
+    clearInterval(state.timer);
+
+    screen("home");
+
+  };
+
+
+document.getElementById(
+  "btn-replay"
+).onclick =
+  () => {
+
+    startQuiz(
+      state.category
+    );
+
+  };
+
+
+/* =====================================================
+   HISTORIQUE
+===================================================== */
+
+function getHistory(){
+
+  return JSON.parse(
+    localStorage.getItem(
+      "history"
+    ) || "[]"
+  );
+
+}
+
+
+function saveHistory(){
+
+  const history =
+    getHistory();
+
+
+  history.unshift({
+
+    category:
+      cats[state.category].name,
+
+    score:
+      state.score,
+
+    correct:
+      state.correct,
+
+    wrong:
+      state.wrong,
+
+    date:
+      new Date().toLocaleString()
+
+  });
+
+
+  localStorage.setItem(
+    "history",
+    JSON.stringify(history)
+  );
+
+}
+
+
+function showHistory(){
+
+  const list =
+    document.getElementById(
+      "history-list"
+    );
+
+
+  const history =
+    getHistory();
+
+
+  if(!history.length){
+
+    list.innerHTML = `
+      <p class="muted">
+        Aucune partie jouée pour le moment.
+      </p>
+    `;
+
+    screen("history");
+
+    return;
+  }
+
+
+  list.innerHTML =
+    history
+      .slice(0,50)
+      .map(item => `
+
+        <div class="ranking-row">
+
+          <span>🎮</span>
+
+          <span class="ranking-name">
+
+            ${escapeHtml(item.category)}
+
+            <br>
+
+            <small>
+              ${escapeHtml(item.date)}
+            </small>
+
+          </span>
+
+          <span>
+            ${item.correct} ✅
+          </span>
+
+          <span class="ranking-score">
+            ${item.score} pts
+          </span>
+
+        </div>
+
+      `)
+      .join("");
+
+
+  screen("history");
+
+}
+
+
+/* =====================================================
+   INSCRIPTION
+===================================================== */
+
+document.getElementById(
+  "btn-register"
+).onclick = () => {
+
+  pendingCategory = null;
+
+  openRegistrationModal();
+
+};
+
+
+document
+  .querySelectorAll(".reg-method")
+  .forEach(button => {
+
+    button.onclick = () => {
+
+      selectedRegMethod =
+        button.dataset.method;
+
+
+      document
+        .querySelectorAll(".reg-method")
+        .forEach(item =>
+          item.classList.remove(
+            "selected"
+          )
+        );
+
+
+      button.classList.add(
+        "selected"
+      );
+
+    };
+
+  });
+
+
+document.getElementById(
+  "btn-reg-confirm"
+).onclick = () => {
+
+  const status =
+    document.getElementById(
+      "reg-method-status"
+    );
+
+
+  if(!selectedRegMethod){
+
+    status.textContent =
+      "⚠️ Choisis un moyen de paiement.";
+
+    return;
+  }
+
+
+  status.textContent = "";
+
+
+  showRegStep(
+    "processing"
+  );
+
+
+  document.getElementById(
+    "reg-processing-text"
+  ).textContent =
+    `Simulation du paiement de ${REGISTRATION_FEE} HTG via ${selectedRegMethod}…`;
+
+
+  setTimeout(() => {
+
+    localStorage.setItem(
+      "registered",
+      "1"
+    );
+
+
+    document.getElementById(
+      "reg-success-text"
+    ).textContent =
+      `Inscription simulée de ${REGISTRATION_FEE} HTG via ${selectedRegMethod}.`;
+
+
+    updateRegisterUI();
+
+
+    showRegStep(
+      "success"
+    );
+
+  },1200);
+
+};
+
+
+document.getElementById(
+  "btn-reg-cancel"
+).onclick = () => {
+
+  document.getElementById(
+    "register-modal"
+  ).classList.remove(
+    "active"
+  );
+
+
+  pendingCategory = null;
+
+};
+
+
+document.getElementById(
+  "btn-reg-close"
+).onclick = () => {
+
+  document.getElementById(
+    "register-modal"
+  ).classList.remove(
+    "active"
+  );
+
+
+  if(
+    pendingCategory !== null
+  ){
+
+    const category =
+      pendingCategory;
+
+
+    pendingCategory = null;
+
+
+    startQuiz(category);
+
+  }
+
+};
+
+
+/* =====================================================
+   INITIALISATION
+===================================================== */
+
+renderCategories();
+
+loadTickets();
+
+updateProfile();
+
+updateRegisterUI();
+
+setInterval(
+  ticketTimer,
+  1000
+);
+
+</script>
+
+</body>
+</html>
