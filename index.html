@@ -14,13 +14,11 @@
 :root{
   --black:#080709;
   --panel:#141116;
-  --panel-light:#1c151b;
   --gold:#d5b06a;
   --gold-soft:#a88a55;
   --ivory:#f2eadc;
   --muted:#aaa096;
-  --pink:#c9879f;
-  --line:rgba(213,176,106,.25);
+  --pink:#df8fa9;
 }
 
 *{
@@ -29,78 +27,74 @@
   box-sizing:border-box;
 }
 
-html{
-  scroll-behavior:smooth;
-}
-
 body{
   min-height:100vh;
   background:
     radial-gradient(circle at 50% 0%,rgba(213,176,106,.10),transparent 35%),
-    radial-gradient(circle at 20% 80%,rgba(201,135,159,.07),transparent 30%),
+    radial-gradient(circle at 20% 80%,rgba(223,143,169,.08),transparent 30%),
     var(--black);
   color:var(--ivory);
   font-family:'Jost',sans-serif;
   display:flex;
   justify-content:center;
   align-items:center;
-  padding:30px 16px;
+  padding:25px 15px;
   overflow-x:hidden;
 }
 
-/* Étoiles décoratives */
-body::before{
-  content:"✦  ·  ✧  ·  ✦  ·  ✧  ·  ✦";
+/* Petits cœurs en arrière-plan */
+.floating-heart{
   position:fixed;
-  top:8%;
-  left:50%;
-  transform:translateX(-50%);
-  color:var(--gold);
-  opacity:.18;
-  letter-spacing:18px;
-  font-size:14px;
-  white-space:nowrap;
+  color:var(--pink);
+  opacity:0;
   pointer-events:none;
+  animation:floatUp 5s linear forwards;
 }
 
-/* Carte principale */
+@keyframes floatUp{
+  0%{
+    transform:translateY(0) scale(.5);
+    opacity:0;
+  }
+  15%{opacity:.5}
+  100%{
+    transform:translateY(-100vh) scale(1.2);
+    opacity:0;
+  }
+}
+
 .card{
   width:100%;
   max-width:650px;
   position:relative;
-  padding:55px 42px 40px;
+  padding:50px 40px 40px;
   text-align:center;
-  border:1px solid var(--line);
+  border:1px solid rgba(213,176,106,.25);
   background:
     linear-gradient(145deg,rgba(255,255,255,.025),transparent 40%),
     linear-gradient(180deg,var(--panel),#0c0a0d);
-  box-shadow:
-    0 30px 80px rgba(0,0,0,.55),
-    inset 0 0 60px rgba(213,176,106,.025);
-  animation:cardIn 1.2s cubic-bezier(.16,1,.3,1);
+  box-shadow:0 30px 80px rgba(0,0,0,.55);
+  animation:cardIn 1.2s ease;
 }
 
 @keyframes cardIn{
   from{
     opacity:0;
-    transform:translateY(35px) scale(.97);
+    transform:translateY(30px);
   }
   to{
     opacity:1;
-    transform:translateY(0) scale(1);
+    transform:translateY(0);
   }
 }
 
-/* Coins dorés */
 .card::before,
-.card::after,
-.corner{
+.card::after{
   content:"";
   position:absolute;
   width:20px;
   height:20px;
   border-color:var(--gold);
-  opacity:.75;
 }
 
 .card::before{
@@ -117,50 +111,53 @@ body::before{
   border-right:1px solid;
 }
 
-.corner.one{
-  top:-1px;
-  right:-1px;
-  border-top:1px solid;
-  border-right:1px solid;
-}
-
-.corner.two{
-  bottom:-1px;
-  left:-1px;
-  border-bottom:1px solid;
-  border-left:1px solid;
-}
-
-/* Cœur */
-.heart{
-  width:78px;
-  height:78px;
-  margin:0 auto 24px;
+/* Cœur principal */
+.heart-button{
+  width:105px;
+  height:105px;
+  margin:0 auto 25px;
+  border-radius:50%;
   border:1px solid var(--gold);
-  border-radius:50%;
+  background:rgba(213,176,106,.035);
+  color:var(--pink);
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:center;
+  cursor:pointer;
   position:relative;
-  animation:pulse 2.4s infinite;
+  transition:.35s ease;
+  box-shadow:0 0 0 rgba(223,143,169,0);
 }
 
-.heart::before{
-  content:"";
-  position:absolute;
-  inset:6px;
-  border:1px solid rgba(213,176,106,.25);
-  border-radius:50%;
+.heart-button span{
+  font-size:48px;
+  transition:.35s ease;
 }
 
-.heart span{
-  font-size:31px;
-  filter:drop-shadow(0 0 12px rgba(213,176,106,.25));
+.heart-button:hover{
+  transform:scale(1.07);
+  border-color:var(--pink);
+  box-shadow:0 0 35px rgba(223,143,169,.18);
 }
 
-@keyframes pulse{
-  0%,100%{transform:scale(1)}
-  50%{transform:scale(1.045)}
+.heart-button:active{
+  transform:scale(.88);
+}
+
+.heart-button.clicked{
+  animation:heartBeat .8s ease;
+  border-color:var(--pink);
+  box-shadow:
+    0 0 25px rgba(223,143,169,.25),
+    0 0 70px rgba(223,143,169,.10);
+}
+
+@keyframes heartBeat{
+  0%{transform:scale(1)}
+  25%{transform:scale(1.25)}
+  45%{transform:scale(.95)}
+  65%{transform:scale(1.15)}
+  100%{transform:scale(1)}
 }
 
 .small-title{
@@ -173,46 +170,32 @@ body::before{
 
 h1{
   font-family:'Cormorant Garamond',serif;
-  font-size:clamp(42px,9vw,64px);
+  font-size:clamp(45px,9vw,65px);
   font-weight:500;
-  line-height:1;
-  letter-spacing:.02em;
 }
 
 .subtitle{
-  margin-top:12px;
+  margin-top:8px;
   color:var(--muted);
-  font-size:13px;
-  letter-spacing:.12em;
+  font-size:12px;
+  letter-spacing:.15em;
   text-transform:uppercase;
 }
 
 .line{
-  width:70px;
+  width:65px;
   height:1px;
   background:var(--gold);
-  margin:28px auto;
+  margin:27px auto;
   opacity:.65;
 }
 
 /* Message */
 .message-box{
   text-align:left;
-  padding:28px;
+  padding:27px;
   border:1px solid rgba(213,176,106,.16);
   background:rgba(255,255,255,.018);
-  position:relative;
-}
-
-.message-box::before{
-  content:"“";
-  position:absolute;
-  top:-17px;
-  left:17px;
-  font-family:'Cormorant Garamond',serif;
-  font-size:55px;
-  color:var(--gold);
-  opacity:.7;
 }
 
 .message-label{
@@ -220,129 +203,118 @@ h1{
   letter-spacing:.25em;
   text-transform:uppercase;
   color:var(--gold-soft);
-  margin-bottom:16px;
+  margin-bottom:15px;
 }
 
 .message-text{
   font-family:'Cormorant Garamond',serif;
   font-size:19px;
   line-height:1.75;
-  color:var(--ivory);
 }
 
-.message-text .highlight{
+.love{
+  color:var(--pink);
+}
+
+.highlight{
   color:var(--gold);
   font-style:italic;
 }
 
-.message-text .love{
-  color:#df9bb2;
+/* Zone cachée */
+.hidden-message{
+  max-height:0;
+  overflow:hidden;
+  opacity:0;
+  margin-top:0;
+  transition:
+    max-height 1.4s ease,
+    opacity 1s ease,
+    margin-top 1s ease;
 }
 
-/* Question finale */
-.question{
+.hidden-message.show{
+  max-height:600px;
+  opacity:1;
   margin-top:30px;
-  padding:25px 18px;
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
+}
+
+.eternity{
+  padding:28px 18px;
+  border-top:1px solid rgba(213,176,106,.25);
+  border-bottom:1px solid rgba(213,176,106,.25);
+}
+
+.eternity .big-heart{
+  font-size:32px;
+  margin-bottom:12px;
+}
+
+.eternity h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:30px;
+  font-weight:500;
+  color:var(--gold);
+  line-height:1.3;
+}
+
+.eternity p{
+  margin-top:18px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:19px;
+  line-height:1.7;
+}
+
+.signature{
+  margin-top:20px;
+  color:var(--pink);
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size:22px;
+}
+
+/* Bouton */
+.instruction{
+  margin-top:22px;
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:#817970;
+}
+
+.question{
+  margin-top:28px;
 }
 
 .question p{
   font-family:'Cormorant Garamond',serif;
   font-style:italic;
-  font-size:25px;
-  line-height:1.45;
+  font-size:24px;
 }
 
-.ring{
-  display:block;
-  font-size:30px;
-  margin-bottom:10px;
-}
-
-/* Bouton */
-.button-area{
-  margin-top:30px;
-}
-
-.reveal-btn{
-  border:1px solid var(--gold);
-  background:transparent;
-  color:var(--gold);
-  padding:13px 28px;
-  font-family:'Jost',sans-serif;
-  font-size:11px;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-  cursor:pointer;
-  transition:.35s ease;
-}
-
-.reveal-btn:hover{
-  background:var(--gold);
-  color:var(--black);
-  box-shadow:0 0 25px rgba(213,176,106,.18);
-}
-
-.answer{
-  display:none;
-  margin-top:22px;
-  animation:fadeAnswer .8s ease;
-}
-
-@keyframes fadeAnswer{
-  from{
-    opacity:0;
-    transform:translateY(10px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-.answer-text{
-  font-family:'Cormorant Garamond',serif;
-  font-size:22px;
-  color:var(--ivory);
-}
-
-.yes{
-  margin-top:14px;
-  font-size:30px;
-  color:var(--gold);
-}
-
-/* Footer */
 footer{
-  margin-top:34px;
+  margin-top:32px;
   color:#625c54;
   font-size:9px;
   letter-spacing:.25em;
   text-transform:uppercase;
 }
 
-/* Mobile */
 @media(max-width:520px){
-  body{
-    padding:18px 12px;
-  }
-
   .card{
     padding:42px 20px 32px;
   }
 
   .message-box{
-    padding:23px 18px;
+    padding:22px 18px;
   }
 
   .message-text{
     font-size:17px;
-    line-height:1.7;
   }
 
-  .question p{
-    font-size:22px;
+  .eternity h2{
+    font-size:27px;
   }
 }
 </style>
@@ -353,21 +325,21 @@ footer{
 
 <div class="card">
 
-<span class="corner one"></span> <span class="corner two"></span>
+  <!-- BOUTON CŒUR -->
 
-  <div class="heart">
+  <button class="heart-button" id="heartButton" aria-label="Ouvrir mon message">
     <span>♥</span>
-  </div>
+  </button>
 
-  <div class="small-title">Une lettre pour toi</div>
+  <div class="small-title">Une lettre du cœur</div>
 
   <h1>Fenshy</h1>
 
-  <div class="subtitle">
-    Mon amour
-  </div>
+  <div class="subtitle">Mon amour</div>
 
   <div class="line"></div>
+
+  <!-- MESSAGE PRINCIPAL -->
 
   <div class="message-box">
 
@@ -380,85 +352,165 @@ footer{
 
   Fenshy,<br><br>
 
-  Il y a des personnes qui entrent dans notre vie et qui finissent par lui donner une toute autre couleur.
-  Pour moi, tu es devenue une personne particulièrement importante, quelqu’un que j’apprécie profondément
-  et dont la présence compte énormément à mes yeux.
+  Il y a des personnes qui arrivent dans notre vie sans prévenir,
+  mais qui finissent par y occuper une place que personne d'autre ne peut remplacer.
 
   <br><br>
 
-  Je veux que tu saches à quel point mes sentiments pour toi sont sincères.
-  <span class="love">Je t’aime pour la personne que tu es</span>,
-  pour ta façon d’être, pour les moments que nous partageons et pour tout ce que tu représentes dans ma vie.
+  Pour moi, tu es devenue cette personne.
+  Ta présence apporte quelque chose de précieux à ma vie,
+  et chaque moment partagé avec toi a une valeur particulière.
 
   <br><br>
 
-  Aujourd’hui, je ne veux pas seulement te dire
-  <span class="highlight">« je t’aime »</span>.
-  Je veux te demander quelque chose qui représente un engagement encore plus grand.
+  <span class="love">
+    Je t'aime pour la personne que tu es,
+  </span>
+  pour ton sourire, ta façon d'être,
+  tes qualités, tes petits défauts et tout ce qui fait que tu es simplement toi.
 
   <br><br>
 
-  Fenshy, accepterais-tu de m’épouser et de construire avec moi une vie fondée sur
-  <span class="highlight">l’amour, le respect, la confiance et le soutien mutuel</span> ?
+  Je ne cherche pas une histoire parfaite.
+  Je cherche une histoire vraie, construite avec de la confiance,
+  du respect, de la patience et beaucoup d'amour.
 
   <br><br>
 
-  Je ne te promets pas que tout sera toujours parfait,
-  mais je peux te promettre de toujours faire de mon mieux pour avancer à tes côtés,
-  te respecter et prendre soin de notre relation.
+  Si la vie est un long voyage,
+  alors j'aimerais que certains de mes plus beaux souvenirs soient écrits avec toi.
 
 </p>
 ```
 
   </div>
 
+  <!-- MESSAGE QUI APPARAÎT APRÈS LE CLIC -->
+
+  <div class="hidden-message" id="hiddenMessage">
+
+```
+<div class="eternity">
+
+  <div class="big-heart">❤️</div>
+
+  <h2>
+    Veux-tu rester pour l'éternité ?
+  </h2>
+
+  <p>
+    Je ne te demande pas de me promettre que chaque journée sera parfaite.
+    Je te demande simplement si tu veux continuer à avancer,
+    apprendre, grandir et partager de beaux moments ensemble.
+
+    <br><br>
+
+    Parce que certaines personnes sont des rencontres,
+    et d'autres deviennent une partie de notre histoire.
+
+    <br><br>
+
+    Et si je pouvais choisir une personne avec qui écrire
+    les prochaines pages de ma vie,
+    j'aimerais que ce soit toi.
+
+    <br><br>
+
+    <span class="highlight">
+      Je veux être là dans les beaux jours,
+      mais aussi dans les moments difficiles.
+    </span>
+
+    <br><br>
+
+    Je veux rire avec toi,
+    créer des souvenirs avec toi
+    et regarder un jour derrière nous en nous disant :
+    <span class="love">
+      « Nous avons construit quelque chose de magnifique. »
+    </span>
+  </p>
+
   <div class="question">
-    <span class="ring">💍</span>
     <p>
-      Fenshy,<br>
-      veux-tu devenir ma femme ?
+      Alors Fenshy…<br><br>
+      <strong>veux-tu rester à mes côtés pour l'éternité ?</strong>
     </p>
   </div>
 
-  <div class="button-area">
-    <button class="reveal-btn" onclick="revealMessage()">
-      Ouvrir mon dernier message
-    </button>
-
-```
-<div class="answer" id="answer">
-  <p class="answer-text">
-    Peu importe le temps que prendra ta réponse,
-    sache que cette question vient sincèrement du cœur.
-  </p>
-
-  <div class="yes">
-    ❤️ 💍 ❤️
+  <div class="signature">
+    Avec tout mon cœur ❤️
   </div>
+
 </div>
 ```
 
   </div>
 
+  <div class="instruction" id="instruction">
+    Appuie sur le cœur
+  </div>
+
   <footer>
-    Fenshy · Une lettre du cœur
+    Fenshy · Une histoire à écrire ensemble
   </footer>
 
 </div>
 
 <script>
-function revealMessage(){
-  const answer = document.getElementById("answer");
-  const button = document.querySelector(".reveal-btn");
 
-  if(answer.style.display === "block"){
-    answer.style.display = "none";
-    button.textContent = "Ouvrir mon dernier message";
-  }else{
-    answer.style.display = "block";
-    button.textContent = "Masquer le message";
+const heartButton = document.getElementById("heartButton");
+const hiddenMessage = document.getElementById("hiddenMessage");
+const instruction = document.getElementById("instruction");
+
+heartButton.addEventListener("click", function(){
+
+  heartButton.classList.add("clicked");
+
+  hiddenMessage.classList.add("show");
+
+  instruction.textContent = "Un message rien que pour toi ❤️";
+
+  createHearts();
+
+  setTimeout(() => {
+    hiddenMessage.scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+  },500);
+
+  setTimeout(() => {
+    heartButton.classList.remove("clicked");
+  },900);
+
+});
+
+
+/* Création de petits cœurs flottants */
+function createHearts(){
+
+  for(let i=0;i<18;i++){
+
+    const heart=document.createElement("div");
+
+    heart.className="floating-heart";
+    heart.innerHTML="♥";
+
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.top=(70+Math.random()*25)+"vh";
+    heart.style.fontSize=(12+Math.random()*22)+"px";
+    heart.style.animationDuration=(3+Math.random()*3)+"s";
+    heart.style.animationDelay=(Math.random()*1)+"s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(()=>{
+      heart.remove();
+    },6500);
   }
 }
+
 </script>
 
 </body>
