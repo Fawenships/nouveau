@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="MonQuotidien">
 
-<link rel="manifest" href="manifest.webmanifest">
+<link rel="manifest" href="./manifest.webmanifest">
 
 <style>
 :root{
@@ -148,6 +148,7 @@ button{
     align-items:center;
     justify-content:space-between;
     margin-bottom:25px;
+    gap:15px;
 }
 
 .topbar h2{
@@ -160,8 +161,9 @@ button{
     font-size:14px;
 }
 
+/* INSTALLATION */
 .install-btn{
-    display:none;
+    display:block;
     border:0;
     background:var(--primary);
     color:white;
@@ -169,10 +171,18 @@ button{
     border-radius:10px;
     font-weight:700;
     box-shadow:0 5px 18px rgba(36,17,63,.18);
+    cursor:pointer;
+    transition:.2s;
+    white-space:nowrap;
 }
 
 .install-btn:hover{
     background:var(--primary2);
+    transform:translateY(-1px);
+}
+
+.install-btn:active{
+    transform:translateY(0);
 }
 
 /* PAGES */
@@ -247,6 +257,7 @@ button{
     justify-content:space-between;
     align-items:center;
     margin-bottom:18px;
+    gap:10px;
 }
 
 .section-header h3{
@@ -482,6 +493,7 @@ th{
     align-items:center;
     padding:16px 0;
     border-bottom:1px solid var(--border);
+    gap:15px;
 }
 
 .setting:last-child{
@@ -505,6 +517,7 @@ th{
 
 /* RESPONSIVE */
 @media(max-width:1100px){
+
     .cards{
         grid-template-columns:repeat(2,1fr);
     }
@@ -512,9 +525,11 @@ th{
     .grid{
         grid-template-columns:1fr;
     }
+
 }
 
 @media(max-width:760px){
+
     .sidebar{
         display:none;
     }
@@ -578,9 +593,11 @@ th{
         color:var(--primary);
         font-weight:800;
     }
+
 }
 
 @media(max-width:450px){
+
     .cards{
         grid-template-columns:1fr;
     }
@@ -592,6 +609,7 @@ th{
     .install-btn{
         width:100%;
     }
+
 }
 
 /* DARK MODE */
@@ -667,10 +685,12 @@ body.dark .progress{
         </nav>
 
         <div class="sidebar-bottom">
+
             <div class="developer">
                 Développé par
                 <strong>Fawenbert Régis</strong>
             </div>
+
         </div>
 
     </aside>
@@ -700,22 +720,30 @@ body.dark .progress{
 
                 <div class="card">
                     <div class="card-label">Solde actuel</div>
-                    <div class="card-value purple" id="homeBalance">0 HTG</div>
+                    <div class="card-value purple" id="homeBalance">
+                        0 HTG
+                    </div>
                 </div>
 
                 <div class="card">
                     <div class="card-label">Revenus du mois</div>
-                    <div class="card-value green" id="homeIncome">0 HTG</div>
+                    <div class="card-value green" id="homeIncome">
+                        0 HTG
+                    </div>
                 </div>
 
                 <div class="card">
                     <div class="card-label">Dépenses du mois</div>
-                    <div class="card-value red" id="homeExpenses">0 HTG</div>
+                    <div class="card-value red" id="homeExpenses">
+                        0 HTG
+                    </div>
                 </div>
 
                 <div class="card">
                     <div class="card-label">Épargne</div>
-                    <div class="card-value blue" id="homeSavings">0 HTG</div>
+                    <div class="card-value blue" id="homeSavings">
+                        0 HTG
+                    </div>
                 </div>
 
             </div>
@@ -726,12 +754,14 @@ body.dark .progress{
                 <div class="section">
 
                     <div class="section-header">
+
                         <h3>Transactions récentes</h3>
 
                         <button class="btn btn-primary"
                                 onclick="openModal('expenseModal')">
                             + Dépense
                         </button>
+
                     </div>
 
                     <div id="recentTransactions"></div>
@@ -742,12 +772,14 @@ body.dark .progress{
                 <div class="section">
 
                     <div class="section-header">
+
                         <h3>Mes tâches</h3>
 
                         <button class="btn btn-secondary"
                                 onclick="openModal('taskModal')">
                             + Tâche
                         </button>
+
                     </div>
 
                     <div id="todayTasks"></div>
@@ -789,6 +821,7 @@ body.dark .progress{
                     <table>
 
                         <thead>
+
                             <tr>
                                 <th>Date</th>
                                 <th>Type</th>
@@ -797,6 +830,7 @@ body.dark .progress{
                                 <th>Montant</th>
                                 <th>Action</th>
                             </tr>
+
                         </thead>
 
                         <tbody id="transactionsTable"></tbody>
@@ -888,22 +922,30 @@ body.dark .progress{
 
                 <div class="card">
                     <div class="card-label">Total revenus</div>
-                    <div class="card-value green" id="statIncome">0 HTG</div>
+                    <div class="card-value green" id="statIncome">
+                        0 HTG
+                    </div>
                 </div>
 
                 <div class="card">
                     <div class="card-label">Total dépenses</div>
-                    <div class="card-value red" id="statExpenses">0 HTG</div>
+                    <div class="card-value red" id="statExpenses">
+                        0 HTG
+                    </div>
                 </div>
 
                 <div class="card">
                     <div class="card-label">Solde</div>
-                    <div class="card-value purple" id="statBalance">0 HTG</div>
+                    <div class="card-value purple" id="statBalance">
+                        0 HTG
+                    </div>
                 </div>
 
                 <div class="card">
                     <div class="card-label">Objectifs d'épargne</div>
-                    <div class="card-value blue" id="statSavings">0 HTG</div>
+                    <div class="card-value blue" id="statSavings">
+                        0 HTG
+                    </div>
                 </div>
 
             </div>
@@ -930,11 +972,14 @@ body.dark .progress{
                     <h3>Paramètres</h3>
                 </div>
 
+
                 <div class="setting">
 
                     <div class="setting-info">
                         <strong>Thème sombre</strong>
-                        <span>Modifier l'apparence de MonQuotidien</span>
+                        <span>
+                            Modifier l'apparence de MonQuotidien
+                        </span>
                     </div>
 
                     <button class="btn btn-secondary"
@@ -948,8 +993,10 @@ body.dark .progress{
                 <div class="setting">
 
                     <div class="setting-info">
-                        <strong>Devéloppeur</strong>
-                        <span>Créateur de MonQuotidien</span>
+                        <strong>Développeur</strong>
+                        <span>
+                            Créateur de MonQuotidien
+                        </span>
                     </div>
 
                     <strong>Fawenbert Régis</strong>
@@ -961,7 +1008,9 @@ body.dark .progress{
 
                     <div class="setting-info">
                         <strong>Sauvegarder les données</strong>
-                        <span>Exporter toutes vos données locales</span>
+                        <span>
+                            Exporter toutes vos données locales
+                        </span>
                     </div>
 
                     <button class="btn btn-secondary"
@@ -976,7 +1025,9 @@ body.dark .progress{
 
                     <div class="setting-info">
                         <strong>Réinitialiser</strong>
-                        <span>Supprimer toutes les données locales</span>
+                        <span>
+                            Supprimer toutes les données locales
+                        </span>
                     </div>
 
                     <button class="btn btn-danger"
@@ -1040,22 +1091,29 @@ body.dark .progress{
         <form id="incomeForm">
 
             <div class="form-group">
+
                 <label>Montant</label>
+
                 <input type="number"
                        id="incomeAmount"
                        min="0"
                        step="0.01"
                        required>
+
             </div>
 
             <div class="form-group">
+
                 <label>Description</label>
+
                 <input type="text"
                        id="incomeDescription"
                        placeholder="Ex : Salaire">
+
             </div>
 
             <div class="form-group">
+
                 <label>Catégorie</label>
 
                 <select id="incomeCategory">
@@ -1101,6 +1159,7 @@ body.dark .progress{
         <form id="expenseForm">
 
             <div class="form-group">
+
                 <label>Montant</label>
 
                 <input type="number"
@@ -1108,6 +1167,7 @@ body.dark .progress{
                        min="0"
                        step="0.01"
                        required>
+
             </div>
 
             <div class="form-group">
@@ -1130,7 +1190,9 @@ body.dark .progress{
                     <option value="Transport">Transport</option>
                     <option value="Logement">Logement</option>
                     <option value="Éducation">Éducation</option>
-                    <option value="Téléphone/Internet">Téléphone/Internet</option>
+                    <option value="Téléphone/Internet">
+                        Téléphone/Internet
+                    </option>
                     <option value="Santé">Santé</option>
                     <option value="Loisirs">Loisirs</option>
                     <option value="Shopping">Shopping</option>
@@ -1342,7 +1404,10 @@ function openDatabase(){
 
                 database.createObjectStore(
                     "comptes",
-                    {keyPath:"id",autoIncrement:true}
+                    {
+                        keyPath:"id",
+                        autoIncrement:true
+                    }
                 );
 
             }
@@ -1352,19 +1417,26 @@ function openDatabase(){
                 const store =
                     database.createObjectStore(
                         "transactions",
-                        {keyPath:"id",autoIncrement:true}
+                        {
+                            keyPath:"id",
+                            autoIncrement:true
+                        }
                     );
 
                 store.createIndex(
                     "date",
                     "date",
-                    {unique:false}
+                    {
+                        unique:false
+                    }
                 );
 
                 store.createIndex(
                     "type",
                     "type",
-                    {unique:false}
+                    {
+                        unique:false
+                    }
                 );
 
             }
@@ -1373,7 +1445,10 @@ function openDatabase(){
 
                 database.createObjectStore(
                     "objectifs",
-                    {keyPath:"id",autoIncrement:true}
+                    {
+                        keyPath:"id",
+                        autoIncrement:true
+                    }
                 );
 
             }
@@ -1382,7 +1457,10 @@ function openDatabase(){
 
                 database.createObjectStore(
                     "taches",
-                    {keyPath:"id",autoIncrement:true}
+                    {
+                        keyPath:"id",
+                        autoIncrement:true
+                    }
                 );
 
             }
@@ -1391,7 +1469,10 @@ function openDatabase(){
 
                 database.createObjectStore(
                     "rappels",
-                    {keyPath:"id",autoIncrement:true}
+                    {
+                        keyPath:"id",
+                        autoIncrement:true
+                    }
                 );
 
             }
@@ -1400,7 +1481,10 @@ function openDatabase(){
 
                 database.createObjectStore(
                     "budgets",
-                    {keyPath:"id",autoIncrement:true}
+                    {
+                        keyPath:"id",
+                        autoIncrement:true
+                    }
                 );
 
             }
@@ -1409,7 +1493,9 @@ function openDatabase(){
 
                 database.createObjectStore(
                     "parametres",
-                    {keyPath:"id"}
+                    {
+                        keyPath:"id"
+                    }
                 );
 
             }
@@ -1443,18 +1529,20 @@ function openDatabase(){
 
 async function initializeData(){
 
-    const accounts = await getAll("comptes");
+    const accounts =
+        await getAll("comptes");
 
     if(accounts.length === 0){
 
-        await addData("comptes",{
-
-            name:"Cash",
-            balance:0,
-            currency:"HTG",
-            createdAt:new Date().toISOString()
-
-        });
+        await addData(
+            "comptes",
+            {
+                name:"Cash",
+                balance:0,
+                currency:"HTG",
+                createdAt:new Date().toISOString()
+            }
+        );
 
     }
 
@@ -1472,17 +1560,24 @@ function addData(storeName,data){
     return new Promise((resolve,reject)=>{
 
         const transaction =
-            db.transaction(storeName,"readwrite");
+            db.transaction(
+                storeName,
+                "readwrite"
+            );
 
         const store =
-            transaction.objectStore(storeName);
+            transaction.objectStore(
+                storeName
+            );
 
         const request =
             store.add(data);
 
-        request.onsuccess = () => resolve(request.result);
+        request.onsuccess =
+            () => resolve(request.result);
 
-        request.onerror = () => reject(request.error);
+        request.onerror =
+            () => reject(request.error);
 
     });
 
@@ -1494,17 +1589,24 @@ function getAll(storeName){
     return new Promise((resolve,reject)=>{
 
         const transaction =
-            db.transaction(storeName,"readonly");
+            db.transaction(
+                storeName,
+                "readonly"
+            );
 
         const store =
-            transaction.objectStore(storeName);
+            transaction.objectStore(
+                storeName
+            );
 
         const request =
             store.getAll();
 
-        request.onsuccess = () => resolve(request.result);
+        request.onsuccess =
+            () => resolve(request.result);
 
-        request.onerror = () => reject(request.error);
+        request.onerror =
+            () => reject(request.error);
 
     });
 
@@ -1516,17 +1618,24 @@ function deleteData(storeName,id){
     return new Promise((resolve,reject)=>{
 
         const transaction =
-            db.transaction(storeName,"readwrite");
+            db.transaction(
+                storeName,
+                "readwrite"
+            );
 
         const store =
-            transaction.objectStore(storeName);
+            transaction.objectStore(
+                storeName
+            );
 
         const request =
             store.delete(id);
 
-        request.onsuccess = () => resolve();
+        request.onsuccess =
+            () => resolve();
 
-        request.onerror = () => reject(request.error);
+        request.onerror =
+            () => reject(request.error);
 
     });
 
@@ -1554,34 +1663,48 @@ function showPage(page){
 
     document.querySelectorAll(".page")
         .forEach(el=>{
+
             el.classList.remove("active");
+
         });
+
 
     const target =
         document.getElementById(page);
 
+
     if(target){
+
         target.classList.add("active");
+
     }
+
 
     document.querySelectorAll(".nav-btn")
         .forEach(btn=>{
+
             btn.classList.toggle(
                 "active",
                 btn.dataset.page === page
             );
+
         });
+
 
     document.querySelectorAll(".mobile-nav-btn")
         .forEach(btn=>{
+
             btn.classList.toggle(
                 "active",
                 btn.dataset.page === page
             );
+
         });
 
+
     document.getElementById("pageTitle")
-        .textContent = titles[page] || "MonQuotidien";
+        .textContent =
+        titles[page] || "MonQuotidien";
 
 }
 
@@ -1589,11 +1712,12 @@ function showPage(page){
 document.querySelectorAll(".nav-btn")
 .forEach(button=>{
 
-    button.addEventListener("click",()=>{
-
-        showPage(button.dataset.page);
-
-    });
+    button.addEventListener(
+        "click",
+        ()=>{
+            showPage(button.dataset.page);
+        }
+    );
 
 });
 
@@ -1601,11 +1725,12 @@ document.querySelectorAll(".nav-btn")
 document.querySelectorAll(".mobile-nav-btn")
 .forEach(button=>{
 
-    button.addEventListener("click",()=>{
-
-        showPage(button.dataset.page);
-
-    });
+    button.addEventListener(
+        "click",
+        ()=>{
+            showPage(button.dataset.page);
+        }
+    );
 
 });
 
@@ -1633,15 +1758,18 @@ function closeModal(id){
 document.querySelectorAll(".modal")
 .forEach(modal=>{
 
-    modal.addEventListener("click",event=>{
+    modal.addEventListener(
+        "click",
+        event=>{
 
-        if(event.target === modal){
+            if(event.target === modal){
 
-            modal.classList.remove("show");
+                modal.classList.remove("show");
+
+            }
 
         }
-
-    });
+    );
 
 });
 
@@ -1678,10 +1806,13 @@ updateDate();
 function formatMoney(value){
 
     return Number(value || 0)
-        .toLocaleString("fr-FR",{
-            minimumFractionDigits:2,
-            maximumFractionDigits:2
-        }) + " HTG";
+        .toLocaleString(
+            "fr-FR",
+            {
+                minimumFractionDigits:2,
+                maximumFractionDigits:2
+            }
+        ) + " HTG";
 
 }
 
@@ -1707,6 +1838,7 @@ async function refreshTransactions(){
     const transactions =
         await getAll("transactions");
 
+
     transactions.sort(
         (a,b)=>
             new Date(b.date) -
@@ -1715,7 +1847,10 @@ async function refreshTransactions(){
 
 
     const tbody =
-        document.getElementById("transactionsTable");
+        document.getElementById(
+            "transactionsTable"
+        );
+
 
     if(!transactions.length){
 
@@ -1734,6 +1869,7 @@ async function refreshTransactions(){
                 const isIncome =
                     t.type === "income";
 
+
                 return `
                     <tr>
 
@@ -1745,20 +1881,31 @@ async function refreshTransactions(){
                         </td>
 
                         <td>
-                            ${isIncome ? "Revenu" : "Dépense"}
+                            ${isIncome
+                                ? "Revenu"
+                                : "Dépense"}
                         </td>
 
                         <td>
-                            ${escapeHTML(t.description || "-")}
+                            ${escapeHTML(
+                                t.description || "-"
+                            )}
                         </td>
 
                         <td>
-                            ${escapeHTML(t.category || "-")}
+                            ${escapeHTML(
+                                t.category || "-"
+                            )}
                         </td>
 
-                        <td class="${isIncome ? "green":"red"}">
+                        <td class="${isIncome
+                            ? "green"
+                            : "red"}">
+
                             ${isIncome ? "+" : "-"}
+
                             ${formatMoney(t.amount)}
+
                         </td>
 
                         <td>
@@ -1766,7 +1913,9 @@ async function refreshTransactions(){
                             <button
                                 class="btn btn-danger"
                                 onclick="removeTransaction(${t.id})">
+
                                 Supprimer
+
                             </button>
 
                         </td>
@@ -1780,7 +1929,10 @@ async function refreshTransactions(){
 
 
     const recent =
-        document.getElementById("recentTransactions");
+        document.getElementById(
+            "recentTransactions"
+        );
+
 
     if(!transactions.length){
 
@@ -1792,10 +1944,13 @@ async function refreshTransactions(){
     }else{
 
         recent.innerHTML =
-            transactions.slice(0,5).map(t=>{
+            transactions
+            .slice(0,5)
+            .map(t=>{
 
                 const income =
                     t.type === "income";
+
 
                 return `
 
@@ -1804,23 +1959,33 @@ async function refreshTransactions(){
                         <div class="transaction-info">
 
                             <div class="transaction-title">
+
                                 ${escapeHTML(
                                     t.description ||
                                     t.category ||
                                     "Transaction"
                                 )}
+
                             </div>
 
                             <div class="transaction-meta">
-                                ${escapeHTML(t.category || "")}
+
+                                ${escapeHTML(
+                                    t.category || ""
+                                )}
+
                             </div>
 
                         </div>
 
+
                         <div class="transaction-amount
-                            ${income ? "green":"red"}">
+                            ${income
+                                ? "green"
+                                : "red"}">
 
                             ${income ? "+" : "-"}
+
                             ${formatMoney(t.amount)}
 
                         </div>
@@ -1838,9 +2003,18 @@ async function refreshTransactions(){
 
 async function removeTransaction(id){
 
-    if(!confirm("Supprimer cette transaction ?")) return;
+    if(
+        !confirm(
+            "Supprimer cette transaction ?"
+        )
+    ) return;
 
-    await deleteData("transactions",id);
+
+    await deleteData(
+        "transactions",
+        id
+    );
+
 
     refreshAll();
 
@@ -1852,39 +2026,58 @@ async function removeTransaction(id){
 --------------------------------------------------------- */
 
 document.getElementById("incomeForm")
-.addEventListener("submit",async event=>{
+.addEventListener(
+    "submit",
+    async event=>{
 
-    event.preventDefault();
+        event.preventDefault();
 
-    const amount =
-        Number(
-            document.getElementById("incomeAmount").value
+
+        const amount =
+            Number(
+                document.getElementById(
+                    "incomeAmount"
+                ).value
+            );
+
+
+        const description =
+            document.getElementById(
+                "incomeDescription"
+            ).value;
+
+
+        const category =
+            document.getElementById(
+                "incomeCategory"
+            ).value;
+
+
+        await addData(
+            "transactions",
+            {
+                type:"income",
+                amount,
+                description,
+                category,
+                date:new Date().toISOString(),
+                accountId:1
+            }
         );
 
-    const description =
-        document.getElementById("incomeDescription").value;
 
-    const category =
-        document.getElementById("incomeCategory").value;
+        event.target.reset();
 
-    await addData("transactions",{
 
-        type:"income",
-        amount,
-        description,
-        category,
-        date:new Date().toISOString(),
-        accountId:1
+        closeModal(
+            "incomeModal"
+        );
 
-    });
 
-    event.target.reset();
+        refreshAll();
 
-    closeModal("incomeModal");
-
-    refreshAll();
-
-});
+    }
+);
 
 
 /* ---------------------------------------------------------
@@ -1892,39 +2085,58 @@ document.getElementById("incomeForm")
 --------------------------------------------------------- */
 
 document.getElementById("expenseForm")
-.addEventListener("submit",async event=>{
+.addEventListener(
+    "submit",
+    async event=>{
 
-    event.preventDefault();
+        event.preventDefault();
 
-    const amount =
-        Number(
-            document.getElementById("expenseAmount").value
+
+        const amount =
+            Number(
+                document.getElementById(
+                    "expenseAmount"
+                ).value
+            );
+
+
+        const description =
+            document.getElementById(
+                "expenseDescription"
+            ).value;
+
+
+        const category =
+            document.getElementById(
+                "expenseCategory"
+            ).value;
+
+
+        await addData(
+            "transactions",
+            {
+                type:"expense",
+                amount,
+                description,
+                category,
+                date:new Date().toISOString(),
+                accountId:1
+            }
         );
 
-    const description =
-        document.getElementById("expenseDescription").value;
 
-    const category =
-        document.getElementById("expenseCategory").value;
+        event.target.reset();
 
-    await addData("transactions",{
 
-        type:"expense",
-        amount,
-        description,
-        category,
-        date:new Date().toISOString(),
-        accountId:1
+        closeModal(
+            "expenseModal"
+        );
 
-    });
 
-    event.target.reset();
+        refreshAll();
 
-    closeModal("expenseModal");
-
-    refreshAll();
-
-});
+    }
+);
 
 
 /* ---------------------------------------------------------
@@ -1932,52 +2144,80 @@ document.getElementById("expenseForm")
 --------------------------------------------------------- */
 
 document.getElementById("goalForm")
-.addEventListener("submit",async event=>{
+.addEventListener(
+    "submit",
+    async event=>{
 
-    event.preventDefault();
+        event.preventDefault();
 
-    const name =
-        document.getElementById("goalName").value;
 
-    const target =
-        Number(
-            document.getElementById("goalTarget").value
+        const name =
+            document.getElementById(
+                "goalName"
+            ).value;
+
+
+        const target =
+            Number(
+                document.getElementById(
+                    "goalTarget"
+                ).value
+            );
+
+
+        const current =
+            Number(
+                document.getElementById(
+                    "goalCurrent"
+                ).value
+            );
+
+
+        const targetDate =
+            document.getElementById(
+                "goalDate"
+            ).value;
+
+
+        await addData(
+            "objectifs",
+            {
+                name,
+                target,
+                current,
+                targetDate,
+                createdAt:new Date().toISOString()
+            }
         );
 
-    const current =
-        Number(
-            document.getElementById("goalCurrent").value
+
+        event.target.reset();
+
+
+        closeModal(
+            "goalModal"
         );
 
-    const targetDate =
-        document.getElementById("goalDate").value;
 
-    await addData("objectifs",{
+        refreshAll();
 
-        name,
-        target,
-        current,
-        targetDate,
-        createdAt:new Date().toISOString()
-
-    });
-
-    event.target.reset();
-
-    closeModal("goalModal");
-
-    refreshAll();
-
-});
+    }
+);
 
 
 async function refreshGoals(){
 
     const goals =
-        await getAll("objectifs");
+        await getAll(
+            "objectifs"
+        );
+
 
     const container =
-        document.getElementById("goalsList");
+        document.getElementById(
+            "goalsList"
+        );
+
 
     if(!goals.length){
 
@@ -1990,6 +2230,7 @@ async function refreshGoals(){
 
     }
 
+
     container.innerHTML =
         goals.map(goal=>{
 
@@ -1997,15 +2238,20 @@ async function refreshGoals(){
                 goal.target > 0
                 ? Math.min(
                     100,
-                    (goal.current / goal.target) * 100
+                    (goal.current /
+                        goal.target) *
+                        100
                 )
                 : 0;
+
 
             const remaining =
                 Math.max(
                     0,
-                    goal.target - goal.current
+                    goal.target -
+                    goal.current
                 );
+
 
             return `
 
@@ -2014,7 +2260,11 @@ async function refreshGoals(){
                     <div class="goal-top">
 
                         <span class="goal-name">
-                            ${escapeHTML(goal.name)}
+
+                            ${escapeHTML(
+                                goal.name
+                            )}
+
                         </span>
 
                         <span>
@@ -2023,22 +2273,34 @@ async function refreshGoals(){
 
                     </div>
 
+
                     <div class="progress">
 
-                        <div class="progress-bar"
-                             style="width:${percent}%">
+                        <div
+                            class="progress-bar"
+                            style="width:${percent}%">
                         </div>
 
                     </div>
 
+
                     <div class="list-meta">
 
-                        ${formatMoney(goal.current)}
+                        ${formatMoney(
+                            goal.current
+                        )}
+
                         sur
-                        ${formatMoney(goal.target)}
+
+                        ${formatMoney(
+                            goal.target
+                        )}
 
                         · Reste :
-                        ${formatMoney(remaining)}
+
+                        ${formatMoney(
+                            remaining
+                        )}
 
                     </div>
 
@@ -2056,50 +2318,78 @@ async function refreshGoals(){
 --------------------------------------------------------- */
 
 document.getElementById("taskForm")
-.addEventListener("submit",async event=>{
+.addEventListener(
+    "submit",
+    async event=>{
 
-    event.preventDefault();
+        event.preventDefault();
 
-    const title =
-        document.getElementById("taskTitle").value;
 
-    const description =
-        document.getElementById("taskDescription").value;
+        const title =
+            document.getElementById(
+                "taskTitle"
+            ).value;
 
-    const date =
-        document.getElementById("taskDate").value;
 
-    const time =
-        document.getElementById("taskTime").value;
+        const description =
+            document.getElementById(
+                "taskDescription"
+            ).value;
 
-    const priority =
-        document.getElementById("taskPriority").value;
 
-    await addData("taches",{
+        const date =
+            document.getElementById(
+                "taskDate"
+            ).value;
 
-        title,
-        description,
-        date,
-        time,
-        priority,
-        completed:false,
-        createdAt:new Date().toISOString()
 
-    });
+        const time =
+            document.getElementById(
+                "taskTime"
+            ).value;
 
-    event.target.reset();
 
-    closeModal("taskModal");
+        const priority =
+            document.getElementById(
+                "taskPriority"
+            ).value;
 
-    refreshAll();
 
-});
+        await addData(
+            "taches",
+            {
+                title,
+                description,
+                date,
+                time,
+                priority,
+                completed:false,
+                createdAt:new Date().toISOString()
+            }
+        );
+
+
+        event.target.reset();
+
+
+        closeModal(
+            "taskModal"
+        );
+
+
+        refreshAll();
+
+    }
+);
 
 
 async function refreshTasks(){
 
     const tasks =
-        await getAll("taches");
+        await getAll(
+            "taches"
+        );
+
 
     tasks.sort((a,b)=>{
 
@@ -2108,18 +2398,22 @@ async function refreshTasks(){
                 `${a.date}T${a.time || "00:00"}`
             );
 
+
         const dbb =
             new Date(
                 `${b.date}T${b.time || "00:00"}`
             );
 
-        return da-dbb;
+
+        return da - dbb;
 
     });
 
 
     const today =
-        new Date().toISOString().split("T")[0];
+        new Date()
+        .toISOString()
+        .split("T")[0];
 
 
     const todayTasks =
@@ -2129,7 +2423,9 @@ async function refreshTasks(){
 
 
     const todayContainer =
-        document.getElementById("todayTasks");
+        document.getElementById(
+            "todayTasks"
+        );
 
 
     if(!todayTasks.length){
@@ -2147,14 +2443,20 @@ async function refreshTasks(){
                 <div class="list-item">
 
                     <strong>
-                        ${escapeHTML(t.title)}
+                        ${escapeHTML(
+                            t.title
+                        )}
                     </strong>
 
                     <div class="list-meta">
 
                         ${t.time || "Sans heure"}
+
                         · Priorité :
-                        ${escapeHTML(t.priority)}
+
+                        ${escapeHTML(
+                            t.priority
+                        )}
 
                     </div>
 
@@ -2166,7 +2468,9 @@ async function refreshTasks(){
 
 
     const planning =
-        document.getElementById("planningList");
+        document.getElementById(
+            "planningList"
+        );
 
 
     if(!tasks.length){
@@ -2184,21 +2488,37 @@ async function refreshTasks(){
                 <div class="list-item">
 
                     <strong>
-                        ${escapeHTML(t.title)}
+                        ${escapeHTML(
+                            t.title
+                        )}
                     </strong>
 
                     <div class="list-meta">
 
-                        ${escapeHTML(t.date)}
-                        ${t.time ? " · " + escapeHTML(t.time) : ""}
-                        · ${escapeHTML(t.priority)}
+                        ${escapeHTML(
+                            t.date
+                        )}
+
+                        ${t.time
+                            ? " · " +
+                              escapeHTML(t.time)
+                            : ""}
+
+                        ·
+
+                        ${escapeHTML(
+                            t.priority
+                        )}
 
                     </div>
+
 
                     ${
                         t.description
                         ? `<div class="list-meta">
-                            ${escapeHTML(t.description)}
+                            ${escapeHTML(
+                                t.description
+                            )}
                            </div>`
                         : ""
                     }
@@ -2219,13 +2539,19 @@ async function refreshTasks(){
 async function refreshDashboard(){
 
     const transactions =
-        await getAll("transactions");
+        await getAll(
+            "transactions"
+        );
+
 
     const goals =
-        await getAll("objectifs");
+        await getAll(
+            "objectifs"
+        );
 
 
     let income = 0;
+
     let expenses = 0;
 
 
@@ -2233,11 +2559,17 @@ async function refreshDashboard(){
 
         if(t.type === "income"){
 
-            income += Number(t.amount || 0);
+            income +=
+                Number(
+                    t.amount || 0
+                );
 
         }else if(t.type === "expense"){
 
-            expenses += Number(t.amount || 0);
+            expenses +=
+                Number(
+                    t.amount || 0
+                );
 
         }
 
@@ -2251,61 +2583,104 @@ async function refreshDashboard(){
     const savings =
         goals.reduce(
             (sum,g)=>
-                sum + Number(g.current || 0),
+                sum +
+                Number(
+                    g.current || 0
+                ),
             0
         );
 
 
-    document.getElementById("homeBalance")
-        .textContent = formatMoney(balance);
-
-    document.getElementById("homeIncome")
-        .textContent = formatMoney(income);
-
-    document.getElementById("homeExpenses")
-        .textContent = formatMoney(expenses);
-
-    document.getElementById("homeSavings")
-        .textContent = formatMoney(savings);
+    document.getElementById(
+        "homeBalance"
+    ).textContent =
+        formatMoney(balance);
 
 
-    document.getElementById("statIncome")
-        .textContent = formatMoney(income);
-
-    document.getElementById("statExpenses")
-        .textContent = formatMoney(expenses);
-
-    document.getElementById("statBalance")
-        .textContent = formatMoney(balance);
-
-    document.getElementById("statSavings")
-        .textContent = formatMoney(savings);
+    document.getElementById(
+        "homeIncome"
+    ).textContent =
+        formatMoney(income);
 
 
-    document.getElementById("statisticsContent")
-        .innerHTML = `
+    document.getElementById(
+        "homeExpenses"
+    ).textContent =
+        formatMoney(expenses);
 
-            <p>
-                Revenus enregistrés :
-                <strong>${formatMoney(income)}</strong>
-            </p>
 
-            <p style="margin-top:10px;">
-                Dépenses enregistrées :
-                <strong>${formatMoney(expenses)}</strong>
-            </p>
+    document.getElementById(
+        "homeSavings"
+    ).textContent =
+        formatMoney(savings);
 
-            <p style="margin-top:10px;">
-                Solde :
-                <strong>${formatMoney(balance)}</strong>
-            </p>
 
-            <p style="margin-top:10px;">
-                Épargne actuelle :
-                <strong>${formatMoney(savings)}</strong>
-            </p>
+    document.getElementById(
+        "statIncome"
+    ).textContent =
+        formatMoney(income);
 
-        `;
+
+    document.getElementById(
+        "statExpenses"
+    ).textContent =
+        formatMoney(expenses);
+
+
+    document.getElementById(
+        "statBalance"
+    ).textContent =
+        formatMoney(balance);
+
+
+    document.getElementById(
+        "statSavings"
+    ).textContent =
+        formatMoney(savings);
+
+
+    document.getElementById(
+        "statisticsContent"
+    ).innerHTML = `
+
+        <p>
+            Revenus enregistrés :
+            <strong>
+                ${formatMoney(income)}
+            </strong>
+        </p>
+
+        <p style="margin-top:10px;">
+
+            Dépenses enregistrées :
+
+            <strong>
+                ${formatMoney(expenses)}
+            </strong>
+
+        </p>
+
+        <p style="margin-top:10px;">
+
+            Solde :
+
+            <strong>
+                ${formatMoney(balance)}
+            </strong>
+
+        </p>
+
+        <p style="margin-top:10px;">
+
+            Épargne actuelle :
+
+            <strong>
+                ${formatMoney(savings)}
+            </strong>
+
+        </p>
+
+    `;
 
 }
 
@@ -2358,7 +2733,10 @@ async function requestNotificationPermission(){
 
 function toggleDarkMode(){
 
-    document.body.classList.toggle("dark");
+    document.body.classList.toggle(
+        "dark"
+    );
+
 
     localStorage.setItem(
         "monquotidien_dark",
@@ -2370,9 +2748,15 @@ function toggleDarkMode(){
 }
 
 
-if(localStorage.getItem("monquotidien_dark") === "1"){
+if(
+    localStorage.getItem(
+        "monquotidien_dark"
+    ) === "1"
+){
 
-    document.body.classList.add("dark");
+    document.body.classList.add(
+        "dark"
+    );
 
 }
 
@@ -2386,25 +2770,39 @@ async function exportData(){
     const data = {
 
         comptes:
-            await getAll("comptes"),
+            await getAll(
+                "comptes"
+            ),
 
         transactions:
-            await getAll("transactions"),
+            await getAll(
+                "transactions"
+            ),
 
         objectifs:
-            await getAll("objectifs"),
+            await getAll(
+                "objectifs"
+            ),
 
         taches:
-            await getAll("taches"),
+            await getAll(
+                "taches"
+            ),
 
         rappels:
-            await getAll("rappels"),
+            await getAll(
+                "rappels"
+            ),
 
         budgets:
-            await getAll("budgets"),
+            await getAll(
+                "budgets"
+            ),
 
         parametres:
-            await getAll("parametres")
+            await getAll(
+                "parametres"
+            )
 
     };
 
@@ -2425,20 +2823,30 @@ async function exportData(){
 
 
     const url =
-        URL.createObjectURL(blob);
+        URL.createObjectURL(
+            blob
+        );
 
 
     const a =
-        document.createElement("a");
+        document.createElement(
+            "a"
+        );
+
 
     a.href = url;
+
 
     a.download =
         "monquotidien-sauvegarde.json";
 
+
     a.click();
 
-    URL.revokeObjectURL(url);
+
+    URL.revokeObjectURL(
+        url
+    );
 
 }
 
@@ -2454,6 +2862,7 @@ async function resetDatabase(){
             "Attention : toutes les données de MonQuotidien seront supprimées. Continuer ?"
         );
 
+
     if(!confirmed) return;
 
 
@@ -2461,7 +2870,9 @@ async function resetDatabase(){
 
 
     const request =
-        indexedDB.deleteDatabase(DB_NAME);
+        indexedDB.deleteDatabase(
+            DB_NAME
+        );
 
 
     request.onsuccess = ()=>{
@@ -2469,6 +2880,7 @@ async function resetDatabase(){
         alert(
             "Les données ont été supprimées."
         );
+
 
         location.reload();
 
@@ -2483,66 +2895,130 @@ async function resetDatabase(){
 
 let deferredInstallPrompt = null;
 
+
 const installBtn =
-    document.getElementById("installBtn");
+    document.getElementById(
+        "installBtn"
+    );
 
 
+/*
+   Le bouton reste visible.
+*/
+installBtn.style.display =
+    "block";
+
+
+/*
+   Chrome / Edge indiquent que
+   l'installation est disponible.
+*/
 window.addEventListener(
     "beforeinstallprompt",
     event=>{
 
         event.preventDefault();
 
-        deferredInstallPrompt = event;
 
-        installBtn.style.display = "block";
+        deferredInstallPrompt =
+            event;
+
+
+        installBtn.textContent =
+            "Installer MonQuotidien";
+
+
+        console.log(
+            "Installation PWA disponible."
+        );
 
     }
 );
 
 
+/*
+   Clic sur le bouton
+*/
 installBtn.addEventListener(
     "click",
     async ()=>{
 
-        if(!deferredInstallPrompt){
+        /*
+           Installation disponible
+        */
+        if(deferredInstallPrompt){
 
-            alert(
-                "L'installation n'est pas encore disponible sur ce navigateur."
-            );
+            deferredInstallPrompt.prompt();
+
+
+            const choice =
+                await deferredInstallPrompt
+                    .userChoice;
+
+
+            if(
+                choice.outcome ===
+                "accepted"
+            ){
+
+                console.log(
+                    "MonQuotidien installé."
+                );
+
+
+                installBtn.style.display =
+                    "none";
+
+            }else{
+
+                console.log(
+                    "Installation refusée."
+                );
+
+            }
+
+
+            deferredInstallPrompt =
+                null;
+
 
             return;
 
         }
 
 
-        deferredInstallPrompt.prompt();
-
-
-        const choice =
-            await deferredInstallPrompt.userChoice;
-
-
-        if(choice.outcome === "accepted"){
-
-            installBtn.style.display = "none";
-
-        }
-
-
-        deferredInstallPrompt = null;
+        /*
+           Installation non disponible
+        */
+        alert(
+            "L'installation automatique n'est pas encore disponible sur ce navigateur.\n\n" +
+            "Vérifiez que MonQuotidien est ouvert avec HTTPS " +
+            "et que le manifeste, le Service Worker et les icônes " +
+            "sont correctement configurés."
+        );
 
     }
 );
 
 
+/*
+   Application installée
+*/
 window.addEventListener(
     "appinstalled",
     ()=>{
 
-        installBtn.style.display = "none";
+        console.log(
+            "MonQuotidien a été installé."
+        );
 
-        deferredInstallPrompt = null;
+
+        installBtn.style.display =
+            "none";
+
+
+        deferredInstallPrompt =
+            null;
 
     }
 );
@@ -2559,18 +3035,29 @@ if("serviceWorker" in navigator){
         ()=>{
 
             navigator.serviceWorker
-                .register("./service-worker.js")
-                .then(()=>{
-                    console.log(
-                        "Service Worker enregistré."
-                    );
-                })
-                .catch(error=>{
-                    console.error(
-                        "Erreur Service Worker :",
-                        error
-                    );
-                });
+                .register(
+                    "./service-worker.js"
+                )
+                .then(
+                    registration=>{
+
+                        console.log(
+                            "Service Worker enregistré.",
+                            registration
+                        );
+
+                    }
+                )
+                .catch(
+                    error=>{
+
+                        console.error(
+                            "Erreur Service Worker :",
+                            error
+                        );
+
+                    }
+                );
 
         }
     );
