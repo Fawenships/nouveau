@@ -3,5544 +3,1706 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>MonQuotidien</title>
-
 <meta name="description" content="MonQuotidien — votre assistant personnel pour gérer votre argent, vos économies, vos tâches et vos rappels.">
 <meta name="theme-color" content="#24113f">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="MonQuotidien">
-
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/icon-192.png">
 
 <style>
+:root{--primary:#24113f;--primary2:#4b2481;--accent:#1764c0;--bg:#f5f6fa;--card:#fff;--text:#1b1b1f;--muted:#737681;--border:#e6e7ec;--success:#16855b;--danger:#d83a3a;--warning:#c98916;--shadow:0 8px 30px rgba(25,20,40,.07)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.app{display:flex;min-height:100vh}
 
-:root{
-    --primary:#24113f;
-    --primary2:#4b2481;
-    --accent:#1764c0;
-    --bg:#f5f6fa;
-    --card:#fff;
-    --text:#1b1b1f;
-    --muted:#737681;
-    --border:#e6e7ec;
-    --success:#16855b;
-    --danger:#d83a3a;
-    --warning:#c98916;
-    --shadow:0 8px 30px rgba(25,20,40,.07);
-}
+/* SIDEBAR */
+.sidebar{width:245px;background:var(--card);border-right:1px solid var(--border);padding:25px 15px;position:fixed;top:0;bottom:0;left:0;z-index:20}
+.logo{padding:0 12px 25px}
+.logo h1{font-size:22px;color:var(--primary)}
+.logo p{font-size:12px;color:var(--muted);margin-top:5px}
+.nav{display:flex;flex-direction:column;gap:6px}
+.nav button{border:0;background:transparent;padding:13px 14px;border-radius:12px;text-align:left;color:var(--muted);transition:.2s}
+.nav button:hover,.nav button.active{background:#eee8f7;color:var(--primary)}
+.nav button.active{font-weight:700}
+.sidebar-bottom{position:absolute;left:15px;right:15px;bottom:20px}
+.developer{border-top:1px solid var(--border);padding:16px 10px 0;color:var(--muted);font-size:11px}
+.developer strong{display:block;color:var(--text);font-size:13px;margin-top:4px}
 
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
+/* MAIN */
+.main{margin-left:245px;width:calc(100% - 245px);padding:25px;padding-bottom:70px}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:25px;gap:15px}
+.topbar h2{font-size:27px}
+.topbar p{color:var(--muted);margin-top:5px;font-size:14px}
+.install-btn{display:inline-flex;align-items:center;justify-content:center;border:0;background:var(--primary);color:#fff;padding:11px 17px;border-radius:10px;font-weight:700;box-shadow:0 5px 18px rgba(36,17,63,.18);white-space:nowrap;transition:.2s}
+.install-btn:hover{background:var(--primary2);transform:translateY(-1px)}
+.page{display:none}
+.page.active{display:block}
 
-html{
-    scroll-behavior:smooth;
-}
+/* CARDS */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:var(--shadow)}
+.card-label{font-size:13px;color:var(--muted);margin-bottom:9px}
+.card-value{font-size:25px;font-weight:800}
+.green{color:var(--success)}.red{color:var(--danger)}.blue{color:var(--accent)}.purple{color:var(--primary2)}
+.grid{display:grid;grid-template-columns:1.5fr 1fr;gap:18px}
+.section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:var(--shadow)}
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:10px}
+.section-header h3{font-size:17px}
+.empty{color:var(--muted);font-size:14px;padding:20px 0}
 
-body{
-    font-family:Inter,Arial,sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    min-height:100vh;
-}
+/* BUTTONS */
+.btn{border:0;border-radius:10px;padding:10px 15px;font-weight:700}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary2)}
+.btn-secondary{background:#f0edf5;color:var(--primary)}
+.btn-danger{background:#fdeaea;color:var(--danger)}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
 
-button,
-input,
-select,
-textarea{
-    font:inherit;
-}
+/* TRANSACTIONS / LISTES */
+.transaction{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border)}
+.transaction:last-child{border-bottom:0}
+.transaction-info{display:flex;flex-direction:column;gap:4px}
+.transaction-title{font-weight:700}
+.transaction-meta,.list-meta{font-size:12px;color:var(--muted)}
+.transaction-amount{font-weight:800}
+.list-item{padding:14px 0;border-bottom:1px solid var(--border)}
+.list-item:last-child{border-bottom:0}
+.list-item strong{display:block;margin-bottom:4px}
 
-button{
-    cursor:pointer;
-}
+/* FORMS */
+.form-group{margin-bottom:15px}
+.form-group label{display:block;margin-bottom:7px;font-size:13px;font-weight:700}
+.form-group input,.form-group select,.form-group textarea{width:100%;border:1px solid var(--border);background:var(--card);color:var(--text);padding:11px 12px;border-radius:9px;outline:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--primary2)}
+textarea{min-height:90px;resize:vertical}
 
-.app{
-    display:flex;
-    min-height:100vh;
-}
+/* MODAL */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);align-items:center;justify-content:center;padding:20px;z-index:100}
+.modal.show{display:flex}
+.modal-box{width:100%;max-width:480px;background:var(--card);border-radius:18px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.2);max-height:90vh;overflow:auto}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.close{border:0;background:transparent;font-size:24px;color:var(--muted)}
 
-/* =========================================================
-   SIDEBAR
-========================================================= */
+/* TABLE */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th,td{padding:13px 10px;text-align:left;border-bottom:1px solid var(--border);font-size:13px}
+th{color:var(--muted)}
 
-.sidebar{
-    width:245px;
-    background:var(--card);
-    border-right:1px solid var(--border);
-    padding:25px 15px;
-    position:fixed;
-    top:0;
-    bottom:0;
-    left:0;
-    z-index:20;
-}
+/* SETTINGS */
+.setting{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--border);gap:15px}
+.setting:last-child{border-bottom:0}
+.setting-info{flex:1}
+.setting-info strong{display:block;margin-bottom:4px}
+.setting-info span{color:var(--muted);font-size:12px}
+.setting-input{padding:9px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--text)}
 
-.logo{
-    padding:0 12px 25px;
-}
-
-.logo h1{
-    font-size:22px;
-    color:var(--primary);
-}
-
-.logo p{
-    font-size:12px;
-    color:var(--muted);
-    margin-top:5px;
-}
-
-.nav{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-}
-
-.nav button{
-    border:0;
-    background:transparent;
-    padding:13px 14px;
-    border-radius:12px;
-    text-align:left;
-    color:var(--muted);
-    transition:.2s;
-}
-
-.nav button:hover,
-.nav button.active{
-    background:#eee8f7;
-    color:var(--primary);
-}
-
-.nav button.active{
-    font-weight:700;
-}
-
-.sidebar-bottom{
-    position:absolute;
-    left:15px;
-    right:15px;
-    bottom:20px;
-}
-
-.developer{
-    border-top:1px solid var(--border);
-    padding:16px 10px 0;
-    color:var(--muted);
-    font-size:11px;
-}
-
-.developer strong{
-    display:block;
-    color:var(--text);
-    font-size:13px;
-    margin-top:4px;
-}
+.bottom-developer{text-align:center;color:var(--muted);font-size:12px;padding:35px 10px 25px;margin-top:20px}
+.bottom-developer strong{color:var(--primary);display:inline-block;margin-left:4px}
+.mobile-nav{display:none}
 
 /* =========================================================
-   MAIN
+   EPARGNE — NOUVEAU DESIGN
 ========================================================= */
-
-.main{
-    margin-left:245px;
-    width:calc(100% - 245px);
-    padding:25px;
-    padding-bottom:70px;
-}
-
-.topbar{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:25px;
-    gap:15px;
-}
-
-.topbar h2{
-    font-size:27px;
-}
-
-.topbar p{
-    color:var(--muted);
-    margin-top:5px;
-    font-size:14px;
-}
-
-/* =========================================================
-   INSTALLATION
-========================================================= */
-
-.install-btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    border:0;
-    background:var(--primary);
-    color:white;
-    padding:11px 17px;
-    border-radius:10px;
-    font-weight:700;
-    box-shadow:0 5px 18px rgba(36,17,63,.18);
-    white-space:nowrap;
-    transition:.2s;
-}
-
-.install-btn:hover{
-    background:var(--primary2);
-    transform:translateY(-1px);
-}
-
-/* =========================================================
-   PAGES
-========================================================= */
-
-.page{
-    display:none;
-}
-
-.page.active{
-    display:block;
-}
-
-/* =========================================================
-   CARDS
-========================================================= */
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:16px;
-    margin-bottom:20px;
-}
-
-.card{
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:16px;
-    padding:20px;
-    box-shadow:var(--shadow);
-}
-
-.card-label{
-    font-size:13px;
-    color:var(--muted);
-    margin-bottom:9px;
-}
-
-.card-value{
-    font-size:25px;
-    font-weight:800;
-}
-
-.green{
-    color:var(--success);
-}
-
-.red{
-    color:var(--danger);
-}
-
-.blue{
-    color:var(--accent);
-}
-
-.purple{
-    color:var(--primary2);
-}
-
-/* =========================================================
-   GRID
-========================================================= */
-
-.grid{
-    display:grid;
-    grid-template-columns:1.5fr 1fr;
-    gap:18px;
-}
-
-.section{
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:16px;
-    padding:20px;
-    box-shadow:var(--shadow);
-}
-
-.section-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:18px;
-    gap:10px;
-}
-
-.section-header h3{
-    font-size:17px;
-}
-
-.empty{
-    color:var(--muted);
-    font-size:14px;
-    padding:20px 0;
-}
-
-/* =========================================================
-   BUTTONS
-========================================================= */
-
-.btn{
-    border:0;
-    border-radius:10px;
-    padding:10px 15px;
-    font-weight:700;
-}
-
-.btn-primary{
-    background:var(--primary);
-    color:white;
-}
-
-.btn-primary:hover{
-    background:var(--primary2);
-}
-
-.btn-secondary{
-    background:#f0edf5;
-    color:var(--primary);
-}
-
-.btn-danger{
-    background:#fdeaea;
-    color:var(--danger);
-}
-
-.actions{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-}
-
-/* =========================================================
-   TRANSACTIONS
-========================================================= */
-
-.transaction{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:14px 0;
-    border-bottom:1px solid var(--border);
-}
-
-.transaction:last-child{
-    border-bottom:0;
-}
-
-.transaction-info{
-    display:flex;
-    flex-direction:column;
-    gap:4px;
-}
-
-.transaction-title{
-    font-weight:700;
-}
-
-.transaction-meta,
-.list-meta{
-    font-size:12px;
-    color:var(--muted);
-}
-
-.transaction-amount{
-    font-weight:800;
-}
-
-/* =========================================================
-   GOALS
-========================================================= */
-
-.goal{
-    margin-bottom:18px;
-}
-
-.goal:last-child{
-    margin-bottom:0;
-}
-
-.goal-top{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:7px;
-}
-
-.goal-name{
-    font-weight:700;
-}
-
-.progress{
-    height:9px;
-    background:#ececf1;
-    border-radius:20px;
-    overflow:hidden;
-}
-
-.progress-bar{
-    height:100%;
-    background:var(--primary2);
-    border-radius:20px;
-}
-
-/* =========================================================
-   LIST
-========================================================= */
-
-.list-item{
-    padding:14px 0;
-    border-bottom:1px solid var(--border);
-}
-
-.list-item:last-child{
-    border-bottom:0;
-}
-
-.list-item strong{
-    display:block;
-    margin-bottom:4px;
-}
-
-/* =========================================================
-   FORMS
-========================================================= */
-
-.form-group{
-    margin-bottom:15px;
-}
-
-.form-group label{
-    display:block;
-    margin-bottom:7px;
-    font-size:13px;
-    font-weight:700;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea{
-    width:100%;
-    border:1px solid var(--border);
-    background:var(--card);
-    color:var(--text);
-    padding:11px 12px;
-    border-radius:9px;
-    outline:none;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus{
-    border-color:var(--primary2);
-}
-
-textarea{
-    min-height:90px;
-    resize:vertical;
-}
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.45);
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    z-index:100;
-}
-
-.modal.show{
-    display:flex;
-}
-
-.modal-box{
-    width:100%;
-    max-width:480px;
-    background:var(--card);
-    border-radius:18px;
-    padding:24px;
-    box-shadow:0 20px 60px rgba(0,0,0,.2);
-    max-height:90vh;
-    overflow:auto;
-}
-
-.modal-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-}
-
-.close{
-    border:0;
-    background:transparent;
-    font-size:24px;
-    color:var(--muted);
-}
-
-/* =========================================================
-   TABLE
-========================================================= */
-
-.table-wrap{
-    overflow-x:auto;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-th,
-td{
-    padding:13px 10px;
-    text-align:left;
-    border-bottom:1px solid var(--border);
-    font-size:13px;
-}
-
-th{
-    color:var(--muted);
-}
-
-/* =========================================================
-   SETTINGS
-========================================================= */
-
-.setting{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:16px 0;
-    border-bottom:1px solid var(--border);
-    gap:15px;
-}
-
-.setting:last-child{
-    border-bottom:0;
-}
-
-.setting-info{
-    flex:1;
-}
-
-.setting-info strong{
-    display:block;
-    margin-bottom:4px;
-}
-
-.setting-info span{
-    color:var(--muted);
-    font-size:12px;
-}
-
-/* =========================================================
-   DEVELOPER
-========================================================= */
-
-.bottom-developer{
-    text-align:center;
-    color:var(--muted);
-    font-size:12px;
-    padding:35px 10px 25px;
-    margin-top:20px;
-}
-
-.bottom-developer strong{
-    color:var(--primary);
-    display:inline-block;
-    margin-left:4px;
-}
-
-/* =========================================================
-   MOBILE NAV
-========================================================= */
-
-.mobile-nav{
-    display:none;
-}
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media(max-width:1100px){
-
-    .cards{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .grid{
-        grid-template-columns:1fr;
-    }
-}
-
+.ep-hero{border-radius:22px;padding:22px 20px 18px;margin-bottom:26px;color:#fff;background:linear-gradient(155deg,#34185f 0%,#24113f 55%,#1a0b30 100%);box-shadow:0 18px 40px rgba(36,17,63,.25);overflow:hidden}
+body.dark .ep-hero{border:1px solid rgba(255,255,255,.08);box-shadow:0 18px 40px rgba(0,0,0,.35)}
+.ep-hero-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.ep-kicker{font-size:14px;color:rgba(255,255,255,.7)}
+.ep-seg{display:flex;background:rgba(255,255,255,.1);border-radius:999px;padding:3px}
+.ep-seg button{border:0;background:transparent;color:rgba(255,255,255,.7);font-size:12px;font-weight:700;padding:7px 15px;border-radius:999px;transition:background .2s,color .2s}
+.ep-seg button.on{background:#fff;color:#24113f}
+.ep-amount{font-size:36px;font-weight:800;letter-spacing:-.02em;margin-top:14px;font-variant-numeric:tabular-nums;line-height:1.1}
+.ep-sub{font-size:13px;color:rgba(255,255,255,.7);margin-top:6px;min-height:18px}
+.ep-sub.up{color:#8ee6bd}
+.ep-chart{position:relative;height:200px;margin:14px -6px 0}
+.ep-chart canvas{width:100%;height:100%;display:block;touch-action:pan-y;cursor:crosshair}
+.ep-progress{margin-top:12px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1)}
+.ep-bar{height:6px;border-radius:99px;background:rgba(255,255,255,.14);overflow:hidden}
+.ep-bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#b99cf5,#e8dcff);transition:width .5s ease}
+.ep-stats{display:flex;justify-content:space-between;gap:10px;margin-top:10px;font-size:12px;color:rgba(255,255,255,.65)}
+.ep-stats b{color:#fff;font-weight:700;margin-left:3px}
+.ep-goals-section{background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important}
+#goalsList{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.ep-goal{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.ep-goal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.ep-goal-head h4{font-size:16px;line-height:1.3;word-break:break-word}
+.ep-chip{flex-shrink:0;font-size:12px;font-weight:800;padding:4px 10px;border-radius:99px;background:#eee8f7;color:var(--primary2)}
+body.dark .ep-chip{background:#302a39;color:#d4c3f3}
+.ep-goal.done .ep-chip{background:#dcf3e8;color:var(--success)}
+body.dark .ep-goal.done .ep-chip{background:#16382b;color:#7fdcb2}
+.ep-amounts{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px}
+.ep-amounts strong{font-size:21px;font-weight:800;letter-spacing:-.01em}
+.ep-amounts span{font-size:13px;color:var(--muted)}
+.ep-track{height:8px;border-radius:99px;background:#ececf1;overflow:hidden}
+body.dark .ep-track{background:#302d35}
+.ep-track i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--primary2),#8a5cd6);transition:width .5s ease}
+.ep-goal.done .ep-track i{background:linear-gradient(90deg,#16855b,#3fbf8c)}
+.ep-meta{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:var(--muted)}
+.ep-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px}
+.ep-btn{border:0;border-radius:12px;padding:11px 8px;font-size:13px;font-weight:700;background:#f0edf5;color:var(--primary);transition:transform .1s,background .2s}
+body.dark .ep-btn{background:#2b2631;color:#d9ccf1}
+.ep-btn:active{transform:scale(.97)}
+.ep-btn.add{background:var(--primary);color:#fff}
+body.dark .ep-btn.add{background:var(--primary2)}
+.ep-btn.del{background:transparent;color:var(--danger)}
+.ep-btn:focus-visible,.ep-seg button:focus-visible{outline:2px solid #8a5cd6;outline-offset:2px}
+.ep-empty{grid-column:1/-1;background:var(--card);border:1px dashed var(--border);border-radius:18px;padding:28px 20px;text-align:center;color:var(--muted);font-size:14px;line-height:1.5}
+
+/* RESPONSIVE */
+@media(max-width:1100px){.cards{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
 @media(max-width:760px){
-
-    .sidebar{
-        display:none;
-    }
-
-    .main{
-        margin-left:0;
-        width:100%;
-        padding:17px 15px 125px;
-    }
-
-    .topbar{
-        align-items:flex-start;
-    }
-
-    .topbar h2{
-        font-size:23px;
-    }
-
-    .install-btn{
-        padding:9px 12px;
-        font-size:12px;
-    }
-
-    .cards{
-        grid-template-columns:1fr 1fr;
-        gap:10px;
-    }
-
-    .card{
-        padding:15px;
-    }
-
-    .card-value{
-        font-size:20px;
-    }
-
-    .mobile-nav{
-        display:flex;
-        position:fixed;
-        left:0;
-        right:0;
-        bottom:0;
-        min-height:68px;
-        background:var(--card);
-        border-top:1px solid var(--border);
-        z-index:50;
-        justify-content:space-around;
-        align-items:center;
-        padding:5px 2px;
-        box-shadow:0 -5px 20px rgba(0,0,0,.06);
-    }
-
-    .mobile-nav button{
-        flex:1;
-        min-width:0;
-        border:0;
-        background:transparent;
-        color:var(--muted);
-        font-size:10px;
-        padding:9px 2px;
-        border-radius:8px;
-        white-space:nowrap;
-        overflow:hidden;
-        text-overflow:ellipsis;
-    }
-
-    .mobile-nav button.active{
-        color:var(--primary);
-        font-weight:800;
-        background:#eee8f7;
-    }
-
-    .bottom-developer{
-        display:block;
-        text-align:center;
-        color:var(--muted);
-        font-size:12px;
-        padding:35px 10px 30px;
-        margin-top:20px;
-        margin-bottom:10px;
-    }
-
-    .bottom-developer strong{
-        color:var(--primary);
-        display:inline-block;
-        margin-left:4px;
-    }
-
-    .setting{
-        align-items:flex-start;
-        flex-direction:column;
-    }
-
-    .setting input,
-    .setting select,
-    .setting button{
-        width:100%;
-        max-width:none !important;
-    }
-
-    .setting-info{
-        width:100%;
-    }
+.sidebar{display:none}
+.main{margin-left:0;width:100%;padding:17px 15px 125px}
+.topbar{align-items:flex-start}
+.topbar h2{font-size:23px}
+.install-btn{padding:9px 12px;font-size:12px}
+.cards{grid-template-columns:1fr 1fr;gap:10px}
+.card{padding:15px}
+.card-value{font-size:20px}
+.mobile-nav{display:flex;position:fixed;left:0;right:0;bottom:0;min-height:68px;background:var(--card);border-top:1px solid var(--border);z-index:50;justify-content:space-around;align-items:center;padding:5px 2px;box-shadow:0 -5px 20px rgba(0,0,0,.06)}
+.mobile-nav button{flex:1;min-width:0;border:0;background:transparent;color:var(--muted);font-size:10px;padding:9px 2px;border-radius:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mobile-nav button.active{color:var(--primary);font-weight:800;background:#eee8f7}
+.bottom-developer{padding:35px 10px 30px;margin-bottom:10px}
+.setting{align-items:flex-start;flex-direction:column}
+.setting input,.setting select,.setting button{width:100%;max-width:none!important}
+.setting-info{width:100%}
+.ep-hero{padding:18px 16px 16px;border-radius:20px}
+.ep-amount{font-size:30px}
+.ep-chart{height:170px}
+#goalsList{grid-template-columns:1fr}
 }
-
 @media(max-width:450px){
-
-    .cards{
-        grid-template-columns:1fr;
-    }
-
-    .topbar{
-        flex-direction:column;
-    }
-
-    .install-btn{
-        width:100%;
-    }
-
-    .mobile-nav button{
-        font-size:9px;
-        padding-left:1px;
-        padding-right:1px;
-    }
-
-    .section{
-        padding:16px;
-    }
-
-    .section-header{
-        align-items:flex-start;
-        flex-direction:column;
-    }
-
-    .section-header .actions{
-        width:100%;
-    }
-
-    .section-header .actions .btn{
-        flex:1;
-    }
+.cards{grid-template-columns:1fr}
+.topbar{flex-direction:column}
+.install-btn{width:100%}
+.mobile-nav button{font-size:9px;padding-left:1px;padding-right:1px}
+.section{padding:16px}
+.section-header{align-items:flex-start;flex-direction:column}
+.section-header .actions{width:100%}
+.section-header .actions .btn{flex:1}
 }
 
-/* =========================================================
-   DARK MODE
-========================================================= */
-
-body.dark{
-    --bg:#111014;
-    --card:#1b191f;
-    --text:#f4f3f6;
-    --muted:#aaa6b2;
-    --border:#302d35;
-    --shadow:0 8px 30px rgba(0,0,0,.18);
-}
-
-body.dark .nav button:hover,
-body.dark .nav button.active{
-    background:#302a39;
-}
-
-body.dark .btn-secondary{
-    background:#2b2631;
-}
-
-body.dark .progress{
-    background:#302d35;
-}
-
-body.dark .bottom-developer strong{
-    color:#c9b5e9;
-}
-
-body.dark .mobile-nav button.active{
-    background:#302a39;
-}
-
+/* DARK MODE */
+body.dark{--bg:#111014;--card:#1b191f;--text:#f4f3f6;--muted:#aaa6b2;--border:#302d35;--shadow:0 8px 30px rgba(0,0,0,.18)}
+body.dark .nav button:hover,body.dark .nav button.active{background:#302a39}
+body.dark .btn-secondary{background:#2b2631}
+body.dark .bottom-developer strong{color:#c9b5e9}
+body.dark .mobile-nav button.active{background:#302a39}
 </style>
 </head>
 
 <body>
-
 <div class="app">
 
 <aside class="sidebar">
-
-    <div class="logo">
-
-        <h1>MonQuotidien</h1>
-
-        <p>
-            Votre assistant personnel
-        </p>
-
-    </div>
-
+    <div class="logo"><h1>MonQuotidien</h1><p>Votre assistant personnel</p></div>
     <nav class="nav">
-
-        <button class="nav-btn active" data-page="home">
-            Accueil
-        </button>
-
-        <button class="nav-btn" data-page="money">
-            Argent
-        </button>
-
-        <button class="nav-btn" data-page="savings">
-            Épargne
-        </button>
-
-        <button class="nav-btn" data-page="planning">
-            Planning
-        </button>
-
-        <button class="nav-btn" data-page="notifications">
-            Notifications
-        </button>
-
-        <button class="nav-btn" data-page="statistics">
-            Statistiques
-        </button>
-
-        <button class="nav-btn" data-page="settings">
-            Paramètres
-        </button>
-
+        <button class="nav-btn active" data-page="home">Accueil</button>
+        <button class="nav-btn" data-page="money">Argent</button>
+        <button class="nav-btn" data-page="savings">Épargne</button>
+        <button class="nav-btn" data-page="planning">Planning</button>
+        <button class="nav-btn" data-page="notifications">Notifications</button>
+        <button class="nav-btn" data-page="statistics">Statistiques</button>
+        <button class="nav-btn" data-page="settings">Paramètres</button>
     </nav>
-
-    <div class="sidebar-bottom">
-
-        <div class="developer">
-
-            Développé par
-
-            <strong>
-                Fawenbert Régis
-            </strong>
-
-        </div>
-
-    </div>
-
+    <div class="sidebar-bottom"><div class="developer">Développé par<strong>Fawenbert Régis</strong></div></div>
 </aside>
-
 
 <main class="main">
 
     <div class="topbar">
-
-        <div>
-
-            <h2 id="pageTitle">
-                Aujourd’hui
-            </h2>
-
-            <p id="currentDate"></p>
-
-        </div>
-
-        <button
-            id="installBtn"
-            class="install-btn">
-
-            Installer MonQuotidien
-
-        </button>
-
+        <div><h2 id="pageTitle">Aujourd’hui</h2><p id="currentDate"></p></div>
+        <button id="installBtn" class="install-btn">Installer MonQuotidien</button>
     </div>
-
 
     <!-- ACCUEIL -->
-
-    <section
-        class="page active"
-        id="home">
-
+    <section class="page active" id="home">
         <div class="cards">
-
-            <div class="card">
-
-                <div class="card-label">
-                    Solde actuel
-                </div>
-
-                <div
-                    class="card-value purple"
-                    id="homeBalance">
-
-                    0 HTG
-
-                </div>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="card-label">
-                    Revenus du mois
-                </div>
-
-                <div
-                    class="card-value green"
-                    id="homeIncome">
-
-                    0 HTG
-
-                </div>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="card-label">
-                    Dépenses du mois
-                </div>
-
-                <div
-                    class="card-value red"
-                    id="homeExpenses">
-
-                    0 HTG
-
-                </div>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="card-label">
-                    Épargne
-                </div>
-
-                <div
-                    class="card-value blue"
-                    id="homeSavings">
-
-                    0 HTG
-
-                </div>
-
-            </div>
-
+            <div class="card"><div class="card-label">Solde actuel</div><div class="card-value purple" id="homeBalance">0 HTG</div></div>
+            <div class="card"><div class="card-label">Revenus du mois</div><div class="card-value green" id="homeIncome">0 HTG</div></div>
+            <div class="card"><div class="card-label">Dépenses du mois</div><div class="card-value red" id="homeExpenses">0 HTG</div></div>
+            <div class="card"><div class="card-label">Épargne</div><div class="card-value blue" id="homeSavings">0 HTG</div></div>
         </div>
-
-
         <div class="grid">
-
             <div class="section">
-
-                <div class="section-header">
-
-                    <h3>
-                        Transactions récentes
-                    </h3>
-
-                    <button
-                        class="btn btn-primary"
-                        onclick="openModal('expenseModal')">
-
-                        + Dépense
-
-                    </button>
-
-                </div>
-
+                <div class="section-header"><h3>Transactions récentes</h3><button class="btn btn-primary" onclick="openModal('expenseModal')">+ Dépense</button></div>
                 <div id="recentTransactions"></div>
-
             </div>
-
-
             <div class="section">
-
-                <div class="section-header">
-
-                    <h3>
-                        Mes tâches
-                    </h3>
-
-                    <button
-                        class="btn btn-secondary"
-                        onclick="openModal('taskModal')">
-
-                        + Tâche
-
-                    </button>
-
-                </div>
-
+                <div class="section-header"><h3>Mes tâches</h3><button class="btn btn-secondary" onclick="openModal('taskModal')">+ Tâche</button></div>
                 <div id="todayTasks"></div>
-
             </div>
-
         </div>
-
     </section>
-
 
     <!-- ARGENT -->
-
-    <section
-        class="page"
-        id="money">
-
+    <section class="page" id="money">
         <div class="section">
-
             <div class="section-header">
-
-                <h3>
-                    Gestion de l'argent
-                </h3>
-
+                <h3>Gestion de l'argent</h3>
                 <div class="actions">
-
-                    <button
-                        class="btn btn-primary"
-                        onclick="openModal('incomeModal')">
-
-                        + Revenu
-
-                    </button>
-
-                    <button
-                        class="btn btn-secondary"
-                        onclick="openModal('expenseModal')">
-
-                        + Dépense
-
-                    </button>
-
+                    <button class="btn btn-primary" onclick="openModal('incomeModal')">+ Revenu</button>
+                    <button class="btn btn-secondary" onclick="openModal('expenseModal')">+ Dépense</button>
                 </div>
-
             </div>
-
-
             <div class="table-wrap">
-
                 <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>Date</th>
-
-                            <th>Type</th>
-
-                            <th>Description</th>
-
-                            <th>Catégorie</th>
-
-                            <th>Montant</th>
-
-                            <th>Action</th>
-
-                        </tr>
-
-                    </thead>
-
+                    <thead><tr><th>Date</th><th>Type</th><th>Description</th><th>Catégorie</th><th>Montant</th><th>Action</th></tr></thead>
                     <tbody id="transactionsTable"></tbody>
-
                 </table>
-
             </div>
-
         </div>
-
     </section>
-
 
     <!-- EPARGNE -->
+    <section class="page" id="savings">
 
-    <section
-        class="page"
-        id="savings">
-
-        <div class="section">
-
-            <div class="section-header">
-
-                <h3>
-                    Mes objectifs d'épargne
-                </h3>
-
-                <button
-                    class="btn btn-primary"
-                    onclick="openModal('goalModal')">
-
-                    + Objectif
-
-                </button>
-
+        <div class="ep-hero">
+            <div class="ep-hero-top">
+                <span class="ep-kicker">Épargne actuelle</span>
+                <div class="ep-seg">
+                    <button type="button" data-p="week" class="on">Semaine</button>
+                    <button type="button" data-p="month">Mois</button>
+                </div>
             </div>
+            <div class="ep-amount" id="epAmount">0,00 HTG</div>
+            <div class="ep-sub" id="epSub"></div>
+            <div class="ep-chart"><canvas id="epChart"></canvas></div>
+            <div class="ep-progress">
+                <div class="ep-bar"><i id="epBar"></i></div>
+                <div class="ep-stats">
+                    <span>Objectif total<b id="epTarget"></b></span>
+                    <span>Reste<b id="epLeft"></b></span>
+                    <span><b id="epPct"></b></span>
+                </div>
+            </div>
+        </div>
 
+        <div class="section ep-goals-section">
+            <div class="section-header">
+                <h3>Mes objectifs d'épargne</h3>
+                <button class="btn btn-primary" onclick="openNewGoalModal()">+ Objectif</button>
+            </div>
             <div id="goalsList"></div>
-
         </div>
 
     </section>
-
 
     <!-- PLANNING -->
-
-    <section
-        class="page"
-        id="planning">
-
+    <section class="page" id="planning">
         <div class="section">
-
-            <div class="section-header">
-
-                <h3>
-                    Planning
-                </h3>
-
-                <button
-                    class="btn btn-primary"
-                    onclick="openModal('taskModal')">
-
-                    + Tâche
-
-                </button>
-
-            </div>
-
+            <div class="section-header"><h3>Planning</h3><button class="btn btn-primary" onclick="openModal('taskModal')">+ Tâche</button></div>
             <div id="planningList"></div>
-
         </div>
-
     </section>
-
 
     <!-- NOTIFICATIONS -->
-
-    <section
-        class="page"
-        id="notifications">
-
+    <section class="page" id="notifications">
         <div class="section">
-
             <div class="section-header">
-
-                <h3>
-                    Notifications et rappels
-                </h3>
-
+                <h3>Notifications et rappels</h3>
                 <div class="actions">
-
-                    <button
-                        class="btn btn-primary"
-                        onclick="requestNotificationPermission()">
-
-                        Activer
-
-                    </button>
-
-                    <button
-                        class="btn btn-secondary"
-                        onclick="testerNotification()">
-
-                        Tester
-
-                    </button>
-
+                    <button class="btn btn-primary" onclick="requestNotificationPermission()">Activer</button>
+                    <button class="btn btn-secondary" onclick="testerNotification()">Tester</button>
                 </div>
-
             </div>
-
-
-            <div
-                id="notificationStatus"
-                class="empty">
-
-                Vérification des notifications...
-
+            <div id="notificationStatus" class="empty">Vérification des notifications...</div>
+            <div class="section-header" style="margin-top:20px;">
+                <h3>Mes rappels</h3>
+                <button class="btn btn-primary" onclick="openModal('reminderModal')">+ Rappel</button>
             </div>
-
-
-            <div
-                class="section-header"
-                style="margin-top:20px;">
-
-                <h3>
-                    Mes rappels
-                </h3>
-
-                <button
-                    class="btn btn-primary"
-                    onclick="openModal('reminderModal')">
-
-                    + Rappel
-
-                </button>
-
-            </div>
-
             <div id="remindersList"></div>
-
         </div>
-
     </section>
-
 
     <!-- STATISTIQUES -->
-
-    <section
-        class="page"
-        id="statistics">
-
+    <section class="page" id="statistics">
         <div class="cards">
-
-            <div class="card">
-
-                <div class="card-label">
-                    Total revenus
-                </div>
-
-                <div
-                    class="card-value green"
-                    id="statIncome">
-
-                    0 HTG
-
-                </div>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="card-label">
-                    Total dépenses
-                </div>
-
-                <div
-                    class="card-value red"
-                    id="statExpenses">
-
-                    0 HTG
-
-                </div>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="card-label">
-                    Solde
-                </div>
-
-                <div
-                    class="card-value purple"
-                    id="statBalance">
-
-                    0 HTG
-
-                </div>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="card-label">
-                    Objectifs d'épargne
-                </div>
-
-                <div
-                    class="card-value blue"
-                    id="statSavings">
-
-                    0 HTG
-
-                </div>
-
-            </div>
-
+            <div class="card"><div class="card-label">Total revenus</div><div class="card-value green" id="statIncome">0 HTG</div></div>
+            <div class="card"><div class="card-label">Total dépenses</div><div class="card-value red" id="statExpenses">0 HTG</div></div>
+            <div class="card"><div class="card-label">Solde</div><div class="card-value purple" id="statBalance">0 HTG</div></div>
+            <div class="card"><div class="card-label">Objectifs d'épargne</div><div class="card-value blue" id="statSavings">0 HTG</div></div>
         </div>
-
-
         <div class="section">
-
-            <h3>
-                Résumé financier
-            </h3>
-
-            <div
-                id="statisticsContent"
-                class="empty">
-
-                Ajoutez des transactions pour voir vos statistiques.
-
-            </div>
-
+            <h3>Résumé financier</h3>
+            <div id="statisticsContent" class="empty">Ajoutez des transactions pour voir vos statistiques.</div>
         </div>
-
     </section>
-
 
     <!-- PARAMETRES -->
-
-    <section
-        class="page"
-        id="settings">
-
+    <section class="page" id="settings">
         <div class="section">
-
-            <div class="section-header">
-
-                <h3>
-                    Paramètres
-                </h3>
-
-            </div>
-
+            <div class="section-header"><h3>Paramètres</h3></div>
 
             <div class="setting">
-
-                <div class="setting-info">
-
-                    <strong>
-                        Votre nom
-                    </strong>
-
-                    <span>
-                        Nom affiché dans MonQuotidien
-                    </span>
-
-                </div>
-
-                <input
-                    id="userName"
-                    type="text"
-                    placeholder="Votre nom"
-                    style="max-width:200px;
-                           padding:9px;
-                           border:1px solid var(--border);
-                           border-radius:8px;
-                           background:var(--card);
-                           color:var(--text);">
-
+                <div class="setting-info"><strong>Votre nom</strong><span>Nom affiché dans MonQuotidien</span></div>
+                <input id="userName" class="setting-input" type="text" placeholder="Votre nom" style="max-width:200px">
             </div>
 
-
             <div class="setting">
-
-                <div class="setting-info">
-
-                    <strong>
-                        Devise
-                    </strong>
-
-                    <span>
-                        Devise utilisée pour les montants
-                    </span>
-
-                </div>
-
-                <select
-                    id="currencySelect"
-                    onchange="saveSettings()"
-                    style="padding:9px;
-                           border:1px solid var(--border);
-                           border-radius:8px;
-                           background:var(--card);
-                           color:var(--text);">
-
-                    <option value="HTG">
-                        HTG
-                    </option>
-
-                    <option value="USD">
-                        USD
-                    </option>
-
-                    <option value="EUR">
-                        EUR
-                    </option>
-
+                <div class="setting-info"><strong>Devise</strong><span>Devise utilisée pour les montants</span></div>
+                <select id="currencySelect" class="setting-input" onchange="saveSettings()">
+                    <option value="HTG">HTG</option><option value="USD">USD</option><option value="EUR">EUR</option>
                 </select>
-
             </div>
-
 
             <div class="setting">
-
-                <div class="setting-info">
-
-                    <strong>
-                        Thème sombre
-                    </strong>
-
-                    <span>
-                        Modifier l'apparence de MonQuotidien
-                    </span>
-
-                </div>
-
-                <button
-                    class="btn btn-secondary"
-                    onclick="toggleDarkMode()">
-
-                    Changer
-
-                </button>
-
+                <div class="setting-info"><strong>Thème sombre</strong><span>Modifier l'apparence de MonQuotidien</span></div>
+                <button class="btn btn-secondary" onclick="toggleDarkMode()">Changer</button>
             </div>
-
 
             <div class="setting">
-
-                <div class="setting-info">
-
-                    <strong>
-                        Notifications
-                    </strong>
-
-                    <span>
-                        Autoriser les notifications du navigateur
-                    </span>
-
-                </div>
-
-                <button
-                    class="btn btn-primary"
-                    onclick="requestNotificationPermission()">
-
-                    Autoriser
-
-                </button>
-
+                <div class="setting-info"><strong>Notifications</strong><span>Autoriser les notifications du navigateur</span></div>
+                <button class="btn btn-primary" onclick="requestNotificationPermission()">Autoriser</button>
             </div>
-
 
             <div class="setting">
-
-                <div class="setting-info">
-
-                    <strong>
-                        Résumé quotidien
-                    </strong>
-
-                    <span>
-                        Heure du rappel pour déclarer tes dépenses
-                    </span>
-
-                </div>
-
-                <input
-                    id="summaryTime"
-                    type="time"
-                    onchange="saveSettings()"
-                    style="padding:9px;
-                           border:1px solid var(--border);
-                           border-radius:8px;
-                           background:var(--card);
-                           color:var(--text);">
-
+                <div class="setting-info"><strong>Résumé quotidien</strong><span>Heure du rappel pour déclarer tes dépenses</span></div>
+                <input id="summaryTime" class="setting-input" type="time" onchange="saveSettings()">
             </div>
-
 
             <div class="setting">
-
-                <div class="setting-info">
-
-                    <strong>
-                        Notification du matin
-                    </strong>
-
-                    <span>
-                        Notification automatique du solde chaque jour
-                    </span>
-
-                </div>
-
-                <strong>
-                    08:00
-                </strong>
-
+                <div class="setting-info"><strong>Notification du matin</strong><span>Notification automatique du solde chaque jour</span></div>
+                <strong>08:00</strong>
             </div>
-
 
             <div class="setting">
-
-                <div class="setting-info">
-
-                    <strong>
-                        Développeur
-                    </strong>
-
-                    <span>
-                        Créateur de MonQuotidien
-                    </span>
-
-                </div>
-
-                <strong>
-                    Fawenbert Régis
-                </strong>
-
+                <div class="setting-info"><strong>Développeur</strong><span>Créateur de MonQuotidien</span></div>
+                <strong>Fawenbert Régis</strong>
             </div>
-
 
             <div class="setting">
-
-                <div class="setting-info">
-
-                    <strong>
-                        Sauvegarder les données
-                    </strong>
-
-                    <span>
-                        Exporter toutes vos données locales
-                    </span>
-
-                </div>
-
-                <button
-                    class="btn btn-secondary"
-                    onclick="exportData()">
-
-                    Exporter
-
-                </button>
-
+                <div class="setting-info"><strong>Sauvegarder les données</strong><span>Exporter toutes vos données locales</span></div>
+                <button class="btn btn-secondary" onclick="exportData()">Exporter</button>
             </div>
-
 
             <div class="setting">
-
-                <div class="setting-info">
-
-                    <strong>
-                        Réinitialiser
-                    </strong>
-
-                    <span>
-                        Supprimer toutes les données locales
-                    </span>
-
-                </div>
-
-                <button
-                    class="btn btn-danger"
-                    onclick="resetDatabase()">
-
-                    Réinitialiser
-
-                </button>
-
+                <div class="setting-info"><strong>Réinitialiser</strong><span>Supprimer toutes les données locales</span></div>
+                <button class="btn btn-danger" onclick="resetDatabase()">Réinitialiser</button>
             </div>
-
         </div>
-
     </section>
 
-
-    <footer class="bottom-developer">
-
-        <span>
-            Développé par
-        </span>
-
-        <strong>
-            Fawenbert Régis
-        </strong>
-
-    </footer>
+    <footer class="bottom-developer"><span>Développé par</span><strong>Fawenbert Régis</strong></footer>
 
 </main>
-
 </div>
-
 
 <!-- NAVIGATION MOBILE -->
-
 <nav class="mobile-nav">
-
-    <button
-        class="mobile-nav-btn active"
-        data-page="home">
-
-        Accueil
-
-    </button>
-
-
-    <button
-        class="mobile-nav-btn"
-        data-page="money">
-
-        Argent
-
-    </button>
-
-
-    <button
-        class="mobile-nav-btn"
-        data-page="savings">
-
-        Épargne
-
-    </button>
-
-
-    <button
-        class="mobile-nav-btn"
-        data-page="planning">
-
-        Planning
-
-    </button>
-
-
-    <button
-        class="mobile-nav-btn"
-        data-page="notifications">
-
-        Rappels
-
-    </button>
-
-
-    <button
-        class="mobile-nav-btn"
-        data-page="settings">
-
-        Paramètres
-
-    </button>
-
+    <button class="mobile-nav-btn active" data-page="home">Accueil</button>
+    <button class="mobile-nav-btn" data-page="money">Argent</button>
+    <button class="mobile-nav-btn" data-page="savings">Épargne</button>
+    <button class="mobile-nav-btn" data-page="planning">Planning</button>
+    <button class="mobile-nav-btn" data-page="notifications">Rappels</button>
+    <button class="mobile-nav-btn" data-page="settings">Paramètres</button>
 </nav>
 
-
 <!-- MODAL REVENU -->
-
-<div
-    class="modal"
-    id="incomeModal">
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-
-            <h3>
-                Ajouter un revenu
-            </h3>
-
-            <button
-                class="close"
-                onclick="closeModal('incomeModal')">
-
-                ×
-
-            </button>
-
+<div class="modal" id="incomeModal"><div class="modal-box">
+    <div class="modal-header"><h3>Ajouter un revenu</h3><button class="close" onclick="closeModal('incomeModal')">×</button></div>
+    <form id="incomeForm">
+        <div class="form-group"><label>Montant</label><input type="number" id="incomeAmount" min="0" step="0.01" required></div>
+        <div class="form-group"><label>Description</label><input type="text" id="incomeDescription" placeholder="Ex : Salaire"></div>
+        <div class="form-group"><label>Catégorie</label>
+            <select id="incomeCategory"><option>Salaire</option><option>Commerce</option><option>Freelance</option><option>Cadeau</option><option>Autre</option></select>
         </div>
-
-
-        <form id="incomeForm">
-
-            <div class="form-group">
-
-                <label>
-                    Montant
-                </label>
-
-                <input
-                    type="number"
-                    id="incomeAmount"
-                    min="0"
-                    step="0.01"
-                    required>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Description
-                </label>
-
-                <input
-                    type="text"
-                    id="incomeDescription"
-                    placeholder="Ex : Salaire">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Catégorie
-                </label>
-
-                <select id="incomeCategory">
-
-                    <option>
-                        Salaire
-                    </option>
-
-                    <option>
-                        Commerce
-                    </option>
-
-                    <option>
-                        Freelance
-                    </option>
-
-                    <option>
-                        Cadeau
-                    </option>
-
-                    <option>
-                        Autre
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <button
-                class="btn btn-primary"
-                type="submit">
-
-                Ajouter
-
-            </button>
-
-        </form>
-
-    </div>
-
-</div>
-
+        <button class="btn btn-primary" type="submit">Ajouter</button>
+    </form>
+</div></div>
 
 <!-- MODAL DEPENSE -->
-
-<div
-    class="modal"
-    id="expenseModal">
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-
-            <h3>
-                Ajouter une dépense
-            </h3>
-
-            <button
-                class="close"
-                onclick="closeModal('expenseModal')">
-
-                ×
-
-            </button>
-
+<div class="modal" id="expenseModal"><div class="modal-box">
+    <div class="modal-header"><h3>Ajouter une dépense</h3><button class="close" onclick="closeModal('expenseModal')">×</button></div>
+    <form id="expenseForm">
+        <div class="form-group"><label>Montant</label><input type="number" id="expenseAmount" min="0" step="0.01" required></div>
+        <div class="form-group"><label>Description</label><input type="text" id="expenseDescription" placeholder="Ex : Déjeuner"></div>
+        <div class="form-group"><label>Catégorie</label>
+            <select id="expenseCategory"><option>Nourriture</option><option>Transport</option><option>Logement</option><option>Éducation</option><option>Téléphone/Internet</option><option>Santé</option><option>Loisirs</option><option>Shopping</option><option>Autre</option></select>
         </div>
-
-
-        <form id="expenseForm">
-
-            <div class="form-group">
-
-                <label>
-                    Montant
-                </label>
-
-                <input
-                    type="number"
-                    id="expenseAmount"
-                    min="0"
-                    step="0.01"
-                    required>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Description
-                </label>
-
-                <input
-                    type="text"
-                    id="expenseDescription"
-                    placeholder="Ex : Déjeuner">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Catégorie
-                </label>
-
-                <select id="expenseCategory">
-
-                    <option>
-                        Nourriture
-                    </option>
-
-                    <option>
-                        Transport
-                    </option>
-
-                    <option>
-                        Logement
-                    </option>
-
-                    <option>
-                        Éducation
-                    </option>
-
-                    <option>
-                        Téléphone/Internet
-                    </option>
-
-                    <option>
-                        Santé
-                    </option>
-
-                    <option>
-                        Loisirs
-                    </option>
-
-                    <option>
-                        Shopping
-                    </option>
-
-                    <option>
-                        Autre
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <button
-                class="btn btn-primary"
-                type="submit">
-
-                Ajouter
-
-            </button>
-
-        </form>
-
-    </div>
-
-</div>
-
+        <button class="btn btn-primary" type="submit">Ajouter</button>
+    </form>
+</div></div>
 
 <!-- MODAL OBJECTIF -->
+<div class="modal" id="goalModal"><div class="modal-box">
+    <div class="modal-header"><h3 id="goalModalTitle">Nouvel objectif</h3><button class="close" onclick="closeModal('goalModal')">×</button></div>
+    <form id="goalForm">
+        <div class="form-group"><label>Nom de l'objectif</label><input type="text" id="goalName" placeholder="Ex : Acheter un ordinateur" required></div>
+        <div class="form-group"><label>Montant cible</label><input type="number" id="goalTarget" min="0" step="0.01" required></div>
+        <div class="form-group"><label>Montant déjà épargné</label><input type="number" id="goalCurrent" min="0" step="0.01" value="0"></div>
+        <div class="form-group"><label>Date cible</label><input type="date" id="goalDate"></div>
+        <button class="btn btn-primary" type="submit" id="goalSubmitButton">Créer l'objectif</button>
+    </form>
+</div></div>
 
-<div
-    class="modal"
-    id="goalModal">
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-
-            <h3>
-                Nouvel objectif
-            </h3>
-
-            <button
-                class="close"
-                onclick="closeModal('goalModal')">
-
-                ×
-
-            </button>
-
-        </div>
-
-
-        <form id="goalForm">
-
-            <div class="form-group">
-
-                <label>
-                    Nom de l'objectif
-                </label>
-
-                <input
-                    type="text"
-                    id="goalName"
-                    placeholder="Ex : Acheter un ordinateur"
-                    required>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Montant cible
-                </label>
-
-                <input
-                    type="number"
-                    id="goalTarget"
-                    min="0"
-                    step="0.01"
-                    required>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Montant déjà épargné
-                </label>
-
-                <input
-                    type="number"
-                    id="goalCurrent"
-                    min="0"
-                    step="0.01"
-                    value="0">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Date cible
-                </label>
-
-                <input
-                    type="date"
-                    id="goalDate">
-
-            </div>
-
-
-            <button
-                class="btn btn-primary"
-                type="submit">
-
-                Créer l'objectif
-
-            </button>
-
-        </form>
-
-    </div>
-
-</div>
-
+<!-- MODAL AJOUTER / RETIRER DE L'ARGENT -->
+<div class="modal" id="adjustModal"><div class="modal-box">
+    <div class="modal-header"><h3 id="adjustTitle">Ajouter de l'argent</h3><button class="close" type="button" onclick="closeModal('adjustModal')">×</button></div>
+    <form id="adjustForm">
+        <div class="form-group"><label for="adjustAmount">Montant</label><input type="number" id="adjustAmount" min="0.01" step="0.01" inputmode="decimal" required></div>
+        <button class="btn btn-primary" type="submit" id="adjustBtn">Ajouter</button>
+    </form>
+</div></div>
 
 <!-- MODAL TACHE -->
-
-<div
-    class="modal"
-    id="taskModal">
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-
-            <h3>
-                Nouvelle tâche
-            </h3>
-
-            <button
-                class="close"
-                onclick="closeModal('taskModal')">
-
-                ×
-
-            </button>
-
+<div class="modal" id="taskModal"><div class="modal-box">
+    <div class="modal-header"><h3>Nouvelle tâche</h3><button class="close" onclick="closeModal('taskModal')">×</button></div>
+    <form id="taskForm">
+        <div class="form-group"><label>Titre</label><input type="text" id="taskTitle" placeholder="Ex : Réviser les mathématiques" required></div>
+        <div class="form-group"><label>Description</label><textarea id="taskDescription" placeholder="Description facultative"></textarea></div>
+        <div class="form-group"><label>Date</label><input type="date" id="taskDate" required></div>
+        <div class="form-group"><label>Heure</label><input type="time" id="taskTime"></div>
+        <div class="form-group"><label>Priorité</label>
+            <select id="taskPriority"><option>Normale</option><option>Haute</option><option>Basse</option></select>
         </div>
-
-
-        <form id="taskForm">
-
-            <div class="form-group">
-
-                <label>
-                    Titre
-                </label>
-
-                <input
-                    type="text"
-                    id="taskTitle"
-                    placeholder="Ex : Réviser les mathématiques"
-                    required>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Description
-                </label>
-
-                <textarea
-                    id="taskDescription"
-                    placeholder="Description facultative">
-                </textarea>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Date
-                </label>
-
-                <input
-                    type="date"
-                    id="taskDate"
-                    required>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Heure
-                </label>
-
-                <input
-                    type="time"
-                    id="taskTime">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Priorité
-                </label>
-
-                <select id="taskPriority">
-
-                    <option>
-                        Normale
-                    </option>
-
-                    <option>
-                        Haute
-                    </option>
-
-                    <option>
-                        Basse
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <button
-                class="btn btn-primary"
-                type="submit">
-
-                Ajouter la tâche
-
-            </button>
-
-        </form>
-
-    </div>
-
-</div>
-
+        <button class="btn btn-primary" type="submit">Ajouter la tâche</button>
+    </form>
+</div></div>
 
 <!-- MODAL RAPPEL -->
-
-<div
-    class="modal"
-    id="reminderModal">
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-
-            <h3>
-                Nouveau rappel
-            </h3>
-
-            <button
-                class="close"
-                onclick="closeModal('reminderModal')">
-
-                ×
-
-            </button>
-
+<div class="modal" id="reminderModal"><div class="modal-box">
+    <div class="modal-header"><h3>Nouveau rappel</h3><button class="close" onclick="closeModal('reminderModal')">×</button></div>
+    <form id="reminderForm">
+        <div class="form-group"><label>Titre</label><input type="text" id="reminderTitle" placeholder="Ex : Payer Internet" required></div>
+        <div class="form-group"><label>Message</label><textarea id="reminderMessage" placeholder="Message du rappel" required></textarea></div>
+        <div class="form-group"><label>Date</label><input type="date" id="reminderDate" required></div>
+        <div class="form-group"><label>Heure</label><input type="time" id="reminderTime" required></div>
+        <div class="form-group"><label>Répétition</label>
+            <select id="reminderRepeat"><option value="none">Une fois</option><option value="daily">Chaque jour</option><option value="weekly">Chaque semaine</option><option value="monthly">Chaque mois</option></select>
         </div>
-
-
-        <form id="reminderForm">
-
-            <div class="form-group">
-
-                <label>
-                    Titre
-                </label>
-
-                <input
-                    type="text"
-                    id="reminderTitle"
-                    placeholder="Ex : Payer Internet"
-                    required>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Message
-                </label>
-
-                <textarea
-                    id="reminderMessage"
-                    placeholder="Message du rappel"
-                    required>
-                </textarea>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Date
-                </label>
-
-                <input
-                    type="date"
-                    id="reminderDate"
-                    required>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Heure
-                </label>
-
-                <input
-                    type="time"
-                    id="reminderTime"
-                    required>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Répétition
-                </label>
-
-                <select id="reminderRepeat">
-
-                    <option value="none">
-                        Une fois
-                    </option>
-
-                    <option value="daily">
-                        Chaque jour
-                    </option>
-
-                    <option value="weekly">
-                        Chaque semaine
-                    </option>
-
-                    <option value="monthly">
-                        Chaque mois
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <button
-                class="btn btn-primary"
-                type="submit">
-
-                Créer le rappel
-
-            </button>
-
-        </form>
-
-    </div>
-
-</div>
+        <button class="btn btn-primary" type="submit">Créer le rappel</button>
+    </form>
+</div></div>
 
 
 <script>
-
 /* =========================================================
-   MONQUOTIDIEN
-   Développeur : Fawenbert Régis
+   MONQUOTIDIEN — Développeur : Fawenbert Régis
 ========================================================= */
 
 const DB_NAME = "MonQuotidienDB";
 const DB_VERSION = 1;
-
 let db;
 
+const $ = id => document.getElementById(id);
 
-/* =========================================================
-   INDEXEDDB
-========================================================= */
+/* ---------- INDEXEDDB ---------- */
 
 function openDatabase(){
-
     return new Promise((resolve,reject)=>{
-
-        const request =
-            indexedDB.open(
-                DB_NAME,
-                DB_VERSION
-            );
+        const request = indexedDB.open(DB_NAME,DB_VERSION);
 
         request.onupgradeneeded = event => {
-
-            const database =
-                event.target.result;
-
-
-            if(!database.objectStoreNames.contains("comptes")){
-
-                database.createObjectStore(
-                    "comptes",
-                    {
-                        keyPath:"id",
-                        autoIncrement:true
-                    }
-                );
-
+            const d = event.target.result;
+            ["comptes","objectifs","taches","rappels","budgets"].forEach(name=>{
+                if(!d.objectStoreNames.contains(name)){
+                    d.createObjectStore(name,{keyPath:"id",autoIncrement:true});
+                }
+            });
+            if(!d.objectStoreNames.contains("transactions")){
+                const s = d.createObjectStore("transactions",{keyPath:"id",autoIncrement:true});
+                s.createIndex("date","date",{unique:false});
+                s.createIndex("type","type",{unique:false});
             }
-
-
-            if(!database.objectStoreNames.contains("transactions")){
-
-                const store =
-                    database.createObjectStore(
-                        "transactions",
-                        {
-                            keyPath:"id",
-                            autoIncrement:true
-                        }
-                    );
-
-                store.createIndex(
-                    "date",
-                    "date",
-                    {
-                        unique:false
-                    }
-                );
-
-                store.createIndex(
-                    "type",
-                    "type",
-                    {
-                        unique:false
-                    }
-                );
-
+            if(!d.objectStoreNames.contains("parametres")){
+                d.createObjectStore("parametres",{keyPath:"id"});
             }
-
-
-            if(!database.objectStoreNames.contains("objectifs")){
-
-                database.createObjectStore(
-                    "objectifs",
-                    {
-                        keyPath:"id",
-                        autoIncrement:true
-                    }
-                );
-
-            }
-
-
-            if(!database.objectStoreNames.contains("taches")){
-
-                database.createObjectStore(
-                    "taches",
-                    {
-                        keyPath:"id",
-                        autoIncrement:true
-                    }
-                );
-
-            }
-
-
-            if(!database.objectStoreNames.contains("rappels")){
-
-                database.createObjectStore(
-                    "rappels",
-                    {
-                        keyPath:"id",
-                        autoIncrement:true
-                    }
-                );
-
-            }
-
-
-            if(!database.objectStoreNames.contains("budgets")){
-
-                database.createObjectStore(
-                    "budgets",
-                    {
-                        keyPath:"id",
-                        autoIncrement:true
-                    }
-                );
-
-            }
-
-
-            if(!database.objectStoreNames.contains("parametres")){
-
-                database.createObjectStore(
-                    "parametres",
-                    {
-                        keyPath:"id"
-                    }
-                );
-
-            }
-
         };
-
 
         request.onsuccess = event => {
-
-            db =
-                event.target.result;
-
+            db = event.target.result;
             initializeData();
-
             resolve(db);
-
         };
 
-
-        request.onerror = () => {
-
-            reject(
-                request.error
-            );
-
-        };
-
+        request.onerror = () => reject(request.error);
     });
-
 }
-
 
 async function initializeData(){
-
-    const accounts =
-        await getAll("comptes");
-
-
+    const accounts = await getAll("comptes");
     if(accounts.length === 0){
-
-        await addData(
-            "comptes",
-            {
-                name:"Cash",
-                balance:0,
-                currency:"HTG",
-                createdAt:
-                    new Date().toISOString()
-            }
-        );
-
+        await addData("comptes",{name:"Cash",balance:0,currency:"HTG",createdAt:new Date().toISOString()});
     }
-
-
     await loadSettings();
-
     await refreshAll();
-
     await refreshReminders();
-
     updateNotificationStatus();
-
     await checkReminders();
-
     await checkDailyNotifications();
-
 }
 
-
-/* =========================================================
-   DATABASE HELPERS
-========================================================= */
-
-function addData(storeName,data){
-
+function dbRequest(storeName,mode,action){
     return new Promise((resolve,reject)=>{
-
-        const transaction =
-            db.transaction(
-                storeName,
-                "readwrite"
-            );
-
-        const store =
-            transaction.objectStore(
-                storeName
-            );
-
-        const request =
-            store.add(data);
-
-        request.onsuccess =
-            () => resolve(
-                request.result
-            );
-
-        request.onerror =
-            () => reject(
-                request.error
-            );
-
+        const store = db.transaction(storeName,mode).objectStore(storeName);
+        const request = action(store);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
     });
-
 }
 
-
-function getAll(storeName){
-
-    return new Promise((resolve,reject)=>{
-
-        const transaction =
-            db.transaction(
-                storeName,
-                "readonly"
-            );
-
-        const store =
-            transaction.objectStore(
-                storeName
-            );
-
-        const request =
-            store.getAll();
-
-        request.onsuccess =
-            () => resolve(
-                request.result
-            );
-
-        request.onerror =
-            () => reject(
-                request.error
-            );
-
-    });
-
-}
+function addData(s,data){ return dbRequest(s,"readwrite",o=>o.add(data)); }
+function getAll(s){ return dbRequest(s,"readonly",o=>o.getAll()); }
+function getData(s,id){ return dbRequest(s,"readonly",o=>o.get(id)); }
+function putData(s,data){ return dbRequest(s,"readwrite",o=>o.put(data)); }
+function deleteData(s,id){ return dbRequest(s,"readwrite",o=>o.delete(id)); }
 
 
-function getData(storeName,id){
-
-    return new Promise((resolve,reject)=>{
-
-        const transaction =
-            db.transaction(
-                storeName,
-                "readonly"
-            );
-
-        const store =
-            transaction.objectStore(
-                storeName
-            );
-
-        const request =
-            store.get(id);
-
-        request.onsuccess =
-            () => resolve(
-                request.result
-            );
-
-        request.onerror =
-            () => reject(
-                request.error
-            );
-
-    });
-
-}
-
-
-function putData(storeName,data){
-
-    return new Promise((resolve,reject)=>{
-
-        const transaction =
-            db.transaction(
-                storeName,
-                "readwrite"
-            );
-
-        const store =
-            transaction.objectStore(
-                storeName
-            );
-
-        const request =
-            store.put(data);
-
-        request.onsuccess =
-            () => resolve(
-                request.result
-            );
-
-        request.onerror =
-            () => reject(
-                request.error
-            );
-
-    });
-
-}
-
-
-function deleteData(storeName,id){
-
-    return new Promise((resolve,reject)=>{
-
-        const transaction =
-            db.transaction(
-                storeName,
-                "readwrite"
-            );
-
-        const store =
-            transaction.objectStore(
-                storeName
-            );
-
-        const request =
-            store.delete(id);
-
-        request.onsuccess =
-            () => resolve();
-
-        request.onerror =
-            () => reject(
-                request.error
-            );
-
-    });
-
-}
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
+/* ---------- NAVIGATION ---------- */
 
 const titles = {
-
     home:"Aujourd’hui",
-
     money:"Argent",
-
     savings:"Épargne",
-
     planning:"Planning",
-
     notifications:"Notifications",
-
     statistics:"Statistiques",
-
     settings:"Paramètres"
-
 };
 
-
 function showPage(page){
+    document.querySelectorAll(".page").forEach(el=>el.classList.remove("active"));
+    const target = $(page);
+    if(target){ target.classList.add("active"); }
 
-    document
-        .querySelectorAll(".page")
-        .forEach(el=>{
-            el.classList.remove("active");
-        });
-
-
-    const target =
-        document.getElementById(page);
-
-
-    if(target){
-
-        target.classList.add("active");
-
-    }
-
-
-    document
-        .querySelectorAll(".nav-btn")
-        .forEach(btn=>{
-
-            btn.classList.toggle(
-                "active",
-                btn.dataset.page === page
-            );
-
-        });
-
-
-    document
-        .querySelectorAll(".mobile-nav-btn")
-        .forEach(btn=>{
-
-            btn.classList.toggle(
-                "active",
-                btn.dataset.page === page
-            );
-
-        });
-
-
-    document
-        .getElementById("pageTitle")
-        .textContent =
-        titles[page] ||
-        "MonQuotidien";
-
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
+    document.querySelectorAll(".nav-btn,.mobile-nav-btn").forEach(btn=>{
+        btn.classList.toggle("active",btn.dataset.page === page);
     });
 
+    $("pageTitle").textContent = titles[page] || "MonQuotidien";
+    window.scrollTo({top:0,behavior:"smooth"});
 }
 
+document.querySelectorAll(".nav-btn,.mobile-nav-btn").forEach(button=>{
+    button.addEventListener("click",()=>showPage(button.dataset.page));
+});
 
-document
-    .querySelectorAll(".nav-btn")
-    .forEach(button=>{
 
-        button.addEventListener(
-            "click",
-            ()=>{
-                showPage(
-                    button.dataset.page
-                );
-            }
-        );
+/* ---------- MODALS ---------- */
 
+function openModal(id){ $(id).classList.add("show"); }
+function closeModal(id){ $(id).classList.remove("show"); }
+
+document.querySelectorAll(".modal").forEach(modal=>{
+    modal.addEventListener("click",event=>{
+        if(event.target === modal){ modal.classList.remove("show"); }
     });
+});
 
 
-document
-    .querySelectorAll(".mobile-nav-btn")
-    .forEach(button=>{
-
-        button.addEventListener(
-            "click",
-            ()=>{
-                showPage(
-                    button.dataset.page
-                );
-            }
-        );
-
-    });
-
-
-/* =========================================================
-   MODALS
-========================================================= */
-
-function openModal(id){
-
-    document
-        .getElementById(id)
-        .classList.add("show");
-
-}
-
-
-function closeModal(id){
-
-    document
-        .getElementById(id)
-        .classList.remove("show");
-
-}
-
-
-document
-    .querySelectorAll(".modal")
-    .forEach(modal=>{
-
-        modal.addEventListener(
-            "click",
-            event=>{
-
-                if(event.target === modal){
-
-                    modal.classList.remove(
-                        "show"
-                    );
-
-                }
-
-            }
-        );
-
-    });
-
-
-/* =========================================================
-   DATE
-========================================================= */
+/* ---------- DATE ---------- */
 
 function updateDate(){
-
-    const now =
-        new Date();
-
-    document
-        .getElementById("currentDate")
-        .textContent =
-        now.toLocaleDateString(
-            "fr-FR",
-            {
-                weekday:"long",
-                day:"numeric",
-                month:"long",
-                year:"numeric"
-            }
-        );
-
+    $("currentDate").textContent = new Date().toLocaleDateString("fr-FR",{
+        weekday:"long",day:"numeric",month:"long",year:"numeric"
+    });
 }
-
 updateDate();
 
 
-/* =========================================================
-   PARAMETRES
-========================================================= */
+/* ---------- PARAMETRES ---------- */
 
 let settings = {
-
     name:"",
-
     currency:"HTG",
-
     dark:false,
-
     notifications:true,
-
     summaryTime:"20:00",
-
-    /*
-       Dates des dernières notifications
-       quotidiennes.
-    */
     lastMorningNotificationDate:null,
-
     lastExpenseNotificationDate:null
-
 };
 
-
 async function loadSettings(){
+    const saved = await getData("parametres","settings");
+    if(saved && saved.value){ settings = {...settings,...saved.value}; }
 
-    const saved =
-        await getData(
-            "parametres",
-            "settings"
-        );
+    $("userName").value = settings.name || "";
+    $("currencySelect").value = settings.currency || "HTG";
+    $("summaryTime").value = settings.summaryTime || "20:00";
 
-
-    if(saved && saved.value){
-
-        settings = {
-
-            ...settings,
-
-            ...saved.value
-
-        };
-
-    }
-
-
-    document
-        .getElementById("userName")
-        .value =
-        settings.name || "";
-
-
-    document
-        .getElementById("currencySelect")
-        .value =
-        settings.currency ||
-        "HTG";
-
-
-    document
-        .getElementById("summaryTime")
-        .value =
-        settings.summaryTime ||
-        "20:00";
-
-
-    if(settings.dark){
-
-        document.body.classList.add(
-            "dark"
-        );
-
-    }
-
+    if(settings.dark){ document.body.classList.add("dark"); }
 }
-
 
 async function saveSettings(){
+    settings.name = $("userName").value.trim();
+    settings.currency = $("currencySelect").value;
+    settings.summaryTime = $("summaryTime").value;
+    settings.dark = document.body.classList.contains("dark");
 
-    settings.name =
-        document
-            .getElementById("userName")
-            .value
-            .trim();
-
-
-    settings.currency =
-        document
-            .getElementById("currencySelect")
-            .value;
-
-
-    settings.summaryTime =
-        document
-            .getElementById("summaryTime")
-            .value;
-
-
-    settings.dark =
-        document.body.classList.contains(
-            "dark"
-        );
-
-
-    await putData(
-        "parametres",
-        {
-            id:"settings",
-            value:settings
-        }
-    );
-
-
+    await putData("parametres",{id:"settings",value:settings});
     await refreshAll();
-
 }
 
-
-document
-    .getElementById("userName")
-    .addEventListener(
-        "change",
-        saveSettings
-    );
-
+$("userName").addEventListener("change",saveSettings);
 
 function formatMoney(value){
-
-    const currency =
-        settings.currency ||
-        "HTG";
-
-
-    return Number(
-        value || 0
-    )
-    .toLocaleString(
-        "fr-FR",
-        {
-            minimumFractionDigits:2,
-            maximumFractionDigits:2
-        }
-    )
-    +
-    " " +
-    currency;
-
+    return Number(value || 0).toLocaleString("fr-FR",{
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+    }) + " " + (settings.currency || "HTG");
 }
 
 
-/* =========================================================
-   NOTIFICATIONS QUOTIDIENNES
-========================================================= */
+/* ---------- NOTIFICATIONS QUOTIDIENNES ---------- */
 
-/*
-   Retourne une date locale.
-
-   Exemple :
-   2026-10-02
-*/
-function getLocalDateKey(
-    date = new Date()
-){
-
-    const year =
-        date.getFullYear();
-
-
-    const month =
-        String(
-            date.getMonth() + 1
-        ).padStart(2,"0");
-
-
-    const day =
-        String(
-            date.getDate()
-        ).padStart(2,"0");
-
-
-    return (
-        year +
-        "-" +
-        month +
-        "-" +
-        day
-    );
-
+function getLocalDateKey(date = new Date()){
+    return date.getFullYear() + "-" +
+        String(date.getMonth() + 1).padStart(2,"0") + "-" +
+        String(date.getDate()).padStart(2,"0");
 }
 
-
-/*
-   Vérifie si une heure est atteinte.
-*/
-function isTimeReached(
-    time,
-    now = new Date()
-){
-
-    if(!time){
-
-        return false;
-
-    }
-
-
-    const parts =
-        time.split(":");
-
-
-    const hour =
-        Number(parts[0]);
-
-
-    const minute =
-        Number(parts[1]);
-
-
-    if(
-        Number.isNaN(hour) ||
-        Number.isNaN(minute)
-    ){
-
-        return false;
-
-    }
-
-
-    const currentMinutes =
-        now.getHours() * 60 +
-        now.getMinutes();
-
-
-    const targetMinutes =
-        hour * 60 +
-        minute;
-
-
-    return (
-        currentMinutes >=
-        targetMinutes
-    );
-
+function isTimeReached(time,now = new Date()){
+    if(!time){ return false; }
+    const parts = time.split(":");
+    const hour = Number(parts[0]);
+    const minute = Number(parts[1]);
+    if(Number.isNaN(hour) || Number.isNaN(minute)){ return false; }
+    return now.getHours() * 60 + now.getMinutes() >= hour * 60 + minute;
 }
 
-
-/*
-   Calcule le solde actuel.
-*/
 async function getCurrentBalance(){
-
-    const transactions =
-        await getAll(
-            "transactions"
-        );
-
-
-    let income = 0;
-
-    let expenses = 0;
-
-
-    transactions.forEach(
-        transaction=>{
-
-            const amount =
-                Number(
-                    transaction.amount ||
-                    0
-                );
-
-
-            if(
-                transaction.type ===
-                "income"
-            ){
-
-                income += amount;
-
-            }
-
-
-            if(
-                transaction.type ===
-                "expense"
-            ){
-
-                expenses += amount;
-
-            }
-
-        }
-    );
-
-
-    return (
-        income -
-        expenses
-    );
-
+    const transactions = await getAll("transactions");
+    let income = 0, expenses = 0;
+    transactions.forEach(t=>{
+        const amount = Number(t.amount || 0);
+        if(t.type === "income"){ income += amount; }
+        if(t.type === "expense"){ expenses += amount; }
+    });
+    return income - expenses;
 }
 
-
-/*
-   Sauvegarde uniquement les paramètres.
-*/
 async function saveNotificationSettings(){
-
-    await putData(
-        "parametres",
-        {
-            id:"settings",
-            value:settings
-        }
-    );
-
+    await putData("parametres",{id:"settings",value:settings});
 }
 
-
-/*
-   Notification de 08:00.
-*/
 async function sendMorningNotification(){
+    const today = getLocalDateKey();
+    if(settings.lastMorningNotificationDate === today){ return; }
 
-    const now =
-        new Date();
+    const balance = await getCurrentBalance();
+    await envoyerNotification("MonQuotidien — Solde","Il te reste " + formatMoney(balance) + " sur ton solde actuel.");
 
-
-    const today =
-        getLocalDateKey(now);
-
-
-    if(
-        settings.lastMorningNotificationDate ===
-        today
-    ){
-
-        return;
-
-    }
-
-
-    const balance =
-        await getCurrentBalance();
-
-
-    await envoyerNotification(
-        "MonQuotidien — Solde",
-        "Il te reste " +
-        formatMoney(balance) +
-        " sur ton solde actuel."
-    );
-
-
-    settings.lastMorningNotificationDate =
-        today;
-
-
+    settings.lastMorningNotificationDate = today;
     await saveNotificationSettings();
-
 }
 
-
-/*
-   Notification du soir.
-*/
 async function sendExpenseNotification(){
+    const today = getLocalDateKey();
+    if(settings.lastExpenseNotificationDate === today){ return; }
 
-    const now =
-        new Date();
+    await envoyerNotification("MonQuotidien — Dépenses","N'oublie pas de déclarer l'argent que tu as dépensé aujourd'hui.");
 
-
-    const today =
-        getLocalDateKey(now);
-
-
-    if(
-        settings.lastExpenseNotificationDate ===
-        today
-    ){
-
-        return;
-
-    }
-
-
-    await envoyerNotification(
-        "MonQuotidien — Dépenses",
-        "N'oublie pas de déclarer l'argent que tu as dépensé aujourd'hui."
-    );
-
-
-    settings.lastExpenseNotificationDate =
-        today;
-
-
+    settings.lastExpenseNotificationDate = today;
     await saveNotificationSettings();
-
 }
 
-
-/*
-   Vérification générale.
-*/
-let dailyNotificationCheckRunning =
-    false;
-
+let dailyNotificationCheckRunning = false;
 
 async function checkDailyNotifications(){
-
-    if(
-        dailyNotificationCheckRunning
-    ){
-
-        return;
-
-    }
-
-
-    dailyNotificationCheckRunning =
-        true;
-
+    if(dailyNotificationCheckRunning){ return; }
+    dailyNotificationCheckRunning = true;
 
     try{
+        if(!("Notification" in window)){ return; }
+        if(Notification.permission !== "granted"){ return; }
 
-        if(
-            !("Notification" in window)
-        ){
+        const now = new Date();
 
-            return;
-
-        }
-
-
-        if(
-            Notification.permission !==
-            "granted"
-        ){
-
-            return;
-
-        }
-
-
-        const now =
-            new Date();
-
-
-        /*
-           Notification du matin :
-           08:00.
-        */
-        if(
-            isTimeReached(
-                "08:00",
-                now
-            )
-        ){
-
-            await sendMorningNotification();
-
-        }
-
-
-        /*
-           Notification du soir :
-           heure définie dans Paramètres.
-        */
-        if(
-            isTimeReached(
-                settings.summaryTime ||
-                "20:00",
-                now
-            )
-        ){
-
-            await sendExpenseNotification();
-
-        }
-
+        if(isTimeReached("08:00",now)){ await sendMorningNotification(); }
+        if(isTimeReached(settings.summaryTime || "20:00",now)){ await sendExpenseNotification(); }
     }catch(error){
-
-        console.error(
-            "Erreur notification quotidienne :",
-            error
-        );
-
+        console.error("Erreur notification quotidienne :",error);
     }finally{
-
-        dailyNotificationCheckRunning =
-            false;
-
+        dailyNotificationCheckRunning = false;
     }
-
 }
 
 
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
+/* ---------- ESCAPE HTML ---------- */
 
 function escapeHTML(value){
-
-    return String(
-        value ?? ""
-    )
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-    .replace(
-        /</g,
-        "&lt;"
-    )
-    .replace(
-        />/g,
-        "&gt;"
-    )
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-    .replace(
-        /'/g,
-        "&#039;"
-    );
-
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
 
 
-/* =========================================================
-   TRANSACTIONS
-========================================================= */
+/* ---------- TRANSACTIONS ---------- */
 
 async function refreshTransactions(){
+    const transactions = await getAll("transactions");
+    transactions.sort((a,b)=>new Date(b.date) - new Date(a.date));
 
-    const transactions =
-        await getAll(
-            "transactions"
-        );
-
-
-    transactions.sort(
-        (a,b)=>
-            new Date(b.date) -
-            new Date(a.date)
-    );
-
-
-    const tbody =
-        document.getElementById(
-            "transactionsTable"
-        );
-
+    const tbody = $("transactionsTable");
 
     if(!transactions.length){
-
-        tbody.innerHTML =
-            `
-            <tr>
-                <td colspan="6">
-                    Aucune transaction.
-                </td>
-            </tr>
-            `;
-
+        tbody.innerHTML = `<tr><td colspan="6">Aucune transaction.</td></tr>`;
     }else{
-
-        tbody.innerHTML =
-            transactions
-            .map(t=>{
-
-                const income =
-                    t.type === "income";
-
-
-                return `
-
-                    <tr>
-
-                        <td>
-                            ${new Date(t.date)
-                                .toLocaleDateString("fr-FR")}
-                        </td>
-
-                        <td>
-                            ${
-                                income
-                                ? "Revenu"
-                                : "Dépense"
-                            }
-                        </td>
-
-                        <td>
-                            ${
-                                escapeHTML(
-                                    t.description || "-"
-                                )
-                            }
-                        </td>
-
-                        <td>
-                            ${
-                                escapeHTML(
-                                    t.category || "-"
-                                )
-                            }
-                        </td>
-
-                        <td class="${
-                            income
-                            ? "green"
-                            : "red"
-                        }">
-
-                            ${
-                                income
-                                ? "+"
-                                : "-"
-                            }
-
-                            ${
-                                formatMoney(
-                                    t.amount
-                                )
-                            }
-
-                        </td>
-
-                        <td>
-
-                            <button
-                                class="btn btn-danger"
-                                onclick="removeTransaction(${t.id})">
-
-                                Supprimer
-
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-                `;
-
-            })
-            .join("");
-
+        tbody.innerHTML = transactions.map(t=>{
+            const income = t.type === "income";
+            return `
+                <tr>
+                    <td>${new Date(t.date).toLocaleDateString("fr-FR")}</td>
+                    <td>${income ? "Revenu" : "Dépense"}</td>
+                    <td>${escapeHTML(t.description || "-")}</td>
+                    <td>${escapeHTML(t.category || "-")}</td>
+                    <td class="${income ? "green" : "red"}">${income ? "+" : "-"} ${formatMoney(t.amount)}</td>
+                    <td><button class="btn btn-danger" onclick="removeTransaction(${t.id})">Supprimer</button></td>
+                </tr>`;
+        }).join("");
     }
 
-
-    const recent =
-        document.getElementById(
-            "recentTransactions"
-        );
-
+    const recent = $("recentTransactions");
 
     if(!transactions.length){
-
-        recent.innerHTML =
-            `
-            <div class="empty">
-
-                Aucune transaction
-                pour le moment.
-
-            </div>
-            `;
-
+        recent.innerHTML = `<div class="empty">Aucune transaction pour le moment.</div>`;
     }else{
-
-        recent.innerHTML =
-            transactions
-            .slice(0,5)
-            .map(t=>{
-
-                const income =
-                    t.type === "income";
-
-
-                return `
-
-                    <div class="transaction">
-
-                        <div class="transaction-info">
-
-                            <div class="transaction-title">
-
-                                ${
-                                    escapeHTML(
-                                        t.description ||
-                                        t.category ||
-                                        "Transaction"
-                                    )
-                                }
-
-                            </div>
-
-                            <div class="transaction-meta">
-
-                                ${
-                                    escapeHTML(
-                                        t.category || ""
-                                    )
-                                }
-
-                            </div>
-
-                        </div>
-
-                        <div
-                            class="transaction-amount
-                            ${
-                                income
-                                ? "green"
-                                : "red"
-                            }">
-
-                            ${
-                                income
-                                ? "+"
-                                : "-"
-                            }
-
-                            ${
-                                formatMoney(
-                                    t.amount
-                                )
-                            }
-
-                        </div>
-
+        recent.innerHTML = transactions.slice(0,5).map(t=>{
+            const income = t.type === "income";
+            return `
+                <div class="transaction">
+                    <div class="transaction-info">
+                        <div class="transaction-title">${escapeHTML(t.description || t.category || "Transaction")}</div>
+                        <div class="transaction-meta">${escapeHTML(t.category || "")}</div>
                     </div>
-
-                `;
-
-            })
-            .join("");
-
+                    <div class="transaction-amount ${income ? "green" : "red"}">${income ? "+" : "-"} ${formatMoney(t.amount)}</div>
+                </div>`;
+        }).join("");
     }
-
 }
-
 
 async function removeTransaction(id){
+    if(!confirm("Supprimer cette transaction ?")){ return; }
+    await deleteData("transactions",id);
+    await refreshAll();
+}
 
-    if(
-        !confirm(
-            "Supprimer cette transaction ?"
-        )
-    ){
+function bindTransactionForm(formId,type,prefix,modalId){
+    $(formId).addEventListener("submit",async event=>{
+        event.preventDefault();
 
-        return;
+        await addData("transactions",{
+            type,
+            amount:Number($(prefix + "Amount").value),
+            description:$(prefix + "Description").value,
+            category:$(prefix + "Category").value,
+            date:new Date().toISOString(),
+            accountId:1
+        });
 
+        event.target.reset();
+        closeModal(modalId);
+        await refreshAll();
+    });
+}
+
+bindTransactionForm("incomeForm","income","income","incomeModal");
+bindTransactionForm("expenseForm","expense","expense","expenseModal");
+
+
+/* =========================================================
+   OBJECTIFS / EPARGNE
+========================================================= */
+
+let editingGoalId = null;
+let epPeriod = "week";
+let epGoals = [];
+let epSeries = [];
+let epCoords = [];
+let epHover = null;
+let epAdj = null;
+
+function normalizeGoalHistory(goal){
+    if(!Array.isArray(goal.history)){ goal.history = []; }
+    if(goal.history.length === 0){
+        goal.history.push({
+            date:goal.createdAt || new Date().toISOString(),
+            amount:Number(goal.current || 0)
+        });
+    }
+    return goal;
+}
+
+function openNewGoalModal(){
+    editingGoalId = null;
+    $("goalModalTitle").textContent = "Nouvel objectif";
+    $("goalSubmitButton").textContent = "Créer l'objectif";
+    $("goalForm").reset();
+    $("goalCurrent").value = "0";
+    openModal("goalModal");
+}
+
+async function editGoal(id){
+    const goal = await getData("objectifs",id);
+    if(!goal){ return; }
+
+    editingGoalId = id;
+    $("goalModalTitle").textContent = "Modifier l'objectif";
+    $("goalSubmitButton").textContent = "Enregistrer les modifications";
+    $("goalName").value = goal.name || "";
+    $("goalTarget").value = Number(goal.target || 0);
+    $("goalCurrent").value = Number(goal.current || 0);
+    $("goalDate").value = goal.targetDate || "";
+    openModal("goalModal");
+}
+
+async function deleteGoal(id){
+    const goal = await getData("objectifs",id);
+    if(!goal){ return; }
+
+    if(!confirm(`Supprimer l'objectif "${goal.name}" ?\n\nCette action est définitive.`)){ return; }
+
+    await deleteData("objectifs",id);
+    await refreshAll();
+}
+
+$("goalForm").addEventListener("submit",async event=>{
+    event.preventDefault();
+
+    const name = $("goalName").value.trim();
+    const target = Number($("goalTarget").value);
+    const current = Number($("goalCurrent").value);
+    const targetDate = $("goalDate").value;
+
+    if(!name){ alert("Veuillez saisir le nom de l'objectif."); return; }
+    if(!Number.isFinite(target) || target <= 0){ alert("Le montant cible doit être supérieur à 0."); return; }
+    if(!Number.isFinite(current) || current < 0){ alert("Le montant épargné doit être égal ou supérieur à 0."); return; }
+
+    const now = new Date().toISOString();
+
+    if(editingGoalId !== null){
+        const goal = await getData("objectifs",editingGoalId);
+        if(!goal){ return; }
+
+        normalizeGoalHistory(goal);
+        const previousCurrent = Number(goal.current || 0);
+
+        goal.name = name;
+        goal.target = target;
+        goal.current = current;
+        goal.targetDate = targetDate;
+
+        if(previousCurrent !== current){
+            goal.history.push({date:now,amount:current});
+        }
+
+        await putData("objectifs",goal);
+    }else{
+        await addData("objectifs",{
+            name,target,current,targetDate,
+            createdAt:now,
+            history:[{date:now,amount:current}]
+        });
     }
 
-
-    await deleteData(
-        "transactions",
-        id
-    );
-
+    editingGoalId = null;
+    event.target.reset();
+    closeModal("goalModal");
+    $("goalModalTitle").textContent = "Nouvel objectif";
+    $("goalSubmitButton").textContent = "Créer l'objectif";
 
     await refreshAll();
+});
 
+
+/* ----- Ajouter / retirer de l'argent ----- */
+
+function epAdjust(id,sign){
+    epAdj = {id,sign};
+    $("adjustTitle").textContent = sign > 0 ? "Ajouter de l'argent" : "Retirer de l'argent";
+    $("adjustBtn").textContent = sign > 0 ? "Ajouter" : "Retirer";
+    $("adjustAmount").value = "";
+    openModal("adjustModal");
+    setTimeout(()=>$("adjustAmount").focus(),60);
 }
 
-
-/* =========================================================
-   REVENUS
-========================================================= */
-
-document
-    .getElementById("incomeForm")
-    .addEventListener(
-        "submit",
-        async event=>{
-
-            event.preventDefault();
-
-
-            const amount =
-                Number(
-                    document
-                        .getElementById(
-                            "incomeAmount"
-                        )
-                        .value
-                );
-
-
-            const description =
-                document
-                    .getElementById(
-                        "incomeDescription"
-                    )
-                    .value;
-
-
-            const category =
-                document
-                    .getElementById(
-                        "incomeCategory"
-                    )
-                    .value;
-
-
-            await addData(
-                "transactions",
-                {
-
-                    type:"income",
-
-                    amount,
-
-                    description,
-
-                    category,
-
-                    date:
-                        new Date()
-                        .toISOString(),
-
-                    accountId:1
-
-                }
-            );
-
-
-            event.target.reset();
-
-
-            closeModal(
-                "incomeModal"
-            );
-
-
-            await refreshAll();
-
-        }
-    );
-
-
-/* =========================================================
-   DEPENSES
-========================================================= */
-
-document
-    .getElementById("expenseForm")
-    .addEventListener(
-        "submit",
-        async event=>{
-
-            event.preventDefault();
-
-
-            const amount =
-                Number(
-                    document
-                        .getElementById(
-                            "expenseAmount"
-                        )
-                        .value
-                );
-
-
-            const description =
-                document
-                    .getElementById(
-                        "expenseDescription"
-                    )
-                    .value;
-
-
-            const category =
-                document
-                    .getElementById(
-                        "expenseCategory"
-                    )
-                    .value;
-
-
-            await addData(
-                "transactions",
-                {
-
-                    type:"expense",
-
-                    amount,
-
-                    description,
-
-                    category,
-
-                    date:
-                        new Date()
-                        .toISOString(),
-
-                    accountId:1
-
-                }
-            );
-
-
-            event.target.reset();
-
-
-            closeModal(
-                "expenseModal"
-            );
-
-
-            await refreshAll();
-
-        }
-    );
-
-
-/* =========================================================
-   OBJECTIFS
-========================================================= */
-
-document
-    .getElementById("goalForm")
-    .addEventListener(
-        "submit",
-        async event=>{
-
-            event.preventDefault();
-
-
-            const name =
-                document
-                    .getElementById(
-                        "goalName"
-                    )
-                    .value;
-
-
-            const target =
-                Number(
-                    document
-                        .getElementById(
-                            "goalTarget"
-                        )
-                        .value
-                );
-
-
-            const current =
-                Number(
-                    document
-                        .getElementById(
-                            "goalCurrent"
-                        )
-                        .value
-                );
-
-
-            const targetDate =
-                document
-                    .getElementById(
-                        "goalDate"
-                    )
-                    .value;
-
-
-            await addData(
-                "objectifs",
-                {
-
-                    name,
-
-                    target,
-
-                    current,
-
-                    targetDate,
-
-                    createdAt:
-                        new Date()
-                        .toISOString()
-
-                }
-            );
-
-
-            event.target.reset();
-
-
-            closeModal(
-                "goalModal"
-            );
-
-
-            await refreshAll();
-
-        }
-    );
-
-
-async function refreshGoals(){
-
-    const goals =
-        await getAll(
-            "objectifs"
-        );
-
-
-    const container =
-        document.getElementById(
-            "goalsList"
-        );
-
-
-    if(!goals.length){
-
-        container.innerHTML =
-            `
-            <div class="empty">
-
-                Aucun objectif d'épargne.
-
-            </div>
-            `;
-
+$("adjustForm").addEventListener("submit",async event=>{
+    event.preventDefault();
+    if(!epAdj){ return; }
+
+    const amount = Number($("adjustAmount").value);
+    if(!Number.isFinite(amount) || amount <= 0){
+        alert("Saisissez un montant supérieur à 0.");
         return;
-
     }
 
+    const goal = await getData("objectifs",epAdj.id);
+    if(!goal){ return; }
+    normalizeGoalHistory(goal);
 
-    container.innerHTML =
-        goals
-        .map(goal=>{
+    const current = Number(goal.current || 0);
 
-            const percent =
-                goal.target > 0
-                ?
-                Math.min(
-                    100,
-                    (
-                        goal.current /
-                        goal.target
-                    ) * 100
-                )
-                :
-                0;
+    if(epAdj.sign < 0 && amount > current){
+        alert("Vous ne pouvez pas retirer plus que le montant épargné (" + formatMoney(current) + ").");
+        return;
+    }
 
+    goal.current = Math.round((current + epAdj.sign * amount) * 100) / 100;
+    goal.history.push({date:new Date().toISOString(),amount:goal.current});
 
-            const remaining =
-                Math.max(
-                    0,
-                    goal.target -
-                    goal.current
-                );
+    await putData("objectifs",goal);
+
+    epAdj = null;
+    closeModal("adjustModal");
+    await refreshAll();
+});
 
 
-            return `
+/* ----- Données du graphique ----- */
 
-                <div class="goal">
+function buildSeries(){
+    const now = new Date();
+    const count = epPeriod === "week" ? 7 : 30;
+    const days = [];
 
-                    <div class="goal-top">
+    for(let i = count - 1; i >= 0; i--){
+        days.push(new Date(now.getFullYear(),now.getMonth(),now.getDate() - i));
+    }
 
-                        <span class="goal-name">
+    return days.map(d=>{
+        const end = new Date(d.getFullYear(),d.getMonth(),d.getDate(),23,59,59,999).getTime();
+        let total = 0;
 
-                            ${
-                                escapeHTML(
-                                    goal.name
-                                )
-                            }
+        epGoals.forEach(goal=>{
+            let last = null, lastTime = -1;
+            goal.history.forEach(h=>{
+                const t = new Date(h.date).getTime();
+                if(t <= end && t >= lastTime){ lastTime = t; last = h; }
+            });
+            if(last){ total += Number(last.amount || 0); }
+        });
 
-                        </span>
-
-                        <span>
-                            ${percent.toFixed(0)}%
-                        </span>
-
-                    </div>
-
-
-                    <div class="progress">
-
-                        <div
-                            class="progress-bar"
-                            style="width:${percent}%">
-                        </div>
-
-                    </div>
-
-
-                    <div class="list-meta">
-
-                        ${
-                            formatMoney(
-                                goal.current
-                            )
-                        }
-
-                        sur
-
-                        ${
-                            formatMoney(
-                                goal.target
-                            )
-                        }
-
-                        · Reste :
-
-                        ${
-                            formatMoney(
-                                remaining
-                            )
-                        }
-
-                    </div>
-
-                </div>
-
-            `;
-
-        })
-        .join("");
-
+        return {date:d,value:total};
+    });
 }
 
+/* Courbe lissée sans dépassement */
+function traceCurve(ctx,c){
+    const n = c.length;
+    ctx.moveTo(c[0].x,c[0].y);
 
-/* =========================================================
-   TACHES
-========================================================= */
+    if(n < 3){
+        for(let i = 1; i < n; i++){ ctx.lineTo(c[i].x,c[i].y); }
+        return;
+    }
 
-document
-    .getElementById("taskForm")
-    .addEventListener(
-        "submit",
-        async event=>{
+    const dx = [], m = [], t = [];
 
-            event.preventDefault();
+    for(let i = 0; i < n - 1; i++){
+        dx[i] = c[i+1].x - c[i].x;
+        m[i] = (c[i+1].y - c[i].y) / dx[i];
+    }
 
+    t[0] = m[0];
+    t[n-1] = m[n-2];
 
-            const title =
-                document
-                    .getElementById(
-                        "taskTitle"
-                    )
-                    .value;
+    for(let i = 1; i < n - 1; i++){
+        t[i] = (m[i-1] * m[i] <= 0) ? 0 : (2 * m[i-1] * m[i]) / (m[i-1] + m[i]);
+    }
 
-
-            const description =
-                document
-                    .getElementById(
-                        "taskDescription"
-                    )
-                    .value;
-
-
-            const date =
-                document
-                    .getElementById(
-                        "taskDate"
-                    )
-                    .value;
-
-
-            const time =
-                document
-                    .getElementById(
-                        "taskTime"
-                    )
-                    .value;
-
-
-            const priority =
-                document
-                    .getElementById(
-                        "taskPriority"
-                    )
-                    .value;
-
-
-            await addData(
-                "taches",
-                {
-
-                    title,
-
-                    description,
-
-                    date,
-
-                    time,
-
-                    priority,
-
-                    completed:false,
-
-                    createdAt:
-                        new Date()
-                        .toISOString()
-
-                }
-            );
-
-
-            event.target.reset();
-
-
-            closeModal(
-                "taskModal"
-            );
-
-
-            await refreshAll();
-
-        }
-    );
-
-
-async function refreshTasks(){
-
-    const tasks =
-        await getAll(
-            "taches"
+    for(let i = 0; i < n - 1; i++){
+        const h = dx[i];
+        ctx.bezierCurveTo(
+            c[i].x + h/3, c[i].y + t[i] * h/3,
+            c[i+1].x - h/3, c[i+1].y - t[i+1] * h/3,
+            c[i+1].x, c[i+1].y
         );
+    }
+}
 
+function drawChart(){
+    const canvas = $("epChart");
+    if(!canvas){ return; }
 
-    tasks.sort(
-        (a,b)=>{
+    const rect = canvas.getBoundingClientRect();
+    if(!rect.width || !rect.height){ return; }
 
-            const da =
-                new Date(
-                    `${a.date}T${a.time || "00:00"}`
-                );
+    const ratio = window.devicePixelRatio || 1;
+    canvas.width = rect.width * ratio;
+    canvas.height = rect.height * ratio;
 
+    const ctx = canvas.getContext("2d");
+    ctx.setTransform(ratio,0,0,ratio,0,0);
+    ctx.clearRect(0,0,rect.width,rect.height);
 
-            const dbb =
-                new Date(
-                    `${b.date}T${b.time || "00:00"}`
-                );
+    const W = rect.width;
+    const H = rect.height;
+    const n = epSeries.length;
 
+    if(!epGoals.length || !n){
+        ctx.fillStyle = "rgba(255,255,255,.55)";
+        ctx.font = "13px Inter, Arial, sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("Créez un objectif pour voir votre courbe.",W/2,H/2);
+        epCoords = [];
+        return;
+    }
 
-            return da - dbb;
+    const pad = {top:26,right:16,bottom:28,left:16};
+    const cw = W - pad.left - pad.right;
+    const ch = H - pad.top - pad.bottom;
 
-        }
-    );
+    const values = epSeries.map(p=>p.value);
+    let lo = Math.min(...values);
+    let hi = Math.max(...values);
 
-
-    const now =
-        new Date();
-
-
-    const today =
-        getLocalDateKey(now);
-
-
-    const todayTasks =
-        tasks.filter(
-            t=>t.date === today
-        );
-
-
-    const todayContainer =
-        document.getElementById(
-            "todayTasks"
-        );
-
-
-    if(!todayTasks.length){
-
-        todayContainer.innerHTML =
-            `
-            <div class="empty">
-
-                Aucune tâche aujourd'hui.
-
-            </div>
-            `;
-
+    if(hi === lo){
+        lo = Math.max(0,hi - Math.max(hi * 0.4,1));
+        hi = hi + Math.max(hi * 0.2,1);
     }else{
-
-        todayContainer.innerHTML =
-            todayTasks
-            .map(t=>`
-
-                <div class="list-item">
-
-                    <strong>
-
-                        ${
-                            escapeHTML(
-                                t.title
-                            )
-                        }
-
-                    </strong>
-
-                    <div class="list-meta">
-
-                        ${
-                            t.time ||
-                            "Sans heure"
-                        }
-
-                        · Priorité :
-
-                        ${
-                            escapeHTML(
-                                t.priority
-                            )
-                        }
-
-                    </div>
-
-                </div>
-
-            `)
-            .join("");
-
+        const r = hi - lo;
+        lo = Math.max(0,lo - r * 0.15);
+        hi = hi + r * 0.15;
     }
 
+    epCoords = epSeries.map((p,i)=>({
+        x:n === 1 ? pad.left + cw/2 : pad.left + (cw/(n-1)) * i,
+        y:pad.top + ch - ((p.value - lo)/(hi - lo)) * ch
+    }));
 
-    const planning =
-        document.getElementById(
-            "planningList"
-        );
+    ctx.strokeStyle = "rgba(255,255,255,.07)";
+    ctx.lineWidth = 1;
+    for(let i = 0; i < 3; i++){
+        const y = pad.top + (ch/2) * i;
+        ctx.beginPath();
+        ctx.moveTo(pad.left,y);
+        ctx.lineTo(W - pad.right,y);
+        ctx.stroke();
+    }
 
+    if(n > 1){
+        const grad = ctx.createLinearGradient(0,pad.top,0,pad.top + ch);
+        grad.addColorStop(0,"rgba(200,170,255,.38)");
+        grad.addColorStop(1,"rgba(200,170,255,0)");
 
-    if(!tasks.length){
+        ctx.beginPath();
+        traceCurve(ctx,epCoords);
+        ctx.lineTo(epCoords[n-1].x,pad.top + ch);
+        ctx.lineTo(epCoords[0].x,pad.top + ch);
+        ctx.closePath();
+        ctx.fillStyle = grad;
+        ctx.fill();
 
-        planning.innerHTML =
-            `
-            <div class="empty">
+        ctx.beginPath();
+        traceCurve(ctx,epCoords);
+        ctx.strokeStyle = "#e3d4ff";
+        ctx.lineWidth = 2.5;
+        ctx.lineJoin = "round";
+        ctx.lineCap = "round";
+        ctx.stroke();
+    }
 
-                Aucune tâche enregistrée.
+    const active = epHover === null ? n - 1 : epHover;
+    const a = epCoords[active];
 
-            </div>
-            `;
+    if(epHover !== null){
+        ctx.strokeStyle = "rgba(255,255,255,.35)";
+        ctx.setLineDash([3,4]);
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(a.x,pad.top - 6);
+        ctx.lineTo(a.x,pad.top + ch);
+        ctx.stroke();
+        ctx.setLineDash([]);
+    }
 
+    ctx.fillStyle = "rgba(227,212,255,.22)";
+    ctx.beginPath();
+    ctx.arc(a.x,a.y,10,0,Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = "#fff";
+    ctx.beginPath();
+    ctx.arc(a.x,a.y,4.5,0,Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = "rgba(255,255,255,.5)";
+    ctx.font = "11px Inter, Arial, sans-serif";
+
+    let idx;
+    if(epPeriod === "week"){
+        idx = epSeries.map((_,i)=>i);
     }else{
-
-        planning.innerHTML =
-            tasks
-            .map(t=>`
-
-                <div class="list-item">
-
-                    <strong>
-
-                        ${
-                            escapeHTML(
-                                t.title
-                            )
-                        }
-
-                    </strong>
-
-
-                    <div class="list-meta">
-
-                        ${
-                            escapeHTML(
-                                t.date
-                            )
-                        }
-
-                        ${
-                            t.time
-                            ?
-                            " · " +
-                            escapeHTML(
-                                t.time
-                            )
-                            :
-                            ""
-                        }
-
-                        ·
-
-                        ${
-                            escapeHTML(
-                                t.priority
-                            )
-                        }
-
-                    </div>
-
-
-                    ${
-                        t.description
-                        ?
-                        `
-                        <div class="list-meta">
-
-                            ${
-                                escapeHTML(
-                                    t.description
-                                )
-                            }
-
-                        </div>
-                        `
-                        :
-                        ""
-                    }
-
-                </div>
-
-            `)
-            .join("");
-
+        idx = [0,Math.round((n-1)/4),Math.round((n-1)/2),Math.round(3*(n-1)/4),n-1];
+        idx = idx.filter((v,i)=>idx.indexOf(v) === i);
     }
 
+    idx.forEach(i=>{
+        const d = epSeries[i].date;
+        const label = epPeriod === "week"
+            ? d.toLocaleDateString("fr-FR",{weekday:"short"}).replace(".","")
+            : d.toLocaleDateString("fr-FR",{day:"numeric",month:"short"});
+
+        ctx.textAlign = i === 0 ? "left" : (i === n-1 ? "right" : "center");
+        ctx.fillText(label,epCoords[i].x + (i === 0 ? -4 : (i === n-1 ? 4 : 0)),H - 8);
+    });
 }
 
+function updateSub(){
+    const sub = $("epSub");
+    sub.classList.remove("up");
 
-/* =========================================================
-   RAPPELS
-========================================================= */
-
-document
-    .getElementById("reminderForm")
-    .addEventListener(
-        "submit",
-        async event=>{
-
-            event.preventDefault();
-
-
-            const title =
-                document
-                    .getElementById(
-                        "reminderTitle"
-                    )
-                    .value;
-
-
-            const message =
-                document
-                    .getElementById(
-                        "reminderMessage"
-                    )
-                    .value;
-
-
-            const date =
-                document
-                    .getElementById(
-                        "reminderDate"
-                    )
-                    .value;
-
-
-            const time =
-                document
-                    .getElementById(
-                        "reminderTime"
-                    )
-                    .value;
-
-
-            const repetition =
-                document
-                    .getElementById(
-                        "reminderRepeat"
-                    )
-                    .value;
-
-
-            await addData(
-                "rappels",
-                {
-
-                    title,
-
-                    message,
-
-                    date,
-
-                    time,
-
-                    repetition,
-
-                    enabled:true,
-
-                    lastTriggered:null,
-
-                    createdAt:
-                        new Date()
-                        .toISOString()
-
-                }
-            );
-
-
-            event.target.reset();
-
-
-            closeModal(
-                "reminderModal"
-            );
-
-
-            await refreshReminders();
-
-        }
-    );
-
-
-async function refreshReminders(){
-
-    const reminders =
-        await getAll(
-            "rappels"
-        );
-
-
-    const container =
-        document.getElementById(
-            "remindersList"
-        );
-
-
-    if(!reminders.length){
-
-        container.innerHTML =
-            `
-            <div class="empty">
-
-                Aucun rappel enregistré.
-
-            </div>
-            `;
-
+    if(!epGoals.length){
+        sub.textContent = "Aucun objectif pour l'instant.";
         return;
-
     }
 
-
-    container.innerHTML =
-        reminders
-        .map(r=>{
-
-            let repeat =
-                "Une fois";
-
-
-            if(r.repetition === "daily"){
-                repeat =
-                    "Chaque jour";
-            }
-
-
-            if(r.repetition === "weekly"){
-                repeat =
-                    "Chaque semaine";
-            }
-
-
-            if(r.repetition === "monthly"){
-                repeat =
-                    "Chaque mois";
-            }
-
-
-            return `
-
-                <div class="list-item">
-
-                    <strong>
-
-                        ${
-                            escapeHTML(
-                                r.title
-                            )
-                        }
-
-                    </strong>
-
-
-                    <div class="list-meta">
-
-                        ${
-                            escapeHTML(
-                                r.date
-                            )
-                        }
-
-                        à
-
-                        ${
-                            escapeHTML(
-                                r.time
-                            )
-                        }
-
-                        · ${repeat}
-
-                        ·
-
-                        ${
-                            r.enabled
-                            ? "Actif"
-                            : "Désactivé"
-                        }
-
-                    </div>
-
-
-                    <div class="actions"
-                         style="margin-top:8px;">
-
-                        <button
-                            class="btn btn-danger"
-                            onclick="removeReminder(${r.id})">
-
-                            Supprimer
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            `;
-
-        })
-        .join("");
-
-}
-
-
-async function removeReminder(id){
-
-    if(
-        !confirm(
-            "Supprimer ce rappel ?"
-        )
-    ){
-
+    if(epHover !== null){
+        const p = epSeries[epHover];
+        sub.textContent = p.date.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"}) + " : " + formatMoney(p.value);
         return;
-
     }
 
+    const diff = epSeries[epSeries.length - 1].value - epSeries[0].value;
+    const span = epPeriod === "week" ? "sur 7 jours" : "sur 30 jours";
 
-    await deleteData(
-        "rappels",
-        id
-    );
-
-
-    await refreshReminders();
-
-}
-
-
-/* =========================================================
-   NOTIFICATIONS
-========================================================= */
-
-async function requestNotificationPermission(){
-
-    if(
-        !("Notification" in window)
-    ){
-
-        alert(
-            "Votre navigateur ne prend pas en charge les notifications."
-        );
-
-        return;
-
-    }
-
-
-    const permission =
-        await Notification
-            .requestPermission();
-
-
-    settings.notifications =
-        permission === "granted";
-
-
-    await putData(
-        "parametres",
-        {
-            id:"settings",
-            value:settings
-        }
-    );
-
-
-    updateNotificationStatus();
-
-
-    if(permission === "granted"){
-
-        await envoyerNotification(
-            "MonQuotidien",
-            "Les notifications sont activées."
-        );
-
-
-        /*
-           Vérifie immédiatement les notifications
-           quotidiennes.
-        */
-        await checkDailyNotifications();
-
+    if(diff > 0){
+        sub.textContent = "+" + formatMoney(diff) + " " + span;
+        sub.classList.add("up");
+    }else if(diff < 0){
+        sub.textContent = "−" + formatMoney(Math.abs(diff)) + " " + span;
     }else{
-
-        alert(
-            "Les notifications n'ont pas été autorisées."
-        );
-
+        sub.textContent = "Aucun changement " + span;
     }
-
 }
 
-
-async function testerNotification(){
-
-    if(
-        !("Notification" in window)
-    ){
-
-        return;
-
-    }
-
-
-    if(
-        Notification.permission !==
-        "granted"
-    ){
-
-        await requestNotificationPermission();
-
-    }
-
-
-    if(
-        Notification.permission !==
-        "granted"
-    ){
-
-        return;
-
-    }
-
-
-    await envoyerNotification(
-        "MonQuotidien",
-        "Les notifications fonctionnent correctement."
-    );
-
+function updateHero(){
+    epSeries = buildSeries();
+    updateSub();
+    drawChart();
 }
 
+/* ----- Interaction avec le graphique ----- */
 
-function updateNotificationStatus(){
+const epCanvas = $("epChart");
 
-    const element =
-        document.getElementById(
-            "notificationStatus"
-        );
+function onChartPointer(e){
+    if(!epCoords.length){ return; }
+    const x = e.clientX - epCanvas.getBoundingClientRect().left;
+    let best = 0, bestDist = Infinity;
 
-
-    if(
-        !("Notification" in window)
-    ){
-
-        element.textContent =
-            "Les notifications ne sont pas supportées.";
-
-        return;
-
-    }
-
-
-    if(
-        Notification.permission ===
-        "granted"
-    ){
-
-        element.textContent =
-            "Les notifications sont activées. Solde : 08:00 · Rappel dépenses : " +
-            (settings.summaryTime || "20:00") +
-            ".";
-
-    }else if(
-        Notification.permission ===
-        "denied"
-    ){
-
-        element.textContent =
-            "Les notifications sont bloquées dans le navigateur.";
-
-    }else{
-
-        element.textContent =
-            "Les notifications ne sont pas encore autorisées.";
-
-    }
-
-}
-
-
-async function envoyerNotification(
-    titre,
-    message
-){
-
-    if(
-        !("Notification" in window)
-    ){
-
-        return;
-
-    }
-
-
-    if(
-        Notification.permission !==
-        "granted"
-    ){
-
-        return;
-
-    }
-
-
-    if(
-        "serviceWorker" in navigator
-    ){
-
-        try{
-
-            const registration =
-                await navigator
-                    .serviceWorker
-                    .ready;
-
-
-            await registration
-                .showNotification(
-                    titre,
-                    {
-
-                        body:message,
-
-                        icon:
-                            "./icons/icon-192.png",
-
-                        badge:
-                            "./icons/icon-192.png",
-
-                        tag:
-                            "monquotidien-" +
-                            titre,
-
-                        renotify:true
-
-                    }
-                );
-
-
-            return;
-
-        }catch(error){
-
-            console.error(
-                "Erreur notification :",
-                error
-            );
-
-        }
-
-    }
-
-
-    try{
-
-        new Notification(
-            titre,
-            {
-                body:message,
-                icon:"./icons/icon-192.png"
-            }
-        );
-
-    }catch(error){
-
-        console.error(
-            "Erreur notification navigateur :",
-            error
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   VERIFICATION AUTOMATIQUE DES RAPPELS
-========================================================= */
-
-function shouldTriggerReminder(r){
-
-    if(!r.enabled){
-        return false;
-    }
-
-
-    if(
-        !r.date ||
-        !r.time
-    ){
-
-        return false;
-
-    }
-
-
-    const now =
-        new Date();
-
-
-    const target =
-        new Date(
-            `${r.date}T${r.time}`
-        );
-
-
-    if(
-        Number.isNaN(
-            target.getTime()
-        )
-    ){
-
-        return false;
-
-    }
-
-
-    const repeat =
-        r.repetition ||
-        "none";
-
-
-    if(
-        repeat === "none"
-    ){
-
-        if(r.lastTriggered){
-            return false;
-        }
-
-
-        return (
-            now >= target &&
-            now - target < 60000
-        );
-
-    }
-
-
-    if(r.lastTriggered){
-
-        const last =
-            new Date(
-                r.lastTriggered
-            );
-
-
-        if(
-            last.getFullYear() ===
-                now.getFullYear() &&
-
-            last.getMonth() ===
-                now.getMonth() &&
-
-            last.getDate() ===
-                now.getDate() &&
-
-            last.getHours() ===
-                now.getHours() &&
-
-            last.getMinutes() ===
-                now.getMinutes()
-        ){
-
-            return false;
-
-        }
-
-    }
-
-
-    if(
-        repeat === "daily"
-    ){
-
-        return (
-
-            now.getHours() ===
-                target.getHours() &&
-
-            now.getMinutes() ===
-                target.getMinutes()
-
-        );
-
-    }
-
-
-    if(
-        repeat === "weekly"
-    ){
-
-        return (
-
-            now.getDay() ===
-                target.getDay() &&
-
-            now.getHours() ===
-                target.getHours() &&
-
-            now.getMinutes() ===
-                target.getMinutes()
-
-        );
-
-    }
-
-
-    if(
-        repeat === "monthly"
-    ){
-
-        return (
-
-            now.getDate() ===
-                target.getDate() &&
-
-            now.getHours() ===
-                target.getHours() &&
-
-            now.getMinutes() ===
-                target.getMinutes()
-
-        );
-
-    }
-
-
-    return false;
-
-}
-
-
-async function checkReminders(){
-
-    try{
-
-        const reminders =
-            await getAll(
-                "rappels"
-            );
-
-
-        for(
-            const reminder
-            of reminders
-        ){
-
-            if(
-                !shouldTriggerReminder(
-                    reminder
-                )
-            ){
-
-                continue;
-
-            }
-
-
-            if(
-                Notification.permission ===
-                "granted"
-            ){
-
-                await envoyerNotification(
-                    reminder.title,
-                    reminder.message
-                );
-
-            }
-
-
-            reminder.lastTriggered =
-                new Date()
-                    .toISOString();
-
-
-            if(
-                reminder.repetition ===
-                "none"
-            ){
-
-                reminder.enabled =
-                    false;
-
-            }
-
-
-            await putData(
-                "rappels",
-                reminder
-            );
-
-        }
-
-
-        await refreshReminders();
-
-    }catch(error){
-
-        console.error(
-            "Erreur rappel :",
-            error
-        );
-
-    }
-
-}
-
-
-/*
-    Vérification toutes les 30 secondes.
-*/
-setInterval(
-    async ()=>{
-
-        await checkReminders();
-
-        await checkDailyNotifications();
-
-    },
-    30000
-);
-
-
-/* =========================================================
-   STATISTIQUES / DASHBOARD
-========================================================= */
-
-async function refreshDashboard(){
-
-    const transactions =
-        await getAll(
-            "transactions"
-        );
-
-
-    const goals =
-        await getAll(
-            "objectifs"
-        );
-
-
-    let income = 0;
-
-    let expenses = 0;
-
-
-    transactions.forEach(t=>{
-
-        if(
-            t.type === "income"
-        ){
-
-            income +=
-                Number(
-                    t.amount || 0
-                );
-
-        }
-
-
-        if(
-            t.type === "expense"
-        ){
-
-            expenses +=
-                Number(
-                    t.amount || 0
-                );
-
-        }
-
+    epCoords.forEach((c,i)=>{
+        const dist = Math.abs(c.x - x);
+        if(dist < bestDist){ bestDist = dist; best = i; }
     });
 
-
-    const balance =
-        income -
-        expenses;
-
-
-    const savings =
-        goals.reduce(
-            (sum,g)=>
-                sum +
-                Number(
-                    g.current || 0
-                ),
-            0
-        );
-
-
-    document
-        .getElementById(
-            "homeBalance"
-        )
-        .textContent =
-        formatMoney(
-            balance
-        );
-
-
-    document
-        .getElementById(
-            "homeIncome"
-        )
-        .textContent =
-        formatMoney(
-            income
-        );
-
-
-    document
-        .getElementById(
-            "homeExpenses"
-        )
-        .textContent =
-        formatMoney(
-            expenses
-        );
-
-
-    document
-        .getElementById(
-            "homeSavings"
-        )
-        .textContent =
-        formatMoney(
-            savings
-        );
-
-
-    document
-        .getElementById(
-            "statIncome"
-        )
-        .textContent =
-        formatMoney(
-            income
-        );
-
-
-    document
-        .getElementById(
-            "statExpenses"
-        )
-        .textContent =
-        formatMoney(
-            expenses
-        );
-
-
-    document
-        .getElementById(
-            "statBalance"
-        )
-        .textContent =
-        formatMoney(
-            balance
-        );
-
-
-    document
-        .getElementById(
-            "statSavings"
-        )
-        .textContent =
-        formatMoney(
-            savings
-        );
-
-
-    document
-        .getElementById(
-            "statisticsContent"
-        )
-        .innerHTML =
-
-        `
-
-            <p>
-
-                Revenus enregistrés :
-
-                <strong>
-                    ${
-                        formatMoney(
-                            income
-                        )
-                    }
-                </strong>
-
-            </p>
-
-
-            <p style="margin-top:10px;">
-
-                Dépenses enregistrées :
-
-                <strong>
-                    ${
-                        formatMoney(
-                            expenses
-                        )
-                    }
-                </strong>
-
-            </p>
-
-
-            <p style="margin-top:10px;">
-
-                Solde :
-
-                <strong>
-                    ${
-                        formatMoney(
-                            balance
-                        )
-                    }
-                </strong>
-
-            </p>
-
-
-            <p style="margin-top:10px;">
-
-                Épargne actuelle :
-
-                <strong>
-                    ${
-                        formatMoney(
-                            savings
-                        )
-                    }
-                </strong>
-
-            </p>
-
-        `;
-
+    if(best === epHover){ return; }
+    epHover = best;
+    updateSub();
+    drawChart();
 }
 
-
-/* =========================================================
-   DARK MODE
-========================================================= */
-
-function toggleDarkMode(){
-
-    document.body.classList.toggle(
-        "dark"
-    );
-
-
-    settings.dark =
-        document.body.classList.contains(
-            "dark"
-        );
-
-
-    saveSettings();
-
+function onChartLeave(){
+    if(epHover === null){ return; }
+    epHover = null;
+    updateSub();
+    drawChart();
 }
 
+epCanvas.addEventListener("pointerdown",onChartPointer);
+epCanvas.addEventListener("pointermove",onChartPointer);
+epCanvas.addEventListener("pointerleave",onChartLeave);
+epCanvas.addEventListener("pointerup",onChartLeave);
+epCanvas.addEventListener("pointercancel",onChartLeave);
 
-/* =========================================================
-   EXPORT
-========================================================= */
-
-async function exportData(){
-
-    const data = {
-
-        comptes:
-            await getAll(
-                "comptes"
-            ),
-
-        transactions:
-            await getAll(
-                "transactions"
-            ),
-
-        objectifs:
-            await getAll(
-                "objectifs"
-            ),
-
-        taches:
-            await getAll(
-                "taches"
-            ),
-
-        rappels:
-            await getAll(
-                "rappels"
-            ),
-
-        budgets:
-            await getAll(
-                "budgets"
-            ),
-
-        parametres:
-            await getAll(
-                "parametres"
-            )
-
-    };
-
-
-    const blob =
-        new Blob(
-            [
-                JSON.stringify(
-                    data,
-                    null,
-                    2
-                )
-            ],
-            {
-                type:
-                    "application/json"
-            }
-        );
-
-
-    const url =
-        URL.createObjectURL(
-            blob
-        );
-
-
-    const a =
-        document.createElement(
-            "a"
-        );
-
-
-    a.href =
-        url;
-
-
-    a.download =
-        "monquotidien-sauvegarde.json";
-
-
-    document.body.appendChild(
-        a
-    );
-
-
-    a.click();
-
-
-    a.remove();
-
-
-    URL.revokeObjectURL(
-        url
-    );
-
+if("ResizeObserver" in window){
+    new ResizeObserver(()=>drawChart()).observe(epCanvas.parentElement);
 }
 
+document.querySelectorAll(".ep-seg button").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+        epPeriod = btn.dataset.p === "month" ? "month" : "week";
+        document.querySelectorAll(".ep-seg button").forEach(b=>b.classList.toggle("on",b === btn));
+        epHover = null;
+        updateHero();
+    });
+});
 
-/* =========================================================
-   RESET
-========================================================= */
+/* ----- Cartes d'objectifs ----- */
 
-async function resetDatabase(){
+function formatTargetDate(value){
+    if(!value){ return ""; }
+    const p = value.split("-").map(Number);
+    if(p.length !== 3 || p.some(Number.isNaN)){ return ""; }
+    return new Date(p[0],p[1]-1,p[2]).toLocaleDateString("fr-FR",{day:"numeric",month:"short",year:"numeric"});
+}
 
-    const confirmed =
-        confirm(
-            "Attention : toutes les données de MonQuotidien seront supprimées. Continuer ?"
-        );
+function renderGoals(){
+    const list = $("goalsList");
 
-
-    if(!confirmed){
+    if(!epGoals.length){
+        list.innerHTML = `<div class="ep-empty">Aucun objectif pour l'instant.<br>Touchez « + Objectif » pour définir un montant à atteindre.</div>`;
         return;
     }
 
+    list.innerHTML = epGoals.map(goal=>{
+        const current = Number(goal.current || 0);
+        const target = Number(goal.target || 0);
+        const percent = target > 0 ? Math.min(100,(current/target) * 100) : 0;
+        const remaining = Math.max(0,target - current);
+        const done = target > 0 && current >= target;
+        const date = formatTargetDate(goal.targetDate);
+
+        return `
+            <article class="ep-goal${done ? " done" : ""}">
+                <div class="ep-goal-head">
+                    <h4>${escapeHTML(goal.name)}</h4>
+                    <span class="ep-chip">${done ? "Atteint" : percent.toFixed(0) + "%"}</span>
+                </div>
+                <div class="ep-amounts">
+                    <strong>${formatMoney(current)}</strong>
+                    <span>sur ${formatMoney(target)}</span>
+                </div>
+                <div class="ep-track"><i style="width:${percent}%"></i></div>
+                <div class="ep-meta">
+                    <span>${done ? "Objectif atteint" : "Reste " + formatMoney(remaining)}</span>
+                    <span>${date ? "Avant le " + escapeHTML(date) : ""}</span>
+                </div>
+                <div class="ep-actions">
+                    <button class="ep-btn add" type="button" onclick="epAdjust(${goal.id},1)">+ Ajouter</button>
+                    <button class="ep-btn" type="button" onclick="epAdjust(${goal.id},-1)">− Retirer</button>
+                    <button class="ep-btn" type="button" onclick="editGoal(${goal.id})">Modifier</button>
+                    <button class="ep-btn del" type="button" onclick="deleteGoal(${goal.id})">Supprimer</button>
+                </div>
+            </article>`;
+    }).join("");
+}
+
+async function refreshGoals(){
+    const goals = await getAll("objectifs");
+    goals.forEach(normalizeGoalHistory);
+    goals.sort((a,b)=>a.id - b.id);
+    epGoals = goals;
+
+    const current = goals.reduce((s,g)=>s + Number(g.current || 0),0);
+    const target = goals.reduce((s,g)=>s + Number(g.target || 0),0);
+    const percent = target > 0 ? Math.min(100,(current/target) * 100) : 0;
+
+    $("epAmount").textContent = formatMoney(current);
+    $("epTarget").textContent = " " + formatMoney(target);
+    $("epLeft").textContent = " " + formatMoney(Math.max(0,target - current));
+    $("epPct").textContent = percent.toFixed(0) + "%";
+    $("epBar").style.width = percent + "%";
+
+    epHover = null;
+    renderGoals();
+    updateHero();
+}
+
+
+/* ---------- TACHES ---------- */
+
+$("taskForm").addEventListener("submit",async event=>{
+    event.preventDefault();
+
+    await addData("taches",{
+        title:$("taskTitle").value,
+        description:$("taskDescription").value,
+        date:$("taskDate").value,
+        time:$("taskTime").value,
+        priority:$("taskPriority").value,
+        completed:false,
+        createdAt:new Date().toISOString()
+    });
+
+    event.target.reset();
+    closeModal("taskModal");
+    await refreshAll();
+});
+
+async function refreshTasks(){
+    const tasks = await getAll("taches");
+
+    tasks.sort((a,b)=>new Date(`${a.date}T${a.time || "00:00"}`) - new Date(`${b.date}T${b.time || "00:00"}`));
+
+    const today = getLocalDateKey();
+    const todayTasks = tasks.filter(t=>t.date === today);
+
+    $("todayTasks").innerHTML = !todayTasks.length
+        ? `<div class="empty">Aucune tâche aujourd'hui.</div>`
+        : todayTasks.map(t=>`
+            <div class="list-item">
+                <strong>${escapeHTML(t.title)}</strong>
+                <div class="list-meta">${escapeHTML(t.time || "Sans heure")} · Priorité : ${escapeHTML(t.priority)}</div>
+            </div>`).join("");
+
+    $("planningList").innerHTML = !tasks.length
+        ? `<div class="empty">Aucune tâche enregistrée.</div>`
+        : tasks.map(t=>`
+            <div class="list-item">
+                <strong>${escapeHTML(t.title)}</strong>
+                <div class="list-meta">${escapeHTML(t.date)}${t.time ? " · " + escapeHTML(t.time) : ""} · ${escapeHTML(t.priority)}</div>
+                ${t.description && t.description.trim() ? `<div class="list-meta">${escapeHTML(t.description)}</div>` : ""}
+            </div>`).join("");
+}
+
+
+/* ---------- RAPPELS ---------- */
+
+$("reminderForm").addEventListener("submit",async event=>{
+    event.preventDefault();
+
+    await addData("rappels",{
+        title:$("reminderTitle").value,
+        message:$("reminderMessage").value,
+        date:$("reminderDate").value,
+        time:$("reminderTime").value,
+        repetition:$("reminderRepeat").value,
+        enabled:true,
+        lastTriggered:null,
+        createdAt:new Date().toISOString()
+    });
+
+    event.target.reset();
+    closeModal("reminderModal");
+    await refreshReminders();
+});
+
+async function refreshReminders(){
+    const reminders = await getAll("rappels");
+    const container = $("remindersList");
+
+    if(!reminders.length){
+        container.innerHTML = `<div class="empty">Aucun rappel enregistré.</div>`;
+        return;
+    }
+
+    const repeatLabels = {daily:"Chaque jour",weekly:"Chaque semaine",monthly:"Chaque mois"};
+
+    container.innerHTML = reminders.map(r=>`
+        <div class="list-item">
+            <strong>${escapeHTML(r.title)}</strong>
+            <div class="list-meta">${escapeHTML(r.date)} à ${escapeHTML(r.time)} · ${repeatLabels[r.repetition] || "Une fois"} · ${r.enabled ? "Actif" : "Désactivé"}</div>
+            <div class="actions" style="margin-top:8px;">
+                <button class="btn btn-danger" onclick="removeReminder(${r.id})">Supprimer</button>
+            </div>
+        </div>`).join("");
+}
+
+async function removeReminder(id){
+    if(!confirm("Supprimer ce rappel ?")){ return; }
+    await deleteData("rappels",id);
+    await refreshReminders();
+}
+
+
+/* ---------- NOTIFICATIONS ---------- */
+
+async function requestNotificationPermission(){
+    if(!("Notification" in window)){
+        alert("Votre navigateur ne prend pas en charge les notifications.");
+        return;
+    }
+
+    const permission = await Notification.requestPermission();
+    settings.notifications = permission === "granted";
+
+    await putData("parametres",{id:"settings",value:settings});
+    updateNotificationStatus();
+
+    if(permission === "granted"){
+        await envoyerNotification("MonQuotidien","Les notifications sont activées.");
+        await checkDailyNotifications();
+    }else{
+        alert("Les notifications n'ont pas été autorisées.");
+    }
+}
+
+async function testerNotification(){
+    if(!("Notification" in window)){ return; }
+
+    if(Notification.permission !== "granted"){
+        await requestNotificationPermission();
+    }
+    if(Notification.permission !== "granted"){ return; }
+
+    await envoyerNotification("MonQuotidien","Les notifications fonctionnent correctement.");
+}
+
+function updateNotificationStatus(){
+    const element = $("notificationStatus");
+
+    if(!("Notification" in window)){
+        element.textContent = "Les notifications ne sont pas supportées.";
+        return;
+    }
+
+    if(Notification.permission === "granted"){
+        element.textContent = "Les notifications sont activées. Solde : 08:00 · Rappel dépenses : " + (settings.summaryTime || "20:00") + ".";
+    }else if(Notification.permission === "denied"){
+        element.textContent = "Les notifications sont bloquées dans le navigateur.";
+    }else{
+        element.textContent = "Les notifications ne sont pas encore autorisées.";
+    }
+}
+
+async function envoyerNotification(titre,message){
+    if(!("Notification" in window)){ return; }
+    if(Notification.permission !== "granted"){ return; }
+
+    if("serviceWorker" in navigator){
+        try{
+            const registration = await navigator.serviceWorker.ready;
+            await registration.showNotification(titre,{
+                body:message,
+                icon:"./icons/icon-192.png",
+                badge:"./icons/icon-192.png",
+                tag:"monquotidien-" + titre,
+                renotify:true
+            });
+            return;
+        }catch(error){
+            console.error("Erreur notification :",error);
+        }
+    }
+
+    try{
+        new Notification(titre,{body:message,icon:"./icons/icon-192.png"});
+    }catch(error){
+        console.error("Erreur notification navigateur :",error);
+    }
+}
+
+
+/* ---------- VERIFICATION DES RAPPELS ---------- */
+
+function shouldTriggerReminder(r){
+    if(!r.enabled){ return false; }
+    if(!r.date || !r.time){ return false; }
+
+    const now = new Date();
+    const target = new Date(`${r.date}T${r.time}`);
+
+    if(Number.isNaN(target.getTime())){ return false; }
+
+    const repeat = r.repetition || "none";
+
+    if(repeat === "none"){
+        if(r.lastTriggered){ return false; }
+        return now >= target && now - target < 60000;
+    }
+
+    if(r.lastTriggered){
+        const last = new Date(r.lastTriggered);
+        if(
+            last.getFullYear() === now.getFullYear() &&
+            last.getMonth() === now.getMonth() &&
+            last.getDate() === now.getDate() &&
+            last.getHours() === now.getHours() &&
+            last.getMinutes() === now.getMinutes()
+        ){
+            return false;
+        }
+    }
+
+    const sameTime = now.getHours() === target.getHours() && now.getMinutes() === target.getMinutes();
+
+    if(repeat === "daily"){ return sameTime; }
+    if(repeat === "weekly"){ return now.getDay() === target.getDay() && sameTime; }
+    if(repeat === "monthly"){ return now.getDate() === target.getDate() && sameTime; }
+
+    return false;
+}
+
+async function checkReminders(){
+    try{
+        const reminders = await getAll("rappels");
+
+        for(const reminder of reminders){
+            if(!shouldTriggerReminder(reminder)){ continue; }
+
+            if(Notification.permission === "granted"){
+                await envoyerNotification(reminder.title,reminder.message);
+            }
+
+            reminder.lastTriggered = new Date().toISOString();
+
+            if(reminder.repetition === "none"){ reminder.enabled = false; }
+
+            await putData("rappels",reminder);
+        }
+
+        await refreshReminders();
+    }catch(error){
+        console.error("Erreur rappel :",error);
+    }
+}
+
+setInterval(async ()=>{
+    await checkReminders();
+    await checkDailyNotifications();
+},30000);
+
+
+/* ---------- STATISTIQUES / DASHBOARD ---------- */
+
+async function refreshDashboard(){
+    const transactions = await getAll("transactions");
+    const goals = await getAll("objectifs");
+
+    let income = 0, expenses = 0;
+
+    transactions.forEach(t=>{
+        if(t.type === "income"){ income += Number(t.amount || 0); }
+        if(t.type === "expense"){ expenses += Number(t.amount || 0); }
+    });
+
+    const balance = income - expenses;
+    const savings = goals.reduce((sum,g)=>sum + Number(g.current || 0),0);
+
+    $("homeBalance").textContent = formatMoney(balance);
+    $("homeIncome").textContent = formatMoney(income);
+    $("homeExpenses").textContent = formatMoney(expenses);
+    $("homeSavings").textContent = formatMoney(savings);
+
+    $("statIncome").textContent = formatMoney(income);
+    $("statExpenses").textContent = formatMoney(expenses);
+    $("statBalance").textContent = formatMoney(balance);
+    $("statSavings").textContent = formatMoney(savings);
+
+    $("statisticsContent").innerHTML = `
+        <p>Revenus enregistrés : <strong>${formatMoney(income)}</strong></p>
+        <p style="margin-top:10px;">Dépenses enregistrées : <strong>${formatMoney(expenses)}</strong></p>
+        <p style="margin-top:10px;">Solde : <strong>${formatMoney(balance)}</strong></p>
+        <p style="margin-top:10px;">Épargne actuelle : <strong>${formatMoney(savings)}</strong></p>`;
+}
+
+
+/* ---------- THEME SOMBRE ---------- */
+
+function toggleDarkMode(){
+    document.body.classList.toggle("dark");
+    settings.dark = document.body.classList.contains("dark");
+    saveSettings();
+}
+
+
+/* ---------- EXPORT ---------- */
+
+async function exportData(){
+    const data = {
+        comptes:await getAll("comptes"),
+        transactions:await getAll("transactions"),
+        objectifs:await getAll("objectifs"),
+        taches:await getAll("taches"),
+        rappels:await getAll("rappels"),
+        budgets:await getAll("budgets"),
+        parametres:await getAll("parametres")
+    };
+
+    const blob = new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+
+    a.href = url;
+    a.download = "monquotidien-sauvegarde.json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+}
+
+
+/* ---------- RESET ---------- */
+
+async function resetDatabase(){
+    if(!confirm("Attention : toutes les données de MonQuotidien seront supprimées. Continuer ?")){ return; }
 
     db.close();
 
-
-    const request =
-        indexedDB.deleteDatabase(
-            DB_NAME
-        );
-
+    const request = indexedDB.deleteDatabase(DB_NAME);
 
     request.onsuccess = ()=>{
-
-        alert(
-            "Les données ont été supprimées."
-        );
-
-
+        alert("Les données ont été supprimées.");
         location.reload();
-
     };
-
 }
 
 
-/* =========================================================
-   PWA INSTALLATION
-========================================================= */
+/* ---------- PWA INSTALLATION ---------- */
 
-let deferredInstallPrompt =
-    null;
-
-
-const installBtn =
-    document.getElementById(
-        "installBtn"
-    );
-
+let deferredInstallPrompt = null;
+const installBtn = $("installBtn");
 
 function isAppInstalled(){
-
-    return (
-
-        window
-            .matchMedia(
-                "(display-mode: standalone)"
-            )
-            .matches
-
-        ||
-
-        window.navigator.standalone === true
-
-    );
-
+    return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
 }
-
 
 function updateInstallButton(){
-
-    if(
-        isAppInstalled()
-    ){
-
-        installBtn.style.display =
-            "none";
-
-    }else{
-
-        installBtn.style.display =
-            "inline-flex";
-
-    }
-
+    installBtn.style.display = isAppInstalled() ? "none" : "inline-flex";
 }
 
+window.addEventListener("beforeinstallprompt",event=>{
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    console.log("Installation PWA disponible.");
+    updateInstallButton();
+});
 
-window.addEventListener(
-    "beforeinstallprompt",
-    event=>{
-
-        event.preventDefault();
-
-
-        deferredInstallPrompt =
-            event;
-
-
-        console.log(
-            "Installation PWA disponible."
-        );
-
-
-        updateInstallButton();
-
+installBtn.addEventListener("click",async ()=>{
+    if(deferredInstallPrompt){
+        deferredInstallPrompt.prompt();
+        const choice = await deferredInstallPrompt.userChoice;
+        if(choice.outcome === "accepted"){ installBtn.style.display = "none"; }
+        deferredInstallPrompt = null;
+        return;
     }
-);
 
+    const ua = navigator.userAgent;
 
-installBtn.addEventListener(
-    "click",
-    async ()=>{
-
-        if(
-            deferredInstallPrompt
-        ){
-
-            deferredInstallPrompt.prompt();
-
-
-            const choice =
-                await deferredInstallPrompt
-                    .userChoice;
-
-
-            if(
-                choice.outcome ===
-                "accepted"
-            ){
-
-                installBtn.style.display =
-                    "none";
-
-            }
-
-
-            deferredInstallPrompt =
-                null;
-
-
-            return;
-
-        }
-
-
-        const ua =
-            navigator.userAgent;
-
-
-        if(
-            /iPhone|iPad|iPod/i.test(
-                ua
-            )
-        ){
-
-            alert(
-                "Sur iPhone/iPad : ouvre le menu Partager de Safari puis sélectionne « Sur l'écran d'accueil »."
-            );
-
-        }else if(
-            /Android/i.test(
-                ua
-            )
-        ){
-
-            alert(
-                "Sur Android : ouvre le menu ⋮ de Chrome puis sélectionne « Installer l'application » ou « Ajouter à l'écran d'accueil »."
-            );
-
-        }else{
-
-            alert(
-                "L'installation automatique n'est pas encore disponible. Vérifie le manifeste PWA, le Service Worker et les icônes icon-192.png et icon-512.png."
-            );
-
-        }
-
+    if(/iPhone|iPad|iPod/i.test(ua)){
+        alert("Sur iPhone/iPad : ouvre le menu Partager de Safari puis sélectionne « Sur l'écran d'accueil ».");
+    }else if(/Android/i.test(ua)){
+        alert("Sur Android : ouvre le menu ⋮ de Chrome puis sélectionne « Installer l'application » ou « Ajouter à l'écran d'accueil ».");
+    }else{
+        alert("L'installation automatique n'est pas encore disponible. Vérifie le manifeste PWA, le Service Worker et les icônes icon-192.png et icon-512.png.");
     }
-);
+});
 
-
-window.addEventListener(
-    "appinstalled",
-    ()=>{
-
-        installBtn.style.display =
-            "none";
-
-
-        deferredInstallPrompt =
-            null;
-
-
-        console.log(
-            "MonQuotidien installé."
-        );
-
-    }
-);
-
+window.addEventListener("appinstalled",()=>{
+    installBtn.style.display = "none";
+    deferredInstallPrompt = null;
+    console.log("MonQuotidien installé.");
+});
 
 updateInstallButton();
 
 
-/* =========================================================
-   SERVICE WORKER
-========================================================= */
+/* ---------- SERVICE WORKER ---------- */
 
-if(
-    "serviceWorker" in navigator
-){
-
-    window.addEventListener(
-        "load",
-        ()=>{
-
-            navigator
-                .serviceWorker
-                .register(
-                    "./service-worker.js"
-                )
-                .then(
-                    registration=>{
-
-                        console.log(
-                            "Service Worker enregistré.",
-                            registration
-                        );
-
-                    }
-                )
-                .catch(
-                    error=>{
-
-                        console.error(
-                            "Erreur Service Worker :",
-                            error
-                        );
-
-                    }
-                );
-
-        }
-    );
-
+if("serviceWorker" in navigator){
+    window.addEventListener("load",()=>{
+        navigator.serviceWorker.register("./service-worker.js")
+            .then(registration=>console.log("Service Worker enregistré.",registration))
+            .catch(error=>console.error("Erreur Service Worker :",error));
+    });
 }
 
 
-/* =========================================================
-   REFRESH
-========================================================= */
+/* ---------- REFRESH ---------- */
 
 async function refreshAll(){
-
     await refreshTransactions();
-
     await refreshGoals();
-
     await refreshTasks();
-
     await refreshDashboard();
-
 }
 
 
-/* =========================================================
-   START
-========================================================= */
+/* ---------- START ---------- */
 
 openDatabase();
-
 </script>
 
 </body>
