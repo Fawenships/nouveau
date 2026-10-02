@@ -1,7 +1,8 @@
 {
   "name": "MonQuotidien",
   "short_name": "MonQuotidien",
-  "description": "Assistant personnel pour gérer son quotidien et ses finances.",
+  "description": "Votre assistant personnel pour gérer votre argent, vos économies, vos tâches et vos rappels.",
+  "lang": "fr",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -12,12 +13,14 @@
     {
       "src": "./icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "./icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
