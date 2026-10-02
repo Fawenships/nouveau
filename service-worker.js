@@ -1,10 +1,15 @@
-const CACHE_NAME = "monquotidien-v2";
+const CACHE_NAME = "monquotidien-v3";
 
 const APP_FILES = [
     "./",
     "./index.html",
     "./manifest.webmanifest"
 ];
+
+
+// =====================================================
+// INSTALLATION
+// =====================================================
 
 self.addEventListener("install", event => {
 
@@ -16,6 +21,10 @@ self.addEventListener("install", event => {
     self.skipWaiting();
 });
 
+
+// =====================================================
+// ACTIVATION
+// =====================================================
 
 self.addEventListener("activate", event => {
 
@@ -38,6 +47,10 @@ self.addEventListener("activate", event => {
     self.clients.claim();
 });
 
+
+// =====================================================
+// CACHE / FETCH
+// =====================================================
 
 self.addEventListener("fetch", event => {
 
@@ -87,3 +100,162 @@ self.addEventListener("fetch", event => {
     );
 
 });
+
+
+// =====================================================
+// NOTIFICATION PUSH
+// =====================================================
+
+self.addEventListener("push", event => {
+
+    let data = {};
+
+    try {
+
+        if(event.data){
+
+            data = event.data.json();
+
+        }
+
+    } catch(error) {
+
+        console.error(
+            "Impossible de lire les données Push :",
+            error
+        );
+
+        data = {
+
+            title: "MonQuotidien",
+
+            body: event.data
+                ? event.data.text()
+                : "Nouvelle notification."
+
+        };
+
+    }
+
+
+    const title =
+        data.title ||
+        "MonQuotidien";
+
+
+    const options = {
+
+        body:
+            data.body ||
+            "Nouvelle notification.",
+
+        icon:
+            data.icon ||
+            "./icons/icon-192.png",
+
+        badge:
+            data.badge ||
+            "./icons/icon-192.png",
+
+        tag:
+            data.tag ||
+            "monquotidien-push",
+
+        renotify: true,
+
+        data:
+            data.data ||
+            {
+                url: "./"
+            }
+
+    };
+
+
+    event.waitUntil(
+
+        self.registration.showNotification(
+            title,
+            options
+        )
+
+    );
+
+});
+
+
+// =====================================================
+// CLIC SUR UNE NOTIFICATION
+// =====================================================
+
+self.addEventListener(
+    "notificationclick",
+    event => {
+
+        event.notification.close();
+
+
+        const notificationData =
+            event.notification.data || {};
+
+
+        const url =
+            notificationData.url ||
+            "./";
+
+
+        event.waitUntil(
+
+            clients
+                .matchAll({
+                    type: "window",
+                    includeUncontrolled: true
+                })
+
+                .then(clientList => {
+
+                    for(
+                        const client of clientList
+                    ){
+
+                        if(
+                            "focus" in client
+                        ){
+
+                            return client
+                                .focus()
+                                .then(() => {
+
+                                    if(
+                                        "navigate" in client
+                                    ){
+
+                                        return client.navigate(
+                                            url
+                                        );
+
+                                    }
+
+                                });
+
+                        }
+
+                    }
+
+
+                    if(
+                        clients.openWindow
+                    ){
+
+                        return clients.openWindow(
+                            url
+                        );
+
+                    }
+
+                })
+
+        );
+
+    }
+);
