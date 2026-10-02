@@ -633,8 +633,6 @@ th{
         font-size:20px;
     }
 
-    /* NAVIGATION MOBILE */
-
     .mobile-nav{
         display:flex;
         position:fixed;
@@ -671,8 +669,6 @@ th{
         background:#eee8f7;
     }
 
-    /* DEVELOPPEUR MOBILE */
-
     .bottom-developer{
         display:block;
         text-align:center;
@@ -688,8 +684,6 @@ th{
         display:inline-block;
         margin-left:4px;
     }
-
-    /* SETTINGS MOBILE */
 
     .setting{
         align-items:flex-start;
@@ -787,10 +781,6 @@ body.dark .mobile-nav button.active{
 
 <div class="app">
 
-<!-- =========================================================
-     SIDEBAR
-========================================================= -->
-
 <aside class="sidebar">
 
     <div class="logo">
@@ -852,10 +842,6 @@ body.dark .mobile-nav button.active{
 </aside>
 
 
-<!-- =========================================================
-     MAIN
-========================================================= -->
-
 <main class="main">
 
     <div class="topbar">
@@ -881,9 +867,7 @@ body.dark .mobile-nav button.active{
     </div>
 
 
-    <!-- =====================================================
-         ACCUEIL
-    ====================================================== -->
+    <!-- ACCUEIL -->
 
     <section
         class="page active"
@@ -1013,9 +997,7 @@ body.dark .mobile-nav button.active{
     </section>
 
 
-    <!-- =====================================================
-         ARGENT
-    ====================================================== -->
+    <!-- ARGENT -->
 
     <section
         class="page"
@@ -1087,9 +1069,7 @@ body.dark .mobile-nav button.active{
     </section>
 
 
-    <!-- =====================================================
-         EPARGNE
-    ====================================================== -->
+    <!-- EPARGNE -->
 
     <section
         class="page"
@@ -1120,9 +1100,7 @@ body.dark .mobile-nav button.active{
     </section>
 
 
-    <!-- =====================================================
-         PLANNING
-    ====================================================== -->
+    <!-- PLANNING -->
 
     <section
         class="page"
@@ -1153,9 +1131,7 @@ body.dark .mobile-nav button.active{
     </section>
 
 
-    <!-- =====================================================
-         NOTIFICATIONS
-    ====================================================== -->
+    <!-- NOTIFICATIONS -->
 
     <section
         class="page"
@@ -1226,9 +1202,7 @@ body.dark .mobile-nav button.active{
     </section>
 
 
-    <!-- =====================================================
-         STATISTIQUES
-    ====================================================== -->
+    <!-- STATISTIQUES -->
 
     <section
         class="page"
@@ -1325,9 +1299,7 @@ body.dark .mobile-nav button.active{
     </section>
 
 
-    <!-- =====================================================
-         PARAMETRES
-    ====================================================== -->
+    <!-- PARAMETRES -->
 
     <section
         class="page"
@@ -1471,7 +1443,7 @@ body.dark .mobile-nav button.active{
                     </strong>
 
                     <span>
-                        Heure souhaitée pour ton résumé
+                        Heure du rappel pour déclarer tes dépenses
                     </span>
 
                 </div>
@@ -1485,6 +1457,27 @@ body.dark .mobile-nav button.active{
                            border-radius:8px;
                            background:var(--card);
                            color:var(--text);">
+
+            </div>
+
+
+            <div class="setting">
+
+                <div class="setting-info">
+
+                    <strong>
+                        Notification du matin
+                    </strong>
+
+                    <span>
+                        Notification automatique du solde chaque jour
+                    </span>
+
+                </div>
+
+                <strong>
+                    08:00
+                </strong>
 
             </div>
 
@@ -1564,10 +1557,6 @@ body.dark .mobile-nav button.active{
     </section>
 
 
-    <!-- =====================================================
-         DEVELOPPEUR
-    ====================================================== -->
-
     <footer class="bottom-developer">
 
         <span>
@@ -1585,9 +1574,7 @@ body.dark .mobile-nav button.active{
 </div>
 
 
-<!-- =========================================================
-     NAVIGATION MOBILE
-========================================================= -->
+<!-- NAVIGATION MOBILE -->
 
 <nav class="mobile-nav">
 
@@ -1647,9 +1634,7 @@ body.dark .mobile-nav button.active{
 </nav>
 
 
-<!-- =========================================================
-     MODAL REVENU
-========================================================= -->
+<!-- MODAL REVENU -->
 
 <div
     class="modal"
@@ -1754,9 +1739,7 @@ body.dark .mobile-nav button.active{
 </div>
 
 
-<!-- =========================================================
-     MODAL DEPENSE
-========================================================= -->
+<!-- MODAL DEPENSE -->
 
 <div
     class="modal"
@@ -1877,9 +1860,7 @@ body.dark .mobile-nav button.active{
 </div>
 
 
-<!-- =========================================================
-     MODAL OBJECTIF
-========================================================= -->
+<!-- MODAL OBJECTIF -->
 
 <div
     class="modal"
@@ -1981,9 +1962,7 @@ body.dark .mobile-nav button.active{
 </div>
 
 
-<!-- =========================================================
-     MODAL TACHE
-========================================================= -->
+<!-- MODAL TACHE -->
 
 <div
     class="modal"
@@ -2106,9 +2085,7 @@ body.dark .mobile-nav button.active{
 </div>
 
 
-<!-- =========================================================
-     MODAL RAPPEL
-========================================================= -->
+<!-- MODAL RAPPEL -->
 
 <div
     class="modal"
@@ -2434,7 +2411,9 @@ async function initializeData(){
 
     updateNotificationStatus();
 
-    checkReminders();
+    await checkReminders();
+
+    await checkDailyNotifications();
 
 }
 
@@ -2805,7 +2784,15 @@ let settings = {
 
     notifications:true,
 
-    summaryTime:"20:00"
+    summaryTime:"20:00",
+
+    /*
+       Dates des dernières notifications
+       quotidiennes.
+    */
+    lastMorningNotificationDate:null,
+
+    lastExpenseNotificationDate:null
 
 };
 
@@ -2932,6 +2919,353 @@ function formatMoney(value){
     +
     " " +
     currency;
+
+}
+
+
+/* =========================================================
+   NOTIFICATIONS QUOTIDIENNES
+========================================================= */
+
+/*
+   Retourne une date locale.
+
+   Exemple :
+   2026-10-02
+*/
+function getLocalDateKey(
+    date = new Date()
+){
+
+    const year =
+        date.getFullYear();
+
+
+    const month =
+        String(
+            date.getMonth() + 1
+        ).padStart(2,"0");
+
+
+    const day =
+        String(
+            date.getDate()
+        ).padStart(2,"0");
+
+
+    return (
+        year +
+        "-" +
+        month +
+        "-" +
+        day
+    );
+
+}
+
+
+/*
+   Vérifie si une heure est atteinte.
+*/
+function isTimeReached(
+    time,
+    now = new Date()
+){
+
+    if(!time){
+
+        return false;
+
+    }
+
+
+    const parts =
+        time.split(":");
+
+
+    const hour =
+        Number(parts[0]);
+
+
+    const minute =
+        Number(parts[1]);
+
+
+    if(
+        Number.isNaN(hour) ||
+        Number.isNaN(minute)
+    ){
+
+        return false;
+
+    }
+
+
+    const currentMinutes =
+        now.getHours() * 60 +
+        now.getMinutes();
+
+
+    const targetMinutes =
+        hour * 60 +
+        minute;
+
+
+    return (
+        currentMinutes >=
+        targetMinutes
+    );
+
+}
+
+
+/*
+   Calcule le solde actuel.
+*/
+async function getCurrentBalance(){
+
+    const transactions =
+        await getAll(
+            "transactions"
+        );
+
+
+    let income = 0;
+
+    let expenses = 0;
+
+
+    transactions.forEach(
+        transaction=>{
+
+            const amount =
+                Number(
+                    transaction.amount ||
+                    0
+                );
+
+
+            if(
+                transaction.type ===
+                "income"
+            ){
+
+                income += amount;
+
+            }
+
+
+            if(
+                transaction.type ===
+                "expense"
+            ){
+
+                expenses += amount;
+
+            }
+
+        }
+    );
+
+
+    return (
+        income -
+        expenses
+    );
+
+}
+
+
+/*
+   Sauvegarde uniquement les paramètres.
+*/
+async function saveNotificationSettings(){
+
+    await putData(
+        "parametres",
+        {
+            id:"settings",
+            value:settings
+        }
+    );
+
+}
+
+
+/*
+   Notification de 08:00.
+*/
+async function sendMorningNotification(){
+
+    const now =
+        new Date();
+
+
+    const today =
+        getLocalDateKey(now);
+
+
+    if(
+        settings.lastMorningNotificationDate ===
+        today
+    ){
+
+        return;
+
+    }
+
+
+    const balance =
+        await getCurrentBalance();
+
+
+    await envoyerNotification(
+        "MonQuotidien — Solde",
+        "Il te reste " +
+        formatMoney(balance) +
+        " sur ton solde actuel."
+    );
+
+
+    settings.lastMorningNotificationDate =
+        today;
+
+
+    await saveNotificationSettings();
+
+}
+
+
+/*
+   Notification du soir.
+*/
+async function sendExpenseNotification(){
+
+    const now =
+        new Date();
+
+
+    const today =
+        getLocalDateKey(now);
+
+
+    if(
+        settings.lastExpenseNotificationDate ===
+        today
+    ){
+
+        return;
+
+    }
+
+
+    await envoyerNotification(
+        "MonQuotidien — Dépenses",
+        "N'oublie pas de déclarer l'argent que tu as dépensé aujourd'hui."
+    );
+
+
+    settings.lastExpenseNotificationDate =
+        today;
+
+
+    await saveNotificationSettings();
+
+}
+
+
+/*
+   Vérification générale.
+*/
+let dailyNotificationCheckRunning =
+    false;
+
+
+async function checkDailyNotifications(){
+
+    if(
+        dailyNotificationCheckRunning
+    ){
+
+        return;
+
+    }
+
+
+    dailyNotificationCheckRunning =
+        true;
+
+
+    try{
+
+        if(
+            !("Notification" in window)
+        ){
+
+            return;
+
+        }
+
+
+        if(
+            Notification.permission !==
+            "granted"
+        ){
+
+            return;
+
+        }
+
+
+        const now =
+            new Date();
+
+
+        /*
+           Notification du matin :
+           08:00.
+        */
+        if(
+            isTimeReached(
+                "08:00",
+                now
+            )
+        ){
+
+            await sendMorningNotification();
+
+        }
+
+
+        /*
+           Notification du soir :
+           heure définie dans Paramètres.
+        */
+        if(
+            isTimeReached(
+                settings.summaryTime ||
+                "20:00",
+                now
+            )
+        ){
+
+            await sendExpenseNotification();
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Erreur notification quotidienne :",
+            error
+        );
+
+    }finally{
+
+        dailyNotificationCheckRunning =
+            false;
+
+    }
 
 }
 
@@ -3685,10 +4019,12 @@ async function refreshTasks(){
     );
 
 
+    const now =
+        new Date();
+
+
     const today =
-        new Date()
-            .toISOString()
-            .split("T")[0];
+        getLocalDateKey(now);
 
 
     const todayTasks =
@@ -4138,6 +4474,13 @@ async function requestNotificationPermission(){
             "Les notifications sont activées."
         );
 
+
+        /*
+           Vérifie immédiatement les notifications
+           quotidiennes.
+        */
+        await checkDailyNotifications();
+
     }else{
 
         alert(
@@ -4214,7 +4557,9 @@ function updateNotificationStatus(){
     ){
 
         element.textContent =
-            "Les notifications sont activées.";
+            "Les notifications sont activées. Solde : 08:00 · Rappel dépenses : " +
+            (settings.summaryTime || "20:00") +
+            ".";
 
     }else if(
         Notification.permission ===
@@ -4238,6 +4583,15 @@ async function envoyerNotification(
     titre,
     message
 ){
+
+    if(
+        !("Notification" in window)
+    ){
+
+        return;
+
+    }
+
 
     if(
         Notification.permission !==
@@ -4276,7 +4630,7 @@ async function envoyerNotification(
 
                         tag:
                             "monquotidien-" +
-                            Date.now(),
+                            titre,
 
                         renotify:true
 
@@ -4298,12 +4652,24 @@ async function envoyerNotification(
     }
 
 
-    new Notification(
-        titre,
-        {
-            body:message
-        }
-    );
+    try{
+
+        new Notification(
+            titre,
+            {
+                body:message,
+                icon:"./icons/icon-192.png"
+            }
+        );
+
+    }catch(error){
+
+        console.error(
+            "Erreur notification navigateur :",
+            error
+        );
+
+    }
 
 }
 
@@ -4546,9 +4912,14 @@ async function checkReminders(){
 /*
     Vérification toutes les 30 secondes.
 */
-
 setInterval(
-    checkReminders,
+    async ()=>{
+
+        await checkReminders();
+
+        await checkDailyNotifications();
+
+    },
     30000
 );
 
