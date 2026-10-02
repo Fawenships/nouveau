@@ -1,261 +1,128 @@
-const CACHE_NAME = "monquotidien-v3";
+/* MonQuotidien — Service Worker
+   Réseau d'abord : l'app affiche toujours la dernière version
+   quand il y a internet, et utilise le cache hors ligne. */
+
+const CACHE_NAME = "monquotidien-v4";
 
 const APP_FILES = [
     "./",
     "./index.html",
-    "./manifest.webmanifest"
+    "./manifest.webmanifest",
+    "./icons/icon-192.png",
+    "./icons/icon-512.png"
 ];
 
 
-// =====================================================
 // INSTALLATION
-// =====================================================
-
 self.addEventListener("install", event => {
+    self.skipWaiting();
 
     event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then(cache => cache.addAll(APP_FILES))
+        caches.open(CACHE_NAME).then(cache =>
+            Promise.allSettled(APP_FILES.map(file => cache.add(file)))
+        )
     );
-
-    self.skipWaiting();
 });
 
 
-// =====================================================
 // ACTIVATION
-// =====================================================
-
 self.addEventListener("activate", event => {
-
     event.waitUntil(
-
-        caches.keys().then(keys => {
-
-            return Promise.all(
-
+        caches.keys()
+            .then(keys => Promise.all(
                 keys
                     .filter(key => key !== CACHE_NAME)
                     .map(key => caches.delete(key))
-
-            );
-
-        })
-
+            ))
+            .then(() => self.clients.claim())
     );
-
-    self.clients.claim();
 });
 
 
-// =====================================================
-// CACHE / FETCH
-// =====================================================
-
+// FETCH : réseau d'abord, cache en secours (hors ligne)
 self.addEventListener("fetch", event => {
+    const request = event.request;
 
-    if(event.request.method !== "GET"){
+    if (request.method !== "GET") {
+        return;
+    }
+
+    const url = new URL(request.url);
+
+    if (url.origin !== self.location.origin) {
         return;
     }
 
     event.respondWith(
-
-        caches.match(event.request)
-            .then(cachedResponse => {
-
-                if(cachedResponse){
-                    return cachedResponse;
+        fetch(request, { cache: "no-store" })
+            .then(response => {
+                if (response && response.status === 200 && response.type === "basic") {
+                    const copy = response.clone();
+                    caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
                 }
-
-                return fetch(event.request)
-                    .then(response => {
-
-                        if(
-                            !response ||
-                            response.status !== 200 ||
-                            response.type !== "basic"
-                        ){
-                            return response;
-                        }
-
-                        const responseClone =
-                            response.clone();
-
-                        caches.open(CACHE_NAME)
-                            .then(cache => {
-
-                                cache.put(
-                                    event.request,
-                                    responseClone
-                                );
-
-                            });
-
-                        return response;
-
-                    });
-
+                return response;
             })
-
+            .catch(() =>
+                caches.match(request).then(cached => cached || caches.match("./index.html"))
+            )
     );
-
 });
 
 
-// =====================================================
 // NOTIFICATION PUSH
-// =====================================================
-
 self.addEventListener("push", event => {
-
     let data = {};
 
     try {
-
-        if(event.data){
-
+        if (event.data) {
             data = event.data.json();
-
         }
-
-    } catch(error) {
-
-        console.error(
-            "Impossible de lire les données Push :",
-            error
-        );
-
+    } catch (error) {
+        console.error("Impossible de lire les données Push :", error);
         data = {
-
             title: "MonQuotidien",
-
-            body: event.data
-                ? event.data.text()
-                : "Nouvelle notification."
-
+            body: event.data ? event.data.text() : "Nouvelle notification."
         };
-
     }
 
-
-    const title =
-        data.title ||
-        "MonQuotidien";
-
+    const title = data.title || "MonQuotidien";
 
     const options = {
-
-        body:
-            data.body ||
-            "Nouvelle notification.",
-
-        icon:
-            data.icon ||
-            "./icons/icon-192.png",
-
-        badge:
-            data.badge ||
-            "./icons/icon-192.png",
-
-        tag:
-            data.tag ||
-            "monquotidien-push",
-
+        body: data.body || "Nouvelle notification.",
+        icon: data.icon || "./icons/icon-192.png",
+        badge: data.badge || "./icons/icon-192.png",
+        tag: data.tag || "monquotidien-push",
         renotify: true,
-
-        data:
-            data.data ||
-            {
-                url: "./"
-            }
-
+        data: data.data || { url: "./" }
     };
 
-
-    event.waitUntil(
-
-        self.registration.showNotification(
-            title,
-            options
-        )
-
-    );
-
+    event.waitUntil(self.registration.showNotification(title, options));
 });
 
 
-// =====================================================
 // CLIC SUR UNE NOTIFICATION
-// =====================================================
+self.addEventListener("notificationclick", event => {
+    event.notification.close();
 
-self.addEventListener(
-    "notificationclick",
-    event => {
+    const notificationData = event.notification.data || {};
+    const url = notificationData.url || "./";
 
-        event.notification.close();
-
-
-        const notificationData =
-            event.notification.data || {};
-
-
-        const url =
-            notificationData.url ||
-            "./";
-
-
-        event.waitUntil(
-
-            clients
-                .matchAll({
-                    type: "window",
-                    includeUncontrolled: true
-                })
-
-                .then(clientList => {
-
-                    for(
-                        const client of clientList
-                    ){
-
-                        if(
-                            "focus" in client
-                        ){
-
-                            return client
-                                .focus()
-                                .then(() => {
-
-                                    if(
-                                        "navigate" in client
-                                    ){
-
-                                        return client.navigate(
-                                            url
-                                        );
-
-                                    }
-
-                                });
-
-                        }
-
+    event.waitUntil(
+        clients.matchAll({ type: "window", includeUncontrolled: true })
+            .then(clientList => {
+                for (const client of clientList) {
+                    if ("focus" in client) {
+                        return client.focus().then(() => {
+                            if ("navigate" in client) {
+                                return client.navigate(url);
+                            }
+                        });
                     }
+                }
 
-
-                    if(
-                        clients.openWindow
-                    ){
-
-                        return clients.openWindow(
-                            url
-                        );
-
-                    }
-
-                })
-
-        );
-
-    }
-);
+                if (clients.openWindow) {
+                    return clients.openWindow(url);
+                }
+            })
+    );
+});
