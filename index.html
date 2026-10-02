@@ -21,7 +21,7 @@
     --primary2:#4b2481;
     --accent:#1764c0;
     --bg:#f5f6fa;
-    --card:#ffffff;
+    --card:#fff;
     --text:#1b1b1f;
     --muted:#737681;
     --border:#e6e7ec;
@@ -44,10 +44,7 @@ body{
     min-height:100vh;
 }
 
-button,
-input,
-select,
-textarea{
+button,input,select,textarea{
     font:inherit;
 }
 
@@ -61,6 +58,7 @@ button{
 }
 
 /* SIDEBAR */
+
 .sidebar{
     width:245px;
     background:var(--card);
@@ -104,14 +102,13 @@ button{
     transition:.2s;
 }
 
-.nav button:hover{
-    background:#f2eef8;
+.nav button:hover,
+.nav button.active{
+    background:#eee8f7;
     color:var(--primary);
 }
 
 .nav button.active{
-    background:#eee8f7;
-    color:var(--primary);
     font-weight:700;
 }
 
@@ -137,10 +134,12 @@ button{
 }
 
 /* MAIN */
+
 .main{
     margin-left:245px;
     width:calc(100% - 245px);
     padding:25px;
+    padding-bottom:70px;
 }
 
 .topbar{
@@ -162,8 +161,11 @@ button{
 }
 
 /* INSTALLATION */
+
 .install-btn{
-    display:block;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
     border:0;
     background:var(--primary);
     color:white;
@@ -171,9 +173,8 @@ button{
     border-radius:10px;
     font-weight:700;
     box-shadow:0 5px 18px rgba(36,17,63,.18);
-    cursor:pointer;
-    transition:.2s;
     white-space:nowrap;
+    transition:.2s;
 }
 
 .install-btn:hover{
@@ -181,11 +182,8 @@ button{
     transform:translateY(-1px);
 }
 
-.install-btn:active{
-    transform:translateY(0);
-}
-
 /* PAGES */
+
 .page{
     display:none;
 }
@@ -195,6 +193,7 @@ button{
 }
 
 /* CARDS */
+
 .cards{
     display:grid;
     grid-template-columns:repeat(4,1fr);
@@ -221,23 +220,13 @@ button{
     font-weight:800;
 }
 
-.green{
-    color:var(--success);
-}
-
-.red{
-    color:var(--danger);
-}
-
-.blue{
-    color:var(--accent);
-}
-
-.purple{
-    color:var(--primary2);
-}
+.green{color:var(--success)}
+.red{color:var(--danger)}
+.blue{color:var(--accent)}
+.purple{color:var(--primary2)}
 
 /* GRID */
+
 .grid{
     display:grid;
     grid-template-columns:1.5fr 1fr;
@@ -271,6 +260,7 @@ button{
 }
 
 /* BUTTONS */
+
 .btn{
     border:0;
     border-radius:10px;
@@ -304,6 +294,7 @@ button{
 }
 
 /* TRANSACTIONS */
+
 .transaction{
     display:flex;
     align-items:center;
@@ -326,7 +317,8 @@ button{
     font-weight:700;
 }
 
-.transaction-meta{
+.transaction-meta,
+.list-meta{
     font-size:12px;
     color:var(--muted);
 }
@@ -336,6 +328,7 @@ button{
 }
 
 /* GOALS */
+
 .goal{
     margin-bottom:18px;
 }
@@ -368,6 +361,7 @@ button{
 }
 
 /* LIST */
+
 .list-item{
     padding:14px 0;
     border-bottom:1px solid var(--border);
@@ -382,12 +376,8 @@ button{
     margin-bottom:4px;
 }
 
-.list-meta{
-    font-size:12px;
-    color:var(--muted);
-}
-
 /* FORMS */
+
 .form-group{
     margin-bottom:15px;
 }
@@ -423,6 +413,7 @@ textarea{
 }
 
 /* MODAL */
+
 .modal{
     display:none;
     position:fixed;
@@ -464,6 +455,7 @@ textarea{
 }
 
 /* TABLE */
+
 .table-wrap{
     overflow-x:auto;
 }
@@ -473,8 +465,7 @@ table{
     border-collapse:collapse;
 }
 
-th,
-td{
+th,td{
     padding:13px 10px;
     text-align:left;
     border-bottom:1px solid var(--border);
@@ -483,10 +474,10 @@ td{
 
 th{
     color:var(--muted);
-    font-weight:700;
 }
 
 /* SETTINGS */
+
 .setting{
     display:flex;
     justify-content:space-between;
@@ -510,14 +501,28 @@ th{
     font-size:12px;
 }
 
+/* DEVELOPER */
+
+.bottom-developer{
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
+    padding:30px 10px 10px;
+}
+
+.bottom-developer strong{
+    color:var(--primary);
+}
+
 /* MOBILE NAV */
+
 .mobile-nav{
     display:none;
 }
 
 /* RESPONSIVE */
-@media(max-width:1100px){
 
+@media(max-width:1100px){
     .cards{
         grid-template-columns:repeat(2,1fr);
     }
@@ -525,7 +530,6 @@ th{
     .grid{
         grid-template-columns:1fr;
     }
-
 }
 
 @media(max-width:760px){
@@ -537,12 +541,11 @@ th{
     .main{
         margin-left:0;
         width:100%;
-        padding:17px 15px 90px;
+        padding:17px 15px 95px;
     }
 
     .topbar{
         align-items:flex-start;
-        gap:12px;
     }
 
     .topbar h2{
@@ -593,7 +596,6 @@ th{
         color:var(--primary);
         font-weight:800;
     }
-
 }
 
 @media(max-width:450px){
@@ -609,10 +611,10 @@ th{
     .install-btn{
         width:100%;
     }
-
 }
 
 /* DARK MODE */
+
 body.dark{
     --bg:#111014;
     --card:#1b191f;
@@ -622,10 +624,7 @@ body.dark{
     --shadow:0 8px 30px rgba(0,0,0,.18);
 }
 
-body.dark .nav button:hover{
-    background:#27232d;
-}
-
+body.dark .nav button:hover,
 body.dark .nav button.active{
     background:#302a39;
 }
@@ -637,6 +636,10 @@ body.dark .btn-secondary{
 body.dark .progress{
     background:#302d35;
 }
+
+body.dark .bottom-developer strong{
+    color:#c9b5e9;
+}
 </style>
 </head>
 
@@ -644,409 +647,459 @@ body.dark .progress{
 
 <div class="app">
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
+<aside class="sidebar">
 
-        <div class="logo">
-            <h1>MonQuotidien</h1>
-            <p>Votre assistant personnel</p>
+    <div class="logo">
+        <h1>MonQuotidien</h1>
+        <p>Votre assistant personnel</p>
+    </div>
+
+    <nav class="nav">
+
+        <button class="nav-btn active" data-page="home">Accueil</button>
+        <button class="nav-btn" data-page="money">Argent</button>
+        <button class="nav-btn" data-page="savings">Épargne</button>
+        <button class="nav-btn" data-page="planning">Planning</button>
+        <button class="nav-btn" data-page="notifications">Notifications</button>
+        <button class="nav-btn" data-page="statistics">Statistiques</button>
+        <button class="nav-btn" data-page="settings">Paramètres</button>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+
+        <div class="developer">
+            Développé par
+            <strong>Fawenbert Régis</strong>
         </div>
 
-        <nav class="nav">
+    </div>
 
-            <button class="nav-btn active" data-page="home">
-                Accueil
-            </button>
+</aside>
 
-            <button class="nav-btn" data-page="money">
-                Argent
-            </button>
+<main class="main">
 
-            <button class="nav-btn" data-page="savings">
-                Épargne
-            </button>
+    <div class="topbar">
 
-            <button class="nav-btn" data-page="planning">
-                Planning
-            </button>
+        <div>
+            <h2 id="pageTitle">Aujourd’hui</h2>
+            <p id="currentDate"></p>
+        </div>
 
-            <button class="nav-btn" data-page="notifications">
-                Notifications
-            </button>
+        <button id="installBtn" class="install-btn">
+            Installer MonQuotidien
+        </button>
 
-            <button class="nav-btn" data-page="statistics">
-                Statistiques
-            </button>
+    </div>
 
-            <button class="nav-btn" data-page="settings">
-                Paramètres
-            </button>
+    <!-- ACCUEIL -->
 
-        </nav>
+    <section class="page active" id="home">
 
-        <div class="sidebar-bottom">
+        <div class="cards">
 
-            <div class="developer">
-                Développé par
-                <strong>Fawenbert Régis</strong>
+            <div class="card">
+                <div class="card-label">Solde actuel</div>
+                <div class="card-value purple" id="homeBalance">0 HTG</div>
+            </div>
+
+            <div class="card">
+                <div class="card-label">Revenus du mois</div>
+                <div class="card-value green" id="homeIncome">0 HTG</div>
+            </div>
+
+            <div class="card">
+                <div class="card-label">Dépenses du mois</div>
+                <div class="card-value red" id="homeExpenses">0 HTG</div>
+            </div>
+
+            <div class="card">
+                <div class="card-label">Épargne</div>
+                <div class="card-value blue" id="homeSavings">0 HTG</div>
             </div>
 
         </div>
 
-    </aside>
-
-
-    <!-- MAIN -->
-    <main class="main">
-
-        <div class="topbar">
-
-            <div>
-                <h2 id="pageTitle">Aujourd’hui</h2>
-                <p id="currentDate"></p>
-            </div>
-
-            <button id="installBtn" class="install-btn">
-                Installer MonQuotidien
-            </button>
-
-        </div>
-
-
-        <!-- ACCUEIL -->
-        <section class="page active" id="home">
-
-            <div class="cards">
-
-                <div class="card">
-                    <div class="card-label">Solde actuel</div>
-                    <div class="card-value purple" id="homeBalance">
-                        0 HTG
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-label">Revenus du mois</div>
-                    <div class="card-value green" id="homeIncome">
-                        0 HTG
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-label">Dépenses du mois</div>
-                    <div class="card-value red" id="homeExpenses">
-                        0 HTG
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-label">Épargne</div>
-                    <div class="card-value blue" id="homeSavings">
-                        0 HTG
-                    </div>
-                </div>
-
-            </div>
-
-
-            <div class="grid">
-
-                <div class="section">
-
-                    <div class="section-header">
-
-                        <h3>Transactions récentes</h3>
-
-                        <button class="btn btn-primary"
-                                onclick="openModal('expenseModal')">
-                            + Dépense
-                        </button>
-
-                    </div>
-
-                    <div id="recentTransactions"></div>
-
-                </div>
-
-
-                <div class="section">
-
-                    <div class="section-header">
-
-                        <h3>Mes tâches</h3>
-
-                        <button class="btn btn-secondary"
-                                onclick="openModal('taskModal')">
-                            + Tâche
-                        </button>
-
-                    </div>
-
-                    <div id="todayTasks"></div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ARGENT -->
-        <section class="page" id="money">
+        <div class="grid">
 
             <div class="section">
 
                 <div class="section-header">
 
-                    <h3>Gestion de l'argent</h3>
-
-                    <div class="actions">
-
-                        <button class="btn btn-primary"
-                                onclick="openModal('incomeModal')">
-                            + Revenu
-                        </button>
-
-                        <button class="btn btn-secondary"
-                                onclick="openModal('expenseModal')">
-                            + Dépense
-                        </button>
-
-                    </div>
-
-                </div>
-
-                <div class="table-wrap">
-
-                    <table>
-
-                        <thead>
-
-                            <tr>
-                                <th>Date</th>
-                                <th>Type</th>
-                                <th>Description</th>
-                                <th>Catégorie</th>
-                                <th>Montant</th>
-                                <th>Action</th>
-                            </tr>
-
-                        </thead>
-
-                        <tbody id="transactionsTable"></tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- EPARGNE -->
-        <section class="page" id="savings">
-
-            <div class="section">
-
-                <div class="section-header">
-
-                    <h3>Mes objectifs d'épargne</h3>
+                    <h3>Transactions récentes</h3>
 
                     <button class="btn btn-primary"
-                            onclick="openModal('goalModal')">
-                        + Objectif
+                            onclick="openModal('expenseModal')">
+                        + Dépense
                     </button>
 
                 </div>
 
-                <div id="goalsList"></div>
+                <div id="recentTransactions"></div>
 
             </div>
-
-        </section>
-
-
-        <!-- PLANNING -->
-        <section class="page" id="planning">
 
             <div class="section">
 
                 <div class="section-header">
 
-                    <h3>Planning</h3>
+                    <h3>Mes tâches</h3>
 
-                    <button class="btn btn-primary"
+                    <button class="btn btn-secondary"
                             onclick="openModal('taskModal')">
                         + Tâche
                     </button>
 
                 </div>
 
-                <div id="planningList"></div>
+                <div id="todayTasks"></div>
 
             </div>
 
-        </section>
+        </div>
 
+    </section>
 
-        <!-- NOTIFICATIONS -->
-        <section class="page" id="notifications">
+    <!-- ARGENT -->
 
-            <div class="section">
+    <section class="page" id="money">
 
-                <div class="section-header">
+        <div class="section">
 
-                    <h3>Notifications et rappels</h3>
+            <div class="section-header">
+
+                <h3>Gestion de l'argent</h3>
+
+                <div class="actions">
+
+                    <button class="btn btn-primary"
+                            onclick="openModal('incomeModal')">
+                        + Revenu
+                    </button>
+
+                    <button class="btn btn-secondary"
+                            onclick="openModal('expenseModal')">
+                        + Dépense
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Catégorie</th>
+                            <th>Montant</th>
+                            <th>Action</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="transactionsTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- EPARGNE -->
+
+    <section class="page" id="savings">
+
+        <div class="section">
+
+            <div class="section-header">
+
+                <h3>Mes objectifs d'épargne</h3>
+
+                <button class="btn btn-primary"
+                        onclick="openModal('goalModal')">
+                    + Objectif
+                </button>
+
+            </div>
+
+            <div id="goalsList"></div>
+
+        </div>
+
+    </section>
+
+    <!-- PLANNING -->
+
+    <section class="page" id="planning">
+
+        <div class="section">
+
+            <div class="section-header">
+
+                <h3>Planning</h3>
+
+                <button class="btn btn-primary"
+                        onclick="openModal('taskModal')">
+                    + Tâche
+                </button>
+
+            </div>
+
+            <div id="planningList"></div>
+
+        </div>
+
+    </section>
+
+    <!-- NOTIFICATIONS -->
+
+    <section class="page" id="notifications">
+
+        <div class="section">
+
+            <div class="section-header">
+
+                <h3>Notifications et rappels</h3>
+
+                <div class="actions">
 
                     <button class="btn btn-primary"
                             onclick="requestNotificationPermission()">
-                        Activer les notifications
+                        Activer
                     </button>
-
-                </div>
-
-                <div class="empty">
-                    Les rappels automatiques seront intégrés dans la prochaine version.
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- STATISTIQUES -->
-        <section class="page" id="statistics">
-
-            <div class="cards">
-
-                <div class="card">
-                    <div class="card-label">Total revenus</div>
-                    <div class="card-value green" id="statIncome">
-                        0 HTG
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-label">Total dépenses</div>
-                    <div class="card-value red" id="statExpenses">
-                        0 HTG
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-label">Solde</div>
-                    <div class="card-value purple" id="statBalance">
-                        0 HTG
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-label">Objectifs d'épargne</div>
-                    <div class="card-value blue" id="statSavings">
-                        0 HTG
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="section">
-
-                <h3>Résumé financier</h3>
-
-                <div id="statisticsContent" class="empty">
-                    Ajoutez des transactions pour voir vos statistiques.
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- PARAMETRES -->
-        <section class="page" id="settings">
-
-            <div class="section">
-
-                <div class="section-header">
-                    <h3>Paramètres</h3>
-                </div>
-
-
-                <div class="setting">
-
-                    <div class="setting-info">
-                        <strong>Thème sombre</strong>
-                        <span>
-                            Modifier l'apparence de MonQuotidien
-                        </span>
-                    </div>
 
                     <button class="btn btn-secondary"
-                            onclick="toggleDarkMode()">
-                        Changer
-                    </button>
-
-                </div>
-
-
-                <div class="setting">
-
-                    <div class="setting-info">
-                        <strong>Développeur</strong>
-                        <span>
-                            Créateur de MonQuotidien
-                        </span>
-                    </div>
-
-                    <strong>Fawenbert Régis</strong>
-
-                </div>
-
-
-                <div class="setting">
-
-                    <div class="setting-info">
-                        <strong>Sauvegarder les données</strong>
-                        <span>
-                            Exporter toutes vos données locales
-                        </span>
-                    </div>
-
-                    <button class="btn btn-secondary"
-                            onclick="exportData()">
-                        Exporter
-                    </button>
-
-                </div>
-
-
-                <div class="setting">
-
-                    <div class="setting-info">
-                        <strong>Réinitialiser</strong>
-                        <span>
-                            Supprimer toutes les données locales
-                        </span>
-                    </div>
-
-                    <button class="btn btn-danger"
-                            onclick="resetDatabase()">
-                        Réinitialiser
+                            onclick="testerNotification()">
+                        Tester
                     </button>
 
                 </div>
 
             </div>
 
-        </section>
+            <div id="notificationStatus"
+                 class="empty">
+                Vérification des notifications...
+            </div>
 
-    </main>
+            <div class="section-header"
+                 style="margin-top:20px;">
+
+                <h3>Mes rappels</h3>
+
+                <button class="btn btn-primary"
+                        onclick="openModal('reminderModal')">
+                    + Rappel
+                </button>
+
+            </div>
+
+            <div id="remindersList"></div>
+
+        </div>
+
+    </section>
+
+    <!-- STATISTIQUES -->
+
+    <section class="page" id="statistics">
+
+        <div class="cards">
+
+            <div class="card">
+                <div class="card-label">Total revenus</div>
+                <div class="card-value green" id="statIncome">0 HTG</div>
+            </div>
+
+            <div class="card">
+                <div class="card-label">Total dépenses</div>
+                <div class="card-value red" id="statExpenses">0 HTG</div>
+            </div>
+
+            <div class="card">
+                <div class="card-label">Solde</div>
+                <div class="card-value purple" id="statBalance">0 HTG</div>
+            </div>
+
+            <div class="card">
+                <div class="card-label">Objectifs d'épargne</div>
+                <div class="card-value blue" id="statSavings">0 HTG</div>
+            </div>
+
+        </div>
+
+        <div class="section">
+
+            <h3>Résumé financier</h3>
+
+            <div id="statisticsContent"
+                 class="empty">
+                Ajoutez des transactions pour voir vos statistiques.
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- PARAMETRES -->
+
+    <section class="page" id="settings">
+
+        <div class="section">
+
+            <div class="section-header">
+                <h3>Paramètres</h3>
+            </div>
+
+            <div class="setting">
+
+                <div class="setting-info">
+                    <strong>Votre nom</strong>
+                    <span>Nom affiché dans MonQuotidien</span>
+                </div>
+
+                <input id="userName"
+                       type="text"
+                       placeholder="Votre nom"
+                       style="max-width:200px;
+                              padding:9px;
+                              border:1px solid var(--border);
+                              border-radius:8px;
+                              background:var(--card);
+                              color:var(--text);">
+
+            </div>
+
+            <div class="setting">
+
+                <div class="setting-info">
+                    <strong>Devise</strong>
+                    <span>Devise utilisée pour les montants</span>
+                </div>
+
+                <select id="currencySelect"
+                        onchange="saveSettings()"
+                        style="padding:9px;
+                               border:1px solid var(--border);
+                               border-radius:8px;
+                               background:var(--card);
+                               color:var(--text);">
+
+                    <option value="HTG">HTG</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+
+                </select>
+
+            </div>
+
+            <div class="setting">
+
+                <div class="setting-info">
+                    <strong>Thème sombre</strong>
+                    <span>Modifier l'apparence de MonQuotidien</span>
+                </div>
+
+                <button class="btn btn-secondary"
+                        onclick="toggleDarkMode()">
+                    Changer
+                </button>
+
+            </div>
+
+            <div class="setting">
+
+                <div class="setting-info">
+                    <strong>Notifications</strong>
+                    <span>Autoriser les notifications du navigateur</span>
+                </div>
+
+                <button class="btn btn-primary"
+                        onclick="requestNotificationPermission()">
+                    Autoriser
+                </button>
+
+            </div>
+
+            <div class="setting">
+
+                <div class="setting-info">
+                    <strong>Résumé quotidien</strong>
+                    <span>Heure souhaitée pour ton résumé</span>
+                </div>
+
+                <input id="summaryTime"
+                       type="time"
+                       onchange="saveSettings()"
+                       style="padding:9px;
+                              border:1px solid var(--border);
+                              border-radius:8px;
+                              background:var(--card);
+                              color:var(--text);">
+
+            </div>
+
+            <div class="setting">
+
+                <div class="setting-info">
+                    <strong>Développeur</strong>
+                    <span>Créateur de MonQuotidien</span>
+                </div>
+
+                <strong>Fawenbert Régis</strong>
+
+            </div>
+
+            <div class="setting">
+
+                <div class="setting-info">
+                    <strong>Sauvegarder les données</strong>
+                    <span>Exporter toutes vos données locales</span>
+                </div>
+
+                <button class="btn btn-secondary"
+                        onclick="exportData()">
+                    Exporter
+                </button>
+
+            </div>
+
+            <div class="setting">
+
+                <div class="setting-info">
+                    <strong>Réinitialiser</strong>
+                    <span>Supprimer toutes les données locales</span>
+                </div>
+
+                <button class="btn btn-danger"
+                        onclick="resetDatabase()">
+                    Réinitialiser
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <div class="bottom-developer">
+        Développé par <strong>Fawenbert Régis</strong>
+    </div>
+
+</main>
 
 </div>
 
-
 <!-- MOBILE NAV -->
+
 <nav class="mobile-nav">
 
     <button class="mobile-nav-btn active" data-page="home">
@@ -1071,323 +1124,395 @@ body.dark .progress{
 
 </nav>
 
-
 <!-- MODAL REVENU -->
+
 <div class="modal" id="incomeModal">
 
-    <div class="modal-box">
+<div class="modal-box">
 
-        <div class="modal-header">
+<div class="modal-header">
 
-            <h3>Ajouter un revenu</h3>
+<h3>Ajouter un revenu</h3>
 
-            <button class="close"
-                    onclick="closeModal('incomeModal')">
-                ×
-            </button>
-
-        </div>
-
-        <form id="incomeForm">
-
-            <div class="form-group">
-
-                <label>Montant</label>
-
-                <input type="number"
-                       id="incomeAmount"
-                       min="0"
-                       step="0.01"
-                       required>
-
-            </div>
-
-            <div class="form-group">
-
-                <label>Description</label>
-
-                <input type="text"
-                       id="incomeDescription"
-                       placeholder="Ex : Salaire">
-
-            </div>
-
-            <div class="form-group">
-
-                <label>Catégorie</label>
-
-                <select id="incomeCategory">
-
-                    <option value="Salaire">Salaire</option>
-                    <option value="Commerce">Commerce</option>
-                    <option value="Freelance">Freelance</option>
-                    <option value="Cadeau">Cadeau</option>
-                    <option value="Autre">Autre</option>
-
-                </select>
-
-            </div>
-
-            <button class="btn btn-primary"
-                    type="submit">
-                Ajouter
-            </button>
-
-        </form>
-
-    </div>
+<button class="close"
+        onclick="closeModal('incomeModal')">
+×
+</button>
 
 </div>
 
+<form id="incomeForm">
+
+<div class="form-group">
+<label>Montant</label>
+<input type="number"
+       id="incomeAmount"
+       min="0"
+       step="0.01"
+       required>
+</div>
+
+<div class="form-group">
+<label>Description</label>
+<input type="text"
+       id="incomeDescription"
+       placeholder="Ex : Salaire">
+</div>
+
+<div class="form-group">
+<label>Catégorie</label>
+
+<select id="incomeCategory">
+<option>Salaire</option>
+<option>Commerce</option>
+<option>Freelance</option>
+<option>Cadeau</option>
+<option>Autre</option>
+</select>
+
+</div>
+
+<button class="btn btn-primary"
+        type="submit">
+Ajouter
+</button>
+
+</form>
+
+</div>
+
+</div>
 
 <!-- MODAL DEPENSE -->
+
 <div class="modal" id="expenseModal">
 
-    <div class="modal-box">
+<div class="modal-box">
 
-        <div class="modal-header">
+<div class="modal-header">
 
-            <h3>Ajouter une dépense</h3>
+<h3>Ajouter une dépense</h3>
 
-            <button class="close"
-                    onclick="closeModal('expenseModal')">
-                ×
-            </button>
-
-        </div>
-
-        <form id="expenseForm">
-
-            <div class="form-group">
-
-                <label>Montant</label>
-
-                <input type="number"
-                       id="expenseAmount"
-                       min="0"
-                       step="0.01"
-                       required>
-
-            </div>
-
-            <div class="form-group">
-
-                <label>Description</label>
-
-                <input type="text"
-                       id="expenseDescription"
-                       placeholder="Ex : Déjeuner">
-
-            </div>
-
-            <div class="form-group">
-
-                <label>Catégorie</label>
-
-                <select id="expenseCategory">
-
-                    <option value="Nourriture">Nourriture</option>
-                    <option value="Transport">Transport</option>
-                    <option value="Logement">Logement</option>
-                    <option value="Éducation">Éducation</option>
-                    <option value="Téléphone/Internet">
-                        Téléphone/Internet
-                    </option>
-                    <option value="Santé">Santé</option>
-                    <option value="Loisirs">Loisirs</option>
-                    <option value="Shopping">Shopping</option>
-                    <option value="Autre">Autre</option>
-
-                </select>
-
-            </div>
-
-            <button class="btn btn-primary"
-                    type="submit">
-                Ajouter
-            </button>
-
-        </form>
-
-    </div>
+<button class="close"
+        onclick="closeModal('expenseModal')">
+×
+</button>
 
 </div>
 
+<form id="expenseForm">
+
+<div class="form-group">
+<label>Montant</label>
+
+<input type="number"
+       id="expenseAmount"
+       min="0"
+       step="0.01"
+       required>
+
+</div>
+
+<div class="form-group">
+
+<label>Description</label>
+
+<input type="text"
+       id="expenseDescription"
+       placeholder="Ex : Déjeuner">
+
+</div>
+
+<div class="form-group">
+
+<label>Catégorie</label>
+
+<select id="expenseCategory">
+
+<option>Nourriture</option>
+<option>Transport</option>
+<option>Logement</option>
+<option>Éducation</option>
+<option>Téléphone/Internet</option>
+<option>Santé</option>
+<option>Loisirs</option>
+<option>Shopping</option>
+<option>Autre</option>
+
+</select>
+
+</div>
+
+<button class="btn btn-primary"
+        type="submit">
+Ajouter
+</button>
+
+</form>
+
+</div>
+
+</div>
 
 <!-- MODAL OBJECTIF -->
+
 <div class="modal" id="goalModal">
 
-    <div class="modal-box">
+<div class="modal-box">
 
-        <div class="modal-header">
+<div class="modal-header">
 
-            <h3>Nouvel objectif</h3>
+<h3>Nouvel objectif</h3>
 
-            <button class="close"
-                    onclick="closeModal('goalModal')">
-                ×
-            </button>
-
-        </div>
-
-        <form id="goalForm">
-
-            <div class="form-group">
-
-                <label>Nom de l'objectif</label>
-
-                <input type="text"
-                       id="goalName"
-                       placeholder="Ex : Acheter un ordinateur"
-                       required>
-
-            </div>
-
-            <div class="form-group">
-
-                <label>Montant cible</label>
-
-                <input type="number"
-                       id="goalTarget"
-                       min="0"
-                       step="0.01"
-                       required>
-
-            </div>
-
-            <div class="form-group">
-
-                <label>Montant déjà épargné</label>
-
-                <input type="number"
-                       id="goalCurrent"
-                       min="0"
-                       step="0.01"
-                       value="0">
-
-            </div>
-
-            <div class="form-group">
-
-                <label>Date cible</label>
-
-                <input type="date"
-                       id="goalDate">
-
-            </div>
-
-            <button class="btn btn-primary"
-                    type="submit">
-                Créer l'objectif
-            </button>
-
-        </form>
-
-    </div>
+<button class="close"
+        onclick="closeModal('goalModal')">
+×
+</button>
 
 </div>
 
+<form id="goalForm">
+
+<div class="form-group">
+
+<label>Nom de l'objectif</label>
+
+<input type="text"
+       id="goalName"
+       placeholder="Ex : Acheter un ordinateur"
+       required>
+
+</div>
+
+<div class="form-group">
+
+<label>Montant cible</label>
+
+<input type="number"
+       id="goalTarget"
+       min="0"
+       step="0.01"
+       required>
+
+</div>
+
+<div class="form-group">
+
+<label>Montant déjà épargné</label>
+
+<input type="number"
+       id="goalCurrent"
+       min="0"
+       step="0.01"
+       value="0">
+
+</div>
+
+<div class="form-group">
+
+<label>Date cible</label>
+
+<input type="date"
+       id="goalDate">
+
+</div>
+
+<button class="btn btn-primary"
+        type="submit">
+Créer l'objectif
+</button>
+
+</form>
+
+</div>
+
+</div>
 
 <!-- MODAL TACHE -->
+
 <div class="modal" id="taskModal">
 
-    <div class="modal-box">
+<div class="modal-box">
 
-        <div class="modal-header">
+<div class="modal-header">
 
-            <h3>Nouvelle tâche</h3>
+<h3>Nouvelle tâche</h3>
 
-            <button class="close"
-                    onclick="closeModal('taskModal')">
-                ×
-            </button>
-
-        </div>
-
-        <form id="taskForm">
-
-            <div class="form-group">
-
-                <label>Titre</label>
-
-                <input type="text"
-                       id="taskTitle"
-                       placeholder="Ex : Réviser les mathématiques"
-                       required>
-
-            </div>
-
-            <div class="form-group">
-
-                <label>Description</label>
-
-                <textarea id="taskDescription"
-                          placeholder="Description facultative"></textarea>
-
-            </div>
-
-            <div class="form-group">
-
-                <label>Date</label>
-
-                <input type="date"
-                       id="taskDate"
-                       required>
-
-            </div>
-
-            <div class="form-group">
-
-                <label>Heure</label>
-
-                <input type="time"
-                       id="taskTime">
-
-            </div>
-
-            <div class="form-group">
-
-                <label>Priorité</label>
-
-                <select id="taskPriority">
-
-                    <option value="Normale">Normale</option>
-                    <option value="Haute">Haute</option>
-                    <option value="Basse">Basse</option>
-
-                </select>
-
-            </div>
-
-            <button class="btn btn-primary"
-                    type="submit">
-                Ajouter la tâche
-            </button>
-
-        </form>
-
-    </div>
+<button class="close"
+        onclick="closeModal('taskModal')">
+×
+</button>
 
 </div>
 
+<form id="taskForm">
+
+<div class="form-group">
+
+<label>Titre</label>
+
+<input type="text"
+       id="taskTitle"
+       placeholder="Ex : Réviser les mathématiques"
+       required>
+
+</div>
+
+<div class="form-group">
+
+<label>Description</label>
+
+<textarea id="taskDescription"
+          placeholder="Description facultative"></textarea>
+
+</div>
+
+<div class="form-group">
+
+<label>Date</label>
+
+<input type="date"
+       id="taskDate"
+       required>
+
+</div>
+
+<div class="form-group">
+
+<label>Heure</label>
+
+<input type="time"
+       id="taskTime">
+
+</div>
+
+<div class="form-group">
+
+<label>Priorité</label>
+
+<select id="taskPriority">
+
+<option>Normale</option>
+<option>Haute</option>
+<option>Basse</option>
+
+</select>
+
+</div>
+
+<button class="btn btn-primary"
+        type="submit">
+Ajouter la tâche
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+<!-- MODAL RAPPEL -->
+
+<div class="modal" id="reminderModal">
+
+<div class="modal-box">
+
+<div class="modal-header">
+
+<h3>Nouveau rappel</h3>
+
+<button class="close"
+        onclick="closeModal('reminderModal')">
+×
+</button>
+
+</div>
+
+<form id="reminderForm">
+
+<div class="form-group">
+
+<label>Titre</label>
+
+<input type="text"
+       id="reminderTitle"
+       placeholder="Ex : Payer Internet"
+       required>
+
+</div>
+
+<div class="form-group">
+
+<label>Message</label>
+
+<textarea id="reminderMessage"
+          placeholder="Message du rappel"
+          required></textarea>
+
+</div>
+
+<div class="form-group">
+
+<label>Date</label>
+
+<input type="date"
+       id="reminderDate"
+       required>
+
+</div>
+
+<div class="form-group">
+
+<label>Heure</label>
+
+<input type="time"
+       id="reminderTime"
+       required>
+
+</div>
+
+<div class="form-group">
+
+<label>Répétition</label>
+
+<select id="reminderRepeat">
+
+<option value="none">Une fois</option>
+<option value="daily">Chaque jour</option>
+<option value="weekly">Chaque semaine</option>
+<option value="monthly">Chaque mois</option>
+
+</select>
+
+</div>
+
+<button class="btn btn-primary"
+        type="submit">
+Créer le rappel
+</button>
+
+</form>
+
+</div>
+
+</div>
 
 <script>
 
 /* =========================================================
    MONQUOTIDIEN
    Développeur : Fawenbert Régis
-   ========================================================= */
-
-
-/* ---------------------------------------------------------
-   INDEXEDDB
---------------------------------------------------------- */
+========================================================= */
 
 const DB_NAME = "MonQuotidienDB";
 const DB_VERSION = 1;
 
 let db;
 
+
+/* =========================================================
+   INDEXEDDB
+========================================================= */
 
 function openDatabase(){
 
@@ -1401,15 +1526,10 @@ function openDatabase(){
             const database = event.target.result;
 
             if(!database.objectStoreNames.contains("comptes")){
-
                 database.createObjectStore(
                     "comptes",
-                    {
-                        keyPath:"id",
-                        autoIncrement:true
-                    }
+                    {keyPath:"id",autoIncrement:true}
                 );
-
             }
 
             if(!database.objectStoreNames.contains("transactions")){
@@ -1417,89 +1537,56 @@ function openDatabase(){
                 const store =
                     database.createObjectStore(
                         "transactions",
-                        {
-                            keyPath:"id",
-                            autoIncrement:true
-                        }
+                        {keyPath:"id",autoIncrement:true}
                     );
 
                 store.createIndex(
                     "date",
                     "date",
-                    {
-                        unique:false
-                    }
+                    {unique:false}
                 );
 
                 store.createIndex(
                     "type",
                     "type",
-                    {
-                        unique:false
-                    }
+                    {unique:false}
                 );
-
             }
 
             if(!database.objectStoreNames.contains("objectifs")){
-
                 database.createObjectStore(
                     "objectifs",
-                    {
-                        keyPath:"id",
-                        autoIncrement:true
-                    }
+                    {keyPath:"id",autoIncrement:true}
                 );
-
             }
 
             if(!database.objectStoreNames.contains("taches")){
-
                 database.createObjectStore(
                     "taches",
-                    {
-                        keyPath:"id",
-                        autoIncrement:true
-                    }
+                    {keyPath:"id",autoIncrement:true}
                 );
-
             }
 
             if(!database.objectStoreNames.contains("rappels")){
-
                 database.createObjectStore(
                     "rappels",
-                    {
-                        keyPath:"id",
-                        autoIncrement:true
-                    }
+                    {keyPath:"id",autoIncrement:true}
                 );
-
             }
 
             if(!database.objectStoreNames.contains("budgets")){
-
                 database.createObjectStore(
                     "budgets",
-                    {
-                        keyPath:"id",
-                        autoIncrement:true
-                    }
+                    {keyPath:"id",autoIncrement:true}
                 );
-
             }
 
             if(!database.objectStoreNames.contains("parametres")){
-
                 database.createObjectStore(
                     "parametres",
-                    {
-                        keyPath:"id"
-                    }
+                    {keyPath:"id"}
                 );
-
             }
-
         };
 
         request.onsuccess = event => {
@@ -1509,23 +1596,16 @@ function openDatabase(){
             initializeData();
 
             resolve(db);
-
         };
 
         request.onerror = () => {
-
             reject(request.error);
-
         };
 
     });
 
 }
 
-
-/* ---------------------------------------------------------
-   INITIALISATION
---------------------------------------------------------- */
 
 async function initializeData(){
 
@@ -1543,32 +1623,31 @@ async function initializeData(){
                 createdAt:new Date().toISOString()
             }
         );
-
     }
+
+    await loadSettings();
 
     refreshAll();
 
+    refreshReminders();
+
+    updateNotificationStatus();
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    DATABASE HELPERS
---------------------------------------------------------- */
+========================================================= */
 
 function addData(storeName,data){
 
     return new Promise((resolve,reject)=>{
 
         const transaction =
-            db.transaction(
-                storeName,
-                "readwrite"
-            );
+            db.transaction(storeName,"readwrite");
 
         const store =
-            transaction.objectStore(
-                storeName
-            );
+            transaction.objectStore(storeName);
 
         const request =
             store.add(data);
@@ -1580,7 +1659,6 @@ function addData(storeName,data){
             () => reject(request.error);
 
     });
-
 }
 
 
@@ -1589,15 +1667,10 @@ function getAll(storeName){
     return new Promise((resolve,reject)=>{
 
         const transaction =
-            db.transaction(
-                storeName,
-                "readonly"
-            );
+            db.transaction(storeName,"readonly");
 
         const store =
-            transaction.objectStore(
-                storeName
-            );
+            transaction.objectStore(storeName);
 
         const request =
             store.getAll();
@@ -1609,7 +1682,52 @@ function getAll(storeName){
             () => reject(request.error);
 
     });
+}
 
+
+function getData(storeName,id){
+
+    return new Promise((resolve,reject)=>{
+
+        const transaction =
+            db.transaction(storeName,"readonly");
+
+        const store =
+            transaction.objectStore(storeName);
+
+        const request =
+            store.get(id);
+
+        request.onsuccess =
+            () => resolve(request.result);
+
+        request.onerror =
+            () => reject(request.error);
+
+    });
+}
+
+
+function putData(storeName,data){
+
+    return new Promise((resolve,reject)=>{
+
+        const transaction =
+            db.transaction(storeName,"readwrite");
+
+        const store =
+            transaction.objectStore(storeName);
+
+        const request =
+            store.put(data);
+
+        request.onsuccess =
+            () => resolve(request.result);
+
+        request.onerror =
+            () => reject(request.error);
+
+    });
 }
 
 
@@ -1618,15 +1736,10 @@ function deleteData(storeName,id){
     return new Promise((resolve,reject)=>{
 
         const transaction =
-            db.transaction(
-                storeName,
-                "readwrite"
-            );
+            db.transaction(storeName,"readwrite");
 
         const store =
-            transaction.objectStore(
-                storeName
-            );
+            transaction.objectStore(storeName);
 
         const request =
             store.delete(id);
@@ -1638,16 +1751,14 @@ function deleteData(storeName,id){
             () => reject(request.error);
 
     });
-
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    NAVIGATION
---------------------------------------------------------- */
+========================================================= */
 
 const titles = {
-
     home:"Aujourd’hui",
     money:"Argent",
     savings:"Épargne",
@@ -1655,128 +1766,91 @@ const titles = {
     notifications:"Notifications",
     statistics:"Statistiques",
     settings:"Paramètres"
-
 };
 
 
 function showPage(page){
 
     document.querySelectorAll(".page")
-        .forEach(el=>{
-
-            el.classList.remove("active");
-
-        });
-
+        .forEach(el=>el.classList.remove("active"));
 
     const target =
         document.getElementById(page);
 
-
     if(target){
-
         target.classList.add("active");
-
     }
-
 
     document.querySelectorAll(".nav-btn")
         .forEach(btn=>{
-
             btn.classList.toggle(
                 "active",
                 btn.dataset.page === page
             );
-
         });
-
 
     document.querySelectorAll(".mobile-nav-btn")
         .forEach(btn=>{
-
             btn.classList.toggle(
                 "active",
                 btn.dataset.page === page
             );
-
         });
-
 
     document.getElementById("pageTitle")
         .textContent =
         titles[page] || "MonQuotidien";
-
 }
 
 
 document.querySelectorAll(".nav-btn")
 .forEach(button=>{
-
     button.addEventListener(
         "click",
-        ()=>{
-            showPage(button.dataset.page);
-        }
+        ()=>showPage(button.dataset.page)
     );
-
 });
 
 
 document.querySelectorAll(".mobile-nav-btn")
 .forEach(button=>{
-
     button.addEventListener(
         "click",
-        ()=>{
-            showPage(button.dataset.page);
-        }
+        ()=>showPage(button.dataset.page)
     );
-
 });
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    MODALS
---------------------------------------------------------- */
+========================================================= */
 
 function openModal(id){
-
-    document.getElementById(id)
-        .classList.add("show");
-
+    document.getElementById(id).classList.add("show");
 }
 
-
 function closeModal(id){
-
-    document.getElementById(id)
-        .classList.remove("show");
-
+    document.getElementById(id).classList.remove("show");
 }
 
 
 document.querySelectorAll(".modal")
 .forEach(modal=>{
 
-    modal.addEventListener(
-        "click",
-        event=>{
+    modal.addEventListener("click",event=>{
 
-            if(event.target === modal){
-
-                modal.classList.remove("show");
-
-            }
-
+        if(event.target === modal){
+            modal.classList.remove("show");
         }
-    );
+
+    });
 
 });
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    DATE
---------------------------------------------------------- */
+========================================================= */
 
 function updateDate(){
 
@@ -1793,17 +1867,92 @@ function updateDate(){
                 year:"numeric"
             }
         );
-
 }
 
 updateDate();
 
 
-/* ---------------------------------------------------------
-   FORMAT
---------------------------------------------------------- */
+/* =========================================================
+   PARAMETRES
+========================================================= */
+
+let settings = {
+    name:"",
+    currency:"HTG",
+    dark:false,
+    notifications:true,
+    summaryTime:"20:00"
+};
+
+
+async function loadSettings(){
+
+    const saved =
+        await getData(
+            "parametres",
+            "settings"
+        );
+
+    if(saved && saved.value){
+
+        settings = {
+            ...settings,
+            ...saved.value
+        };
+    }
+
+    document.getElementById("userName").value =
+        settings.name || "";
+
+    document.getElementById("currencySelect").value =
+        settings.currency || "HTG";
+
+    document.getElementById("summaryTime").value =
+        settings.summaryTime || "20:00";
+
+    if(settings.dark){
+        document.body.classList.add("dark");
+    }
+}
+
+
+async function saveSettings(){
+
+    settings.name =
+        document.getElementById("userName").value.trim();
+
+    settings.currency =
+        document.getElementById("currencySelect").value;
+
+    settings.summaryTime =
+        document.getElementById("summaryTime").value;
+
+    settings.dark =
+        document.body.classList.contains("dark");
+
+    await putData(
+        "parametres",
+        {
+            id:"settings",
+            value:settings
+        }
+    );
+
+    refreshAll();
+}
+
+
+document.getElementById("userName")
+.addEventListener(
+    "change",
+    saveSettings
+);
+
 
 function formatMoney(value){
+
+    const currency =
+        settings.currency || "HTG";
 
     return Number(value || 0)
         .toLocaleString(
@@ -1812,10 +1961,13 @@ function formatMoney(value){
                 minimumFractionDigits:2,
                 maximumFractionDigits:2
             }
-        ) + " HTG";
-
+        ) + " " + currency;
 }
 
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
 
 function escapeHTML(value){
 
@@ -1825,19 +1977,17 @@ function escapeHTML(value){
         .replace(/>/g,"&gt;")
         .replace(/"/g,"&quot;")
         .replace(/'/g,"&#039;");
-
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    TRANSACTIONS
---------------------------------------------------------- */
+========================================================= */
 
 async function refreshTransactions(){
 
     const transactions =
         await getAll("transactions");
-
 
     transactions.sort(
         (a,b)=>
@@ -1845,12 +1995,8 @@ async function refreshTransactions(){
             new Date(a.date)
     );
 
-
     const tbody =
-        document.getElementById(
-            "transactionsTable"
-        );
-
+        document.getElementById("transactionsTable");
 
     if(!transactions.length){
 
@@ -1866,22 +2012,19 @@ async function refreshTransactions(){
         tbody.innerHTML =
             transactions.map(t=>{
 
-                const isIncome =
+                const income =
                     t.type === "income";
-
 
                 return `
                     <tr>
 
                         <td>
-                            ${escapeHTML(
-                                new Date(t.date)
-                                .toLocaleDateString("fr-FR")
-                            )}
+                            ${new Date(t.date)
+                                .toLocaleDateString("fr-FR")}
                         </td>
 
                         <td>
-                            ${isIncome
+                            ${income
                                 ? "Revenu"
                                 : "Dépense"}
                         </td>
@@ -1898,11 +2041,11 @@ async function refreshTransactions(){
                             )}
                         </td>
 
-                        <td class="${isIncome
-                            ? "green"
-                            : "red"}">
+                        <td class="${
+                            income ? "green" : "red"
+                        }">
 
-                            ${isIncome ? "+" : "-"}
+                            ${income ? "+" : "-"}
 
                             ${formatMoney(t.amount)}
 
@@ -1924,15 +2067,12 @@ async function refreshTransactions(){
                 `;
 
             }).join("");
-
     }
-
 
     const recent =
         document.getElementById(
             "recentTransactions"
         );
-
 
     if(!transactions.length){
 
@@ -1951,7 +2091,6 @@ async function refreshTransactions(){
                 const income =
                     t.type === "income";
 
-
                 return `
 
                     <div class="transaction">
@@ -1959,30 +2098,23 @@ async function refreshTransactions(){
                         <div class="transaction-info">
 
                             <div class="transaction-title">
-
                                 ${escapeHTML(
                                     t.description ||
                                     t.category ||
                                     "Transaction"
                                 )}
-
                             </div>
 
                             <div class="transaction-meta">
-
                                 ${escapeHTML(
                                     t.category || ""
                                 )}
-
                             </div>
 
                         </div>
 
-
                         <div class="transaction-amount
-                            ${income
-                                ? "green"
-                                : "red"}">
+                            ${income ? "green" : "red"}">
 
                             ${income ? "+" : "-"}
 
@@ -1995,229 +2127,161 @@ async function refreshTransactions(){
                 `;
 
             }).join("");
-
     }
-
 }
 
 
 async function removeTransaction(id){
 
-    if(
-        !confirm(
-            "Supprimer cette transaction ?"
-        )
-    ) return;
+    if(!confirm("Supprimer cette transaction ?")){
+        return;
+    }
 
-
-    await deleteData(
-        "transactions",
-        id
-    );
-
+    await deleteData("transactions",id);
 
     refreshAll();
-
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    REVENUS
---------------------------------------------------------- */
+========================================================= */
 
 document.getElementById("incomeForm")
-.addEventListener(
-    "submit",
-    async event=>{
+.addEventListener("submit",async event=>{
 
-        event.preventDefault();
+    event.preventDefault();
 
-
-        const amount =
-            Number(
-                document.getElementById(
-                    "incomeAmount"
-                ).value
-            );
-
-
-        const description =
-            document.getElementById(
-                "incomeDescription"
-            ).value;
-
-
-        const category =
-            document.getElementById(
-                "incomeCategory"
-            ).value;
-
-
-        await addData(
-            "transactions",
-            {
-                type:"income",
-                amount,
-                description,
-                category,
-                date:new Date().toISOString(),
-                accountId:1
-            }
+    const amount =
+        Number(
+            document.getElementById("incomeAmount").value
         );
 
+    const description =
+        document.getElementById(
+            "incomeDescription"
+        ).value;
 
-        event.target.reset();
+    const category =
+        document.getElementById(
+            "incomeCategory"
+        ).value;
+
+    await addData(
+        "transactions",
+        {
+            type:"income",
+            amount,
+            description,
+            category,
+            date:new Date().toISOString(),
+            accountId:1
+        }
+    );
+
+    event.target.reset();
+
+    closeModal("incomeModal");
+
+    refreshAll();
+});
 
 
-        closeModal(
-            "incomeModal"
-        );
-
-
-        refreshAll();
-
-    }
-);
-
-
-/* ---------------------------------------------------------
+/* =========================================================
    DEPENSES
---------------------------------------------------------- */
+========================================================= */
 
 document.getElementById("expenseForm")
-.addEventListener(
-    "submit",
-    async event=>{
+.addEventListener("submit",async event=>{
 
-        event.preventDefault();
+    event.preventDefault();
 
-
-        const amount =
-            Number(
-                document.getElementById(
-                    "expenseAmount"
-                ).value
-            );
-
-
-        const description =
-            document.getElementById(
-                "expenseDescription"
-            ).value;
-
-
-        const category =
-            document.getElementById(
-                "expenseCategory"
-            ).value;
-
-
-        await addData(
-            "transactions",
-            {
-                type:"expense",
-                amount,
-                description,
-                category,
-                date:new Date().toISOString(),
-                accountId:1
-            }
+    const amount =
+        Number(
+            document.getElementById("expenseAmount").value
         );
 
+    const description =
+        document.getElementById(
+            "expenseDescription"
+        ).value;
 
-        event.target.reset();
+    const category =
+        document.getElementById(
+            "expenseCategory"
+        ).value;
+
+    await addData(
+        "transactions",
+        {
+            type:"expense",
+            amount,
+            description,
+            category,
+            date:new Date().toISOString(),
+            accountId:1
+        }
+    );
+
+    event.target.reset();
+
+    closeModal("expenseModal");
+
+    refreshAll();
+});
 
 
-        closeModal(
-            "expenseModal"
-        );
-
-
-        refreshAll();
-
-    }
-);
-
-
-/* ---------------------------------------------------------
-   OBJECTIFS D'EPARGNE
---------------------------------------------------------- */
+/* =========================================================
+   OBJECTIFS
+========================================================= */
 
 document.getElementById("goalForm")
-.addEventListener(
-    "submit",
-    async event=>{
+.addEventListener("submit",async event=>{
 
-        event.preventDefault();
+    event.preventDefault();
 
+    const name =
+        document.getElementById("goalName").value;
 
-        const name =
-            document.getElementById(
-                "goalName"
-            ).value;
-
-
-        const target =
-            Number(
-                document.getElementById(
-                    "goalTarget"
-                ).value
-            );
-
-
-        const current =
-            Number(
-                document.getElementById(
-                    "goalCurrent"
-                ).value
-            );
-
-
-        const targetDate =
-            document.getElementById(
-                "goalDate"
-            ).value;
-
-
-        await addData(
-            "objectifs",
-            {
-                name,
-                target,
-                current,
-                targetDate,
-                createdAt:new Date().toISOString()
-            }
+    const target =
+        Number(
+            document.getElementById("goalTarget").value
         );
 
-
-        event.target.reset();
-
-
-        closeModal(
-            "goalModal"
+    const current =
+        Number(
+            document.getElementById("goalCurrent").value
         );
 
+    const targetDate =
+        document.getElementById("goalDate").value;
 
-        refreshAll();
+    await addData(
+        "objectifs",
+        {
+            name,
+            target,
+            current,
+            targetDate,
+            createdAt:new Date().toISOString()
+        }
+    );
 
-    }
-);
+    event.target.reset();
+
+    closeModal("goalModal");
+
+    refreshAll();
+});
 
 
 async function refreshGoals(){
 
     const goals =
-        await getAll(
-            "objectifs"
-        );
-
+        await getAll("objectifs");
 
     const container =
-        document.getElementById(
-            "goalsList"
-        );
-
+        document.getElementById("goalsList");
 
     if(!goals.length){
 
@@ -2227,9 +2291,7 @@ async function refreshGoals(){
             </div>`;
 
         return;
-
     }
-
 
     container.innerHTML =
         goals.map(goal=>{
@@ -2238,20 +2300,15 @@ async function refreshGoals(){
                 goal.target > 0
                 ? Math.min(
                     100,
-                    (goal.current /
-                        goal.target) *
-                        100
+                    (goal.current / goal.target) * 100
                 )
                 : 0;
-
 
             const remaining =
                 Math.max(
                     0,
-                    goal.target -
-                    goal.current
+                    goal.target - goal.current
                 );
-
 
             return `
 
@@ -2260,11 +2317,7 @@ async function refreshGoals(){
                     <div class="goal-top">
 
                         <span class="goal-name">
-
-                            ${escapeHTML(
-                                goal.name
-                            )}
-
+                            ${escapeHTML(goal.name)}
                         </span>
 
                         <span>
@@ -2272,7 +2325,6 @@ async function refreshGoals(){
                         </span>
 
                     </div>
-
 
                     <div class="progress">
 
@@ -2283,24 +2335,14 @@ async function refreshGoals(){
 
                     </div>
 
-
                     <div class="list-meta">
 
-                        ${formatMoney(
-                            goal.current
-                        )}
-
+                        ${formatMoney(goal.current)}
                         sur
-
-                        ${formatMoney(
-                            goal.target
-                        )}
+                        ${formatMoney(goal.target)}
 
                         · Reste :
-
-                        ${formatMoney(
-                            remaining
-                        )}
+                        ${formatMoney(remaining)}
 
                     </div>
 
@@ -2309,87 +2351,58 @@ async function refreshGoals(){
             `;
 
         }).join("");
-
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    TACHES
---------------------------------------------------------- */
+========================================================= */
 
 document.getElementById("taskForm")
-.addEventListener(
-    "submit",
-    async event=>{
+.addEventListener("submit",async event=>{
 
-        event.preventDefault();
+    event.preventDefault();
 
+    const title =
+        document.getElementById("taskTitle").value;
 
-        const title =
-            document.getElementById(
-                "taskTitle"
-            ).value;
+    const description =
+        document.getElementById("taskDescription").value;
 
+    const date =
+        document.getElementById("taskDate").value;
 
-        const description =
-            document.getElementById(
-                "taskDescription"
-            ).value;
+    const time =
+        document.getElementById("taskTime").value;
 
+    const priority =
+        document.getElementById("taskPriority").value;
 
-        const date =
-            document.getElementById(
-                "taskDate"
-            ).value;
+    await addData(
+        "taches",
+        {
+            title,
+            description,
+            date,
+            time,
+            priority,
+            completed:false,
+            createdAt:new Date().toISOString()
+        }
+    );
 
+    event.target.reset();
 
-        const time =
-            document.getElementById(
-                "taskTime"
-            ).value;
+    closeModal("taskModal");
 
-
-        const priority =
-            document.getElementById(
-                "taskPriority"
-            ).value;
-
-
-        await addData(
-            "taches",
-            {
-                title,
-                description,
-                date,
-                time,
-                priority,
-                completed:false,
-                createdAt:new Date().toISOString()
-            }
-        );
-
-
-        event.target.reset();
-
-
-        closeModal(
-            "taskModal"
-        );
-
-
-        refreshAll();
-
-    }
-);
+    refreshAll();
+});
 
 
 async function refreshTasks(){
 
     const tasks =
-        await getAll(
-            "taches"
-        );
-
+        await getAll("taches");
 
     tasks.sort((a,b)=>{
 
@@ -2398,35 +2411,24 @@ async function refreshTasks(){
                 `${a.date}T${a.time || "00:00"}`
             );
 
-
         const dbb =
             new Date(
                 `${b.date}T${b.time || "00:00"}`
             );
 
-
         return da - dbb;
-
     });
-
 
     const today =
         new Date()
         .toISOString()
         .split("T")[0];
 
-
     const todayTasks =
-        tasks.filter(
-            t=>t.date === today
-        );
-
+        tasks.filter(t=>t.date === today);
 
     const todayContainer =
-        document.getElementById(
-            "todayTasks"
-        );
-
+        document.getElementById("todayTasks");
 
     if(!todayTasks.length){
 
@@ -2443,9 +2445,7 @@ async function refreshTasks(){
                 <div class="list-item">
 
                     <strong>
-                        ${escapeHTML(
-                            t.title
-                        )}
+                        ${escapeHTML(t.title)}
                     </strong>
 
                     <div class="list-meta">
@@ -2454,24 +2454,17 @@ async function refreshTasks(){
 
                         · Priorité :
 
-                        ${escapeHTML(
-                            t.priority
-                        )}
+                        ${escapeHTML(t.priority)}
 
                     </div>
 
                 </div>
 
             `).join("");
-
     }
 
-
     const planning =
-        document.getElementById(
-            "planningList"
-        );
-
+        document.getElementById("planningList");
 
     if(!tasks.length){
 
@@ -2488,37 +2481,25 @@ async function refreshTasks(){
                 <div class="list-item">
 
                     <strong>
-                        ${escapeHTML(
-                            t.title
-                        )}
+                        ${escapeHTML(t.title)}
                     </strong>
 
                     <div class="list-meta">
 
-                        ${escapeHTML(
-                            t.date
-                        )}
+                        ${escapeHTML(t.date)}
 
                         ${t.time
-                            ? " · " +
-                              escapeHTML(t.time)
+                            ? " · " + escapeHTML(t.time)
                             : ""}
 
-                        ·
-
-                        ${escapeHTML(
-                            t.priority
-                        )}
+                        · ${escapeHTML(t.priority)}
 
                     </div>
-
 
                     ${
                         t.description
                         ? `<div class="list-meta">
-                            ${escapeHTML(
-                                t.description
-                            )}
+                            ${escapeHTML(t.description)}
                            </div>`
                         : ""
                     }
@@ -2526,168 +2507,151 @@ async function refreshTasks(){
                 </div>
 
             `).join("");
+    }
+}
 
+
+/* =========================================================
+   RAPPELS
+========================================================= */
+
+document.getElementById("reminderForm")
+.addEventListener("submit",async event=>{
+
+    event.preventDefault();
+
+    const title =
+        document.getElementById("reminderTitle").value;
+
+    const message =
+        document.getElementById("reminderMessage").value;
+
+    const date =
+        document.getElementById("reminderDate").value;
+
+    const time =
+        document.getElementById("reminderTime").value;
+
+    const repetition =
+        document.getElementById("reminderRepeat").value;
+
+    await addData(
+        "rappels",
+        {
+            title,
+            message,
+            date,
+            time,
+            repetition,
+            enabled:true,
+            lastTriggered:null,
+            createdAt:new Date().toISOString()
+        }
+    );
+
+    event.target.reset();
+
+    closeModal("reminderModal");
+
+    refreshReminders();
+});
+
+
+async function refreshReminders(){
+
+    const reminders =
+        await getAll("rappels");
+
+    const container =
+        document.getElementById("remindersList");
+
+    if(!reminders.length){
+
+        container.innerHTML =
+            `<div class="empty">
+                Aucun rappel enregistré.
+            </div>`;
+
+        return;
     }
 
+    container.innerHTML =
+        reminders.map(r=>{
+
+            let repeat = "Une fois";
+
+            if(r.repetition === "daily"){
+                repeat = "Chaque jour";
+            }
+
+            if(r.repetition === "weekly"){
+                repeat = "Chaque semaine";
+            }
+
+            if(r.repetition === "monthly"){
+                repeat = "Chaque mois";
+            }
+
+            return `
+
+                <div class="list-item">
+
+                    <strong>
+                        ${escapeHTML(r.title)}
+                    </strong>
+
+                    <div class="list-meta">
+
+                        ${escapeHTML(r.date)}
+                        à
+                        ${escapeHTML(r.time)}
+
+                        · ${repeat}
+
+                        · ${
+                            r.enabled
+                            ? "Actif"
+                            : "Désactivé"
+                        }
+
+                    </div>
+
+                    <div class="actions"
+                         style="margin-top:8px;">
+
+                        <button
+                            class="btn btn-danger"
+                            onclick="removeReminder(${r.id})">
+
+                            Supprimer
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
 }
 
 
-/* ---------------------------------------------------------
-   DASHBOARD
---------------------------------------------------------- */
+async function removeReminder(id){
 
-async function refreshDashboard(){
+    if(!confirm("Supprimer ce rappel ?")){
+        return;
+    }
 
-    const transactions =
-        await getAll(
-            "transactions"
-        );
+    await deleteData("rappels",id);
 
-
-    const goals =
-        await getAll(
-            "objectifs"
-        );
-
-
-    let income = 0;
-
-    let expenses = 0;
-
-
-    transactions.forEach(t=>{
-
-        if(t.type === "income"){
-
-            income +=
-                Number(
-                    t.amount || 0
-                );
-
-        }else if(t.type === "expense"){
-
-            expenses +=
-                Number(
-                    t.amount || 0
-                );
-
-        }
-
-    });
-
-
-    const balance =
-        income - expenses;
-
-
-    const savings =
-        goals.reduce(
-            (sum,g)=>
-                sum +
-                Number(
-                    g.current || 0
-                ),
-            0
-        );
-
-
-    document.getElementById(
-        "homeBalance"
-    ).textContent =
-        formatMoney(balance);
-
-
-    document.getElementById(
-        "homeIncome"
-    ).textContent =
-        formatMoney(income);
-
-
-    document.getElementById(
-        "homeExpenses"
-    ).textContent =
-        formatMoney(expenses);
-
-
-    document.getElementById(
-        "homeSavings"
-    ).textContent =
-        formatMoney(savings);
-
-
-    document.getElementById(
-        "statIncome"
-    ).textContent =
-        formatMoney(income);
-
-
-    document.getElementById(
-        "statExpenses"
-    ).textContent =
-        formatMoney(expenses);
-
-
-    document.getElementById(
-        "statBalance"
-    ).textContent =
-        formatMoney(balance);
-
-
-    document.getElementById(
-        "statSavings"
-    ).textContent =
-        formatMoney(savings);
-
-
-    document.getElementById(
-        "statisticsContent"
-    ).innerHTML = `
-
-        <p>
-            Revenus enregistrés :
-            <strong>
-                ${formatMoney(income)}
-            </strong>
-        </p>
-
-        <p style="margin-top:10px;">
-
-            Dépenses enregistrées :
-
-            <strong>
-                ${formatMoney(expenses)}
-            </strong>
-
-        </p>
-
-        <p style="margin-top:10px;">
-
-            Solde :
-
-            <strong>
-                ${formatMoney(balance)}
-            </strong>
-
-        </p>
-
-        <p style="margin-top:10px;">
-
-            Épargne actuelle :
-
-            <strong>
-                ${formatMoney(savings)}
-            </strong>
-
-        </p>
-
-    `;
-
+    refreshReminders();
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    NOTIFICATIONS
---------------------------------------------------------- */
+========================================================= */
 
 async function requestNotificationPermission(){
 
@@ -2698,22 +2662,18 @@ async function requestNotificationPermission(){
         );
 
         return;
-
     }
-
 
     const permission =
         await Notification.requestPermission();
 
+    updateNotificationStatus();
 
     if(permission === "granted"){
 
-        new Notification(
+        await envoyerNotification(
             "MonQuotidien",
-            {
-                body:
-                "Les notifications sont activées."
-            }
+            "Les notifications sont activées."
         );
 
     }else{
@@ -2721,91 +2681,392 @@ async function requestNotificationPermission(){
         alert(
             "Les notifications n'ont pas été autorisées."
         );
-
     }
-
 }
 
 
-/* ---------------------------------------------------------
+async function testerNotification(){
+
+    const permission =
+        await requestNotificationPermission();
+
+    if(Notification.permission !== "granted"){
+        return;
+    }
+
+    await envoyerNotification(
+        "MonQuotidien",
+        "Les notifications fonctionnent correctement."
+    );
+}
+
+
+function updateNotificationStatus(){
+
+    const element =
+        document.getElementById(
+            "notificationStatus"
+        );
+
+    if(!("Notification" in window)){
+
+        element.textContent =
+            "Les notifications ne sont pas supportées.";
+
+        return;
+    }
+
+    if(Notification.permission === "granted"){
+
+        element.textContent =
+            "Les notifications sont activées.";
+
+    }else if(Notification.permission === "denied"){
+
+        element.textContent =
+            "Les notifications sont bloquées dans le navigateur.";
+
+    }else{
+
+        element.textContent =
+            "Les notifications ne sont pas encore autorisées.";
+    }
+}
+
+
+async function envoyerNotification(
+    titre,
+    message
+){
+
+    if(Notification.permission !== "granted"){
+        return;
+    }
+
+    if(
+        "serviceWorker" in navigator
+    ){
+
+        try{
+
+            const registration =
+                await navigator.serviceWorker.ready;
+
+            await registration.showNotification(
+                titre,
+                {
+                    body:message,
+                    icon:"./icons/icon-192.png",
+                    badge:"./icons/icon-192.png",
+                    tag:"monquotidien-"+Date.now(),
+                    renotify:true
+                }
+            );
+
+            return;
+
+        }catch(error){
+
+            console.error(
+                "Erreur notification :",
+                error
+            );
+        }
+    }
+
+    new Notification(
+        titre,
+        {
+            body:message
+        }
+    );
+}
+
+
+/* =========================================================
+   VERIFICATION AUTOMATIQUE DES RAPPELS
+========================================================= */
+
+function shouldTriggerReminder(r){
+
+    if(!r.enabled){
+        return false;
+    }
+
+    if(!r.date || !r.time){
+        return false;
+    }
+
+    const now = new Date();
+
+    const target =
+        new Date(
+            `${r.date}T${r.time}`
+        );
+
+    if(Number.isNaN(target.getTime())){
+        return false;
+    }
+
+    const repeat =
+        r.repetition || "none";
+
+    if(
+        repeat === "none"
+    ){
+
+        if(r.lastTriggered){
+            return false;
+        }
+
+        return (
+            now >= target &&
+            now - target < 60000
+        );
+    }
+
+    if(
+        r.lastTriggered
+    ){
+
+        const last =
+            new Date(
+                r.lastTriggered
+            );
+
+        if(
+            last.getFullYear() === now.getFullYear() &&
+            last.getMonth() === now.getMonth() &&
+            last.getDate() === now.getDate() &&
+            last.getHours() === now.getHours() &&
+            last.getMinutes() === now.getMinutes()
+        ){
+
+            return false;
+        }
+    }
+
+    if(repeat === "daily"){
+
+        return (
+            now.getHours() === target.getHours() &&
+            now.getMinutes() === target.getMinutes()
+        );
+    }
+
+    if(repeat === "weekly"){
+
+        return (
+            now.getDay() === target.getDay() &&
+            now.getHours() === target.getHours() &&
+            now.getMinutes() === target.getMinutes()
+        );
+    }
+
+    if(repeat === "monthly"){
+
+        return (
+            now.getDate() === target.getDate() &&
+            now.getHours() === target.getHours() &&
+            now.getMinutes() === target.getMinutes()
+        );
+    }
+
+    return false;
+}
+
+
+async function checkReminders(){
+
+    try{
+
+        const reminders =
+            await getAll("rappels");
+
+        for(const reminder of reminders){
+
+            if(
+                !shouldTriggerReminder(
+                    reminder
+                )
+            ){
+                continue;
+            }
+
+            await envoyerNotification(
+                reminder.title,
+                reminder.message
+            );
+
+            reminder.lastTriggered =
+                new Date().toISOString();
+
+            if(
+                reminder.repetition === "none"
+            ){
+                reminder.enabled = false;
+            }
+
+            await putData(
+                "rappels",
+                reminder
+            );
+        }
+
+        refreshReminders();
+
+    }catch(error){
+
+        console.error(
+            "Erreur rappel :",
+            error
+        );
+    }
+}
+
+
+/*
+   Vérification toutes les 30 secondes
+*/
+
+setInterval(
+    checkReminders,
+    30000
+);
+
+
+/* =========================================================
+   STATISTIQUES / DASHBOARD
+========================================================= */
+
+async function refreshDashboard(){
+
+    const transactions =
+        await getAll("transactions");
+
+    const goals =
+        await getAll("objectifs");
+
+    let income = 0;
+    let expenses = 0;
+
+    transactions.forEach(t=>{
+
+        if(t.type === "income"){
+            income += Number(t.amount || 0);
+        }
+
+        if(t.type === "expense"){
+            expenses += Number(t.amount || 0);
+        }
+
+    });
+
+    const balance =
+        income - expenses;
+
+    const savings =
+        goals.reduce(
+            (sum,g)=>
+                sum + Number(g.current || 0),
+            0
+        );
+
+    document.getElementById("homeBalance")
+        .textContent = formatMoney(balance);
+
+    document.getElementById("homeIncome")
+        .textContent = formatMoney(income);
+
+    document.getElementById("homeExpenses")
+        .textContent = formatMoney(expenses);
+
+    document.getElementById("homeSavings")
+        .textContent = formatMoney(savings);
+
+    document.getElementById("statIncome")
+        .textContent = formatMoney(income);
+
+    document.getElementById("statExpenses")
+        .textContent = formatMoney(expenses);
+
+    document.getElementById("statBalance")
+        .textContent = formatMoney(balance);
+
+    document.getElementById("statSavings")
+        .textContent = formatMoney(savings);
+
+    document.getElementById("statisticsContent")
+        .innerHTML = `
+
+            <p>
+                Revenus enregistrés :
+                <strong>${formatMoney(income)}</strong>
+            </p>
+
+            <p style="margin-top:10px;">
+                Dépenses enregistrées :
+                <strong>${formatMoney(expenses)}</strong>
+            </p>
+
+            <p style="margin-top:10px;">
+                Solde :
+                <strong>${formatMoney(balance)}</strong>
+            </p>
+
+            <p style="margin-top:10px;">
+                Épargne actuelle :
+                <strong>${formatMoney(savings)}</strong>
+            </p>
+
+        `;
+}
+
+
+/* =========================================================
    DARK MODE
---------------------------------------------------------- */
+========================================================= */
 
 function toggleDarkMode(){
 
-    document.body.classList.toggle(
-        "dark"
-    );
+    document.body.classList.toggle("dark");
 
+    settings.dark =
+        document.body.classList.contains("dark");
 
-    localStorage.setItem(
-        "monquotidien_dark",
-        document.body.classList.contains("dark")
-            ? "1"
-            : "0"
-    );
-
+    saveSettings();
 }
 
 
-if(
-    localStorage.getItem(
-        "monquotidien_dark"
-    ) === "1"
-){
-
-    document.body.classList.add(
-        "dark"
-    );
-
-}
-
-
-/* ---------------------------------------------------------
+/* =========================================================
    EXPORT
---------------------------------------------------------- */
+========================================================= */
 
 async function exportData(){
 
     const data = {
 
         comptes:
-            await getAll(
-                "comptes"
-            ),
+            await getAll("comptes"),
 
         transactions:
-            await getAll(
-                "transactions"
-            ),
+            await getAll("transactions"),
 
         objectifs:
-            await getAll(
-                "objectifs"
-            ),
+            await getAll("objectifs"),
 
         taches:
-            await getAll(
-                "taches"
-            ),
+            await getAll("taches"),
 
         rappels:
-            await getAll(
-                "rappels"
-            ),
+            await getAll("rappels"),
 
         budgets:
-            await getAll(
-                "budgets"
-            ),
+            await getAll("budgets"),
 
         parametres:
-            await getAll(
-                "parametres"
-            )
-
+            await getAll("parametres")
     };
-
 
     const blob =
         new Blob(
@@ -2821,39 +3082,30 @@ async function exportData(){
             }
         );
 
-
     const url =
-        URL.createObjectURL(
-            blob
-        );
-
+        URL.createObjectURL(blob);
 
     const a =
-        document.createElement(
-            "a"
-        );
-
+        document.createElement("a");
 
     a.href = url;
-
 
     a.download =
         "monquotidien-sauvegarde.json";
 
+    document.body.appendChild(a);
 
     a.click();
 
+    a.remove();
 
-    URL.revokeObjectURL(
-        url
-    );
-
+    URL.revokeObjectURL(url);
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    RESET
---------------------------------------------------------- */
+========================================================= */
 
 async function resetDatabase(){
 
@@ -2862,18 +3114,14 @@ async function resetDatabase(){
             "Attention : toutes les données de MonQuotidien seront supprimées. Continuer ?"
         );
 
-
-    if(!confirmed) return;
-
+    if(!confirmed){
+        return;
+    }
 
     db.close();
 
-
     const request =
-        indexedDB.deleteDatabase(
-            DB_NAME
-        );
-
+        indexedDB.deleteDatabase(DB_NAME);
 
     request.onsuccess = ()=>{
 
@@ -2881,152 +3129,140 @@ async function resetDatabase(){
             "Les données ont été supprimées."
         );
 
-
         location.reload();
-
     };
-
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    PWA INSTALLATION
---------------------------------------------------------- */
+========================================================= */
 
 let deferredInstallPrompt = null;
 
-
 const installBtn =
-    document.getElementById(
-        "installBtn"
+    document.getElementById("installBtn");
+
+
+function isAppInstalled(){
+
+    return (
+        window.matchMedia(
+            "(display-mode: standalone)"
+        ).matches ||
+
+        window.navigator.standalone === true
     );
+}
 
 
-/*
-   Le bouton reste visible.
-*/
-installBtn.style.display =
-    "block";
+function updateInstallButton(){
+
+    if(isAppInstalled()){
+
+        installBtn.style.display =
+            "none";
+
+    }else{
+
+        installBtn.style.display =
+            "inline-flex";
+    }
+}
 
 
-/*
-   Chrome / Edge indiquent que
-   l'installation est disponible.
-*/
 window.addEventListener(
     "beforeinstallprompt",
     event=>{
 
         event.preventDefault();
 
-
         deferredInstallPrompt =
             event;
-
-
-        installBtn.textContent =
-            "Installer MonQuotidien";
-
 
         console.log(
             "Installation PWA disponible."
         );
 
+        updateInstallButton();
     }
 );
 
 
-/*
-   Clic sur le bouton
-*/
 installBtn.addEventListener(
     "click",
     async ()=>{
 
-        /*
-           Installation disponible
-        */
         if(deferredInstallPrompt){
 
             deferredInstallPrompt.prompt();
 
-
             const choice =
-                await deferredInstallPrompt
-                    .userChoice;
-
+                await deferredInstallPrompt.userChoice;
 
             if(
-                choice.outcome ===
-                "accepted"
+                choice.outcome === "accepted"
             ){
-
-                console.log(
-                    "MonQuotidien installé."
-                );
-
 
                 installBtn.style.display =
                     "none";
-
-            }else{
-
-                console.log(
-                    "Installation refusée."
-                );
-
             }
 
-
-            deferredInstallPrompt =
-                null;
-
+            deferredInstallPrompt = null;
 
             return;
-
         }
 
+        const ua =
+            navigator.userAgent;
 
-        /*
-           Installation non disponible
-        */
-        alert(
-            "L'installation automatique n'est pas encore disponible sur ce navigateur.\n\n" +
-            "Vérifiez que MonQuotidien est ouvert avec HTTPS " +
-            "et que le manifeste, le Service Worker et les icônes " +
-            "sont correctement configurés."
-        );
+        if(
+            /iPhone|iPad|iPod/i.test(ua)
+        ){
 
+            alert(
+                "Sur iPhone/iPad : ouvre le menu Partager de Safari puis sélectionne « Sur l'écran d'accueil »."
+            );
+
+        }else if(
+            /Android/i.test(ua)
+        ){
+
+            alert(
+                "Sur Android : ouvre le menu ⋮ de Chrome puis sélectionne « Installer l'application » ou « Ajouter à l'écran d'accueil »."
+            );
+
+        }else{
+
+            alert(
+                "L'installation automatique n'est pas encore disponible. Vérifie le manifeste PWA, le Service Worker et les icônes icon-192.png et icon-512.png."
+            );
+        }
     }
 );
 
 
-/*
-   Application installée
-*/
 window.addEventListener(
     "appinstalled",
     ()=>{
 
-        console.log(
-            "MonQuotidien a été installé."
-        );
-
-
         installBtn.style.display =
             "none";
 
+        deferredInstallPrompt = null;
 
-        deferredInstallPrompt =
-            null;
-
+        console.log(
+            "MonQuotidien installé."
+        );
     }
 );
 
+updateInstallButton();
 
-/* ---------------------------------------------------------
+
+/* =========================================================
    SERVICE WORKER
---------------------------------------------------------- */
+========================================================= */
 
 if("serviceWorker" in navigator){
 
@@ -3058,16 +3294,14 @@ if("serviceWorker" in navigator){
 
                     }
                 );
-
         }
     );
-
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    REFRESH
---------------------------------------------------------- */
+========================================================= */
 
 async function refreshAll(){
 
@@ -3078,13 +3312,12 @@ async function refreshAll(){
     await refreshTasks();
 
     await refreshDashboard();
-
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    START
---------------------------------------------------------- */
+========================================================= */
 
 openDatabase();
 
