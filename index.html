@@ -1683,8 +1683,21 @@ updateInstallButton();
 
 if("serviceWorker" in navigator){
     window.addEventListener("load",()=>{
-        navigator.serviceWorker.register("./service-worker.js")
-            .then(registration=>console.log("Service Worker enregistré.",registration))
+        const hadController = !!navigator.serviceWorker.controller;
+        let reloaded = false;
+
+        navigator.serviceWorker.addEventListener("controllerchange",()=>{
+            if(hadController && !reloaded){
+                reloaded = true;
+                location.reload();
+            }
+        });
+
+        navigator.serviceWorker.register("./service-worker.js",{updateViaCache:"none"})
+            .then(registration=>{
+                console.log("Service Worker enregistré.",registration);
+                registration.update();
+            })
             .catch(error=>console.error("Erreur Service Worker :",error));
     });
 }
